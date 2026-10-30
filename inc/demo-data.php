@@ -179,7 +179,7 @@ function pixelpost_get_default_projects() {
 			'type_label'  => __( 'Browser Extension', 'pixelpost' ),
 			'type_icon'   => 'widgets',
 			'url'         => 'https://chromewebstore.google.com/detail/wp-detector/pnfcaepdbhbioeplilbgliegcnclpake',
-			'image'       => $img_uri . '/project-wp-detector.png',
+			'image'       => $img_uri . '/project-wp-detector.svg',
 			'order'       => 4,
 		),
 	);

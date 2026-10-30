@@ -59,7 +59,7 @@ $pixelpost_projects = pixelpost_get_projects_items();
 
 			// Automatic fallback images for default projects if image is empty or uses old placeholders
 			$img_uri = get_template_directory_uri() . '/assets/images';
-			if ( empty( $pixelpost_image ) || false !== strpos( $pixelpost_image, 'project-wp-command' ) || false !== strpos( $pixelpost_image, 'project-geo-access' ) || false !== strpos( $pixelpost_image, 'project-boilerplate' ) ) {
+			if ( empty( $pixelpost_image ) || false !== strpos( $pixelpost_image, 'project-wp-command' ) || false !== strpos( $pixelpost_image, 'project-geo-access' ) || false !== strpos( $pixelpost_image, 'project-boilerplate' ) || false !== strpos( $pixelpost_image, 'project-wp-detector.png' ) ) {
 				if ( stripos( $pixelpost_title, 'debug' ) !== false || stripos( $pixelpost_url, 'debugzen' ) !== false ) {
 					$pixelpost_image = $img_uri . '/project-debugzen.svg';
 				} elseif ( stripos( $pixelpost_title, 'intelix' ) !== false || stripos( $pixelpost_url, 'siteintelix' ) !== false ) {
@@ -67,11 +67,11 @@ $pixelpost_projects = pixelpost_get_projects_items();
 				} elseif ( stripos( $pixelpost_title, 'mail' ) !== false || stripos( $pixelpost_title, 'tally' ) !== false || stripos( $pixelpost_url, 'mail' ) !== false || stripos( $pixelpost_url, 'inspector' ) !== false ) {
 					$pixelpost_image = $img_uri . '/project-mailtally.svg';
 				} elseif ( stripos( $pixelpost_title, 'detector' ) !== false || stripos( $pixelpost_title, 'stack' ) !== false || stripos( $pixelpost_url, 'pnfcaepdbhbioeplilbgliegcnclpake' ) !== false || stripos( $pixelpost_url, 'chromewebstore' ) !== false ) {
-					$pixelpost_image = $img_uri . '/project-wp-detector.png';
+					$pixelpost_image = $img_uri . '/project-wp-detector.svg';
 				} elseif ( stripos( $pixelpost_title, 'parag' ) !== false || stripos( $pixelpost_title, 'theme' ) !== false || stripos( $pixelpost_url, 'themes/parag' ) !== false ) {
 					$pixelpost_image = $img_uri . '/project-parag-theme.svg';
 				} else {
-					$pixelpost_image = $img_uri . '/project-wp-detector.png';
+					$pixelpost_image = $img_uri . '/project-wp-detector.svg';
 				}
 			}
 			?>

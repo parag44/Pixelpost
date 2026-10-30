@@ -92,23 +92,23 @@ if ( empty( $articles ) ) {
 $featured_article = ! empty( $articles[0] ) ? $articles[0] : null;
 $recent_articles  = array_slice( $articles, 1, 3 );
 ?>
-<section id="blog" class="w-full max-w-[1140px] mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20 border-b border-[#E9E6E0] dark:border-[#2E2D29] fp-blog-section" aria-label="<?php esc_attr_e( 'Latest Blog Posts', 'pixelpost' ); ?>" data-pixelpost-customize="blog" data-pixelpost-label="<?php esc_attr_e( 'Latest Blog Posts', 'pixelpost' ); ?>">
-	<div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
+<section id="blog" class="w-full max-w-[1140px] mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-24 border-b border-[#E9E6E0] dark:border-[#2E2D29] fp-blog-section" aria-label="<?php esc_attr_e( 'Latest Blog Posts', 'pixelpost' ); ?>" data-pixelpost-customize="blog" data-pixelpost-label="<?php esc_attr_e( 'Latest Blog Posts', 'pixelpost' ); ?>">
+	<div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
 		<!-- Left Column: Section Title & Narrative -->
 		<div class="lg:col-span-4 flex flex-col items-start fp-blog-left">
 			<?php if ( ! empty( $pixelpost_eyebrow ) ) : ?>
 				<div class="inline-flex items-center gap-2 mb-3">
 					<span class="text-xs uppercase tracking-widest font-semibold text-[#A94F20] dark:text-[#D4733F]"><?php echo esc_html( $pixelpost_eyebrow ); ?></span>
-					<span class="w-8 h-px bg-[#A94F20]/40"></span>
+					<span class="w-8 h-px bg-[#A94F20]/50"></span>
 				</div>
 			<?php endif; ?>
 
 			<?php if ( ! empty( $pixelpost_heading ) ) : ?>
-				<h2 class="font-serif text-3xl sm:text-4xl text-on-surface mb-3"><?php echo esc_html( $pixelpost_heading ); ?></h2>
+				<h2 class="font-serif text-3xl sm:text-4xl lg:text-[40px] text-on-surface mb-3.5 leading-tight"><?php echo esc_html( $pixelpost_heading ); ?></h2>
 			<?php endif; ?>
 
 			<?php if ( ! empty( $pixelpost_subtitle ) ) : ?>
-				<p class="text-sm sm:text-base text-on-surface-variant leading-relaxed mb-6"><?php echo esc_html( $pixelpost_subtitle ); ?></p>
+				<p class="text-sm sm:text-base text-on-surface-variant leading-relaxed mb-6 max-w-sm"><?php echo esc_html( $pixelpost_subtitle ); ?></p>
 			<?php endif; ?>
 
 			<?php if ( ! empty( $pixelpost_view_all_text ) ) : ?>
@@ -125,7 +125,7 @@ $recent_articles  = array_slice( $articles, 1, 3 );
 			<?php if ( $featured_article ) : ?>
 				<article class="md:col-span-7 flex flex-col group fp-featured-article">
 					<?php if ( ! empty( $featured_article['image'] ) ) : ?>
-						<div class="relative overflow-hidden rounded aspect-[16/10] w-full bg-[#F5F3EF] dark:bg-[#1E1D1B] border border-[#E9E6E0] dark:border-[#2E2D29] mb-3 fp-featured-img-wrap">
+						<div class="relative overflow-hidden rounded aspect-[16/10] w-full bg-[#F5F3EF] dark:bg-[#1E1D1B] border border-[#E9E6E0] dark:border-[#2E2D29] mb-3.5 fp-featured-img-wrap">
 							<a href="<?php echo esc_url( $featured_article['url'] ); ?>" class="block w-full h-full">
 								<img src="<?php echo esc_url( $featured_article['image'] ); ?>" alt="<?php echo esc_attr( $featured_article['title'] ); ?>" class="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500" loading="lazy" />
 							</a>
@@ -152,7 +152,7 @@ $recent_articles  = array_slice( $articles, 1, 3 );
 					<?php foreach ( $recent_articles as $r_idx => $recent ) : ?>
 						<article class="flex items-center gap-3.5 py-4 first:pt-0 last:pb-0 group fp-recent-article-item">
 							<?php if ( ! empty( $recent['image'] ) ) : ?>
-								<div class="w-16 h-16 sm:w-20 sm:h-20 aspect-square rounded overflow-hidden flex-shrink-0 border border-[#E9E6E0] dark:border-[#2E2D29] bg-[#F5F3EF] dark:bg-[#1E1D1B] fp-recent-thumb-wrap">
+								<div class="w-18 h-18 sm:w-20 sm:h-20 aspect-square rounded overflow-hidden flex-shrink-0 border border-[#E9E6E0] dark:border-[#2E2D29] bg-[#F5F3EF] dark:bg-[#1E1D1B] fp-recent-thumb-wrap">
 									<a href="<?php echo esc_url( $recent['url'] ); ?>" class="block w-full h-full">
 										<img src="<?php echo esc_url( $recent['image'] ); ?>" alt="<?php echo esc_attr( $recent['title'] ); ?>" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
 									</a>

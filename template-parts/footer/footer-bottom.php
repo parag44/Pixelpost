@@ -46,7 +46,7 @@ $pixelpost_social_links = pixelpost_get_social_links();
 	<?php endif; ?>
 
 	<!-- Top Row: Brand & Tagline | Horizontal Nav | Social Links -->
-	<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-8 pb-10 fp-footer-top-row">
+	<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-8 pb-12 fp-footer-top-row">
 		<!-- Left: Monogram, Name & Tagline -->
 		<div class="flex flex-col max-w-sm fp-footer-col-brand">
 			<a class="flex items-center gap-2 mb-2 group" href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
@@ -54,20 +54,20 @@ $pixelpost_social_links = pixelpost_get_social_links();
 				<span class="font-serif text-lg font-bold text-on-surface tracking-tight leading-none fp-site-title-text"><?php echo esc_html( $pixelpost_site_name ); ?></span>
 			</a>
 			<?php if ( ! empty( $pixelpost_footer_tagline ) ) : ?>
-				<p class="text-xs sm:text-sm text-on-surface-variant leading-relaxed fp-footer-tagline">
+				<p class="text-xs sm:text-[13px] text-on-surface-variant leading-relaxed fp-footer-tagline">
 					<?php echo esc_html( $pixelpost_footer_tagline ); ?>
 				</p>
 			<?php endif; ?>
 		</div>
 
 		<!-- Center: Navigation Links -->
-		<nav class="flex flex-wrap items-center gap-x-6 gap-y-2 fp-footer-col-nav" aria-label="<?php esc_attr_e( 'Footer Navigation', 'pixelpost' ); ?>" data-pixelpost-customize="footer-nav" data-pixelpost-label="<?php esc_attr_e( 'Footer Navigation', 'pixelpost' ); ?>">
+		<nav class="flex flex-wrap items-center gap-x-7 gap-y-2.5 fp-footer-col-nav" aria-label="<?php esc_attr_e( 'Footer Navigation', 'pixelpost' ); ?>" data-pixelpost-customize="footer-nav" data-pixelpost-label="<?php esc_attr_e( 'Footer Navigation', 'pixelpost' ); ?>">
 			<?php
 			if ( has_nav_menu( 'footer' ) ) :
 				wp_nav_menu(
 					array(
 						'theme_location' => 'footer',
-						'menu_class'     => 'flex flex-wrap items-center gap-x-6 gap-y-2 list-none m-0 p-0',
+						'menu_class'     => 'flex flex-wrap items-center gap-x-7 gap-y-2.5 list-none m-0 p-0',
 						'container'      => false,
 						'depth'          => 1,
 						'fallback_cb'    => false,
@@ -75,12 +75,12 @@ $pixelpost_social_links = pixelpost_get_social_links();
 				);
 			else :
 				?>
-				<a class="text-xs sm:text-sm text-on-surface-variant hover:text-primary transition-colors" href="<?php echo esc_url( home_url( '/#about' ) ); ?>"><?php esc_html_e( 'About', 'pixelpost' ); ?></a>
-				<a class="text-xs sm:text-sm text-on-surface-variant hover:text-primary transition-colors" href="<?php echo esc_url( home_url( '/#skills' ) ); ?>"><?php esc_html_e( 'Skills', 'pixelpost' ); ?></a>
-				<a class="text-xs sm:text-sm text-on-surface-variant hover:text-primary transition-colors" href="<?php echo esc_url( home_url( '/#experience' ) ); ?>"><?php esc_html_e( 'Experience', 'pixelpost' ); ?></a>
-				<a class="text-xs sm:text-sm text-on-surface-variant hover:text-primary transition-colors" href="<?php echo esc_url( home_url( '/#projects' ) ); ?>"><?php esc_html_e( 'Projects', 'pixelpost' ); ?></a>
-				<a class="text-xs sm:text-sm text-on-surface-variant hover:text-primary transition-colors" href="<?php echo esc_url( home_url( '/#blog' ) ); ?>"><?php esc_html_e( 'Articles', 'pixelpost' ); ?></a>
-				<a class="text-xs sm:text-sm text-on-surface-variant hover:text-primary transition-colors" href="<?php echo esc_url( home_url( '/#contact' ) ); ?>"><?php esc_html_e( 'Contact', 'pixelpost' ); ?></a>
+				<a class="text-xs sm:text-[13px] font-medium text-on-surface-variant hover:text-primary transition-colors" href="<?php echo esc_url( home_url( '/#about' ) ); ?>"><?php esc_html_e( 'About', 'pixelpost' ); ?></a>
+				<a class="text-xs sm:text-[13px] font-medium text-on-surface-variant hover:text-primary transition-colors" href="<?php echo esc_url( home_url( '/#skills' ) ); ?>"><?php esc_html_e( 'Skills', 'pixelpost' ); ?></a>
+				<a class="text-xs sm:text-[13px] font-medium text-on-surface-variant hover:text-primary transition-colors" href="<?php echo esc_url( home_url( '/#experience' ) ); ?>"><?php esc_html_e( 'Experience', 'pixelpost' ); ?></a>
+				<a class="text-xs sm:text-[13px] font-medium text-on-surface-variant hover:text-primary transition-colors" href="<?php echo esc_url( home_url( '/#projects' ) ); ?>"><?php esc_html_e( 'Projects', 'pixelpost' ); ?></a>
+				<a class="text-xs sm:text-[13px] font-medium text-on-surface-variant hover:text-primary transition-colors" href="<?php echo esc_url( home_url( '/#blog' ) ); ?>"><?php esc_html_e( 'Articles', 'pixelpost' ); ?></a>
+				<a class="text-xs sm:text-[13px] font-medium text-on-surface-variant hover:text-primary transition-colors" href="<?php echo esc_url( home_url( '/#contact' ) ); ?>"><?php esc_html_e( 'Contact', 'pixelpost' ); ?></a>
 				<?php
 			endif;
 			?>
@@ -109,7 +109,7 @@ $pixelpost_social_links = pixelpost_get_social_links();
 	</div>
 
 	<!-- Bottom Row: Copyright + Back to Top Link -->
-	<div class="pt-6 border-t border-[#E9E6E0] dark:border-[#2E2D29] flex flex-col sm:flex-row items-center justify-between gap-4 fp-footer-bottom-bar">
+	<div class="pt-8 border-t border-[#E9E6E0] dark:border-[#2E2D29] flex flex-col sm:flex-row items-center justify-between gap-4 fp-footer-bottom-bar">
 		<p class="text-xs text-on-surface-variant fp-copyright">
 			<?php echo esc_html( $pixelpost_copyright ); ?>
 		</p>

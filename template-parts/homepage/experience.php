@@ -43,23 +43,23 @@ if ( empty( $pixelpost_experiences ) ) {
 
 $total_exp = count( $pixelpost_experiences );
 ?>
-<section id="experience" class="w-full max-w-[1140px] mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20 border-b border-[#E9E6E0] dark:border-[#2E2D29] fp-experience-section" aria-label="<?php esc_attr_e( 'Work Experience', 'pixelpost' ); ?>" data-pixelpost-customize="experience" data-pixelpost-label="<?php esc_attr_e( 'Work Experience', 'pixelpost' ); ?>">
+<section id="experience" class="w-full max-w-[1140px] mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-24 border-b border-[#E9E6E0] dark:border-[#2E2D29] fp-experience-section" aria-label="<?php esc_attr_e( 'Work Experience', 'pixelpost' ); ?>" data-pixelpost-customize="experience" data-pixelpost-label="<?php esc_attr_e( 'Work Experience', 'pixelpost' ); ?>">
 	<div class="flex flex-col sm:flex-row sm:items-end justify-between mb-12 lg:mb-16 gap-4">
 		<div class="flex flex-col max-w-2xl">
 			<?php if ( ! empty( $pixelpost_eyebrow ) ) : ?>
 				<div class="inline-flex items-center gap-2 mb-3">
 					<span class="text-xs uppercase tracking-widest font-semibold text-[#A94F20] dark:text-[#D4733F]"><?php echo esc_html( $pixelpost_eyebrow ); ?></span>
-					<span class="w-8 h-px bg-[#A94F20]/40"></span>
+					<span class="w-8 h-px bg-[#A94F20]/50"></span>
 				</div>
 			<?php endif; ?>
 
 			<?php if ( ! empty( $pixelpost_heading ) ) : ?>
-				<h2 class="font-serif text-3xl sm:text-4xl text-on-surface"><?php echo esc_html( $pixelpost_heading ); ?></h2>
+				<h2 class="font-serif text-3xl sm:text-4xl lg:text-[40px] text-on-surface leading-tight"><?php echo esc_html( $pixelpost_heading ); ?></h2>
 			<?php endif; ?>
 		</div>
 
 		<div>
-			<a class="inline-flex items-center gap-1.5 text-sm font-medium text-[#A94F20] dark:text-[#D4733F] hover:underline" href="<?php echo esc_url( home_url( '/#contact' ) ); ?>">
+			<a class="inline-flex items-center gap-1.5 text-sm font-semibold text-[#A94F20] dark:text-[#D4733F] hover:underline" href="<?php echo esc_url( home_url( '/#contact' ) ); ?>">
 				<span><?php esc_html_e( 'View full resume', 'pixelpost' ); ?></span>
 				<?php echo pixelpost_get_icon( 'external_link', array( 'width' => 14, 'height' => 14 ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 			</a>
@@ -95,7 +95,7 @@ $total_exp = count( $pixelpost_experiences );
 			?>
 			<div class="grid grid-cols-1 sm:grid-cols-[140px_36px_1fr] lg:grid-cols-[160px_44px_1fr] gap-x-2 sm:gap-x-0 relative group fp-timeline-row">
 				<!-- LEFT: Fixed Date Column -->
-				<div class="text-sm font-normal text-on-surface-variant sm:text-right sm:pr-6 pt-0.5 mb-2 sm:mb-0 fp-timeline-date-col">
+				<div class="text-sm font-medium text-on-surface-variant sm:text-right sm:pr-8 pt-1 mb-2 sm:mb-0 fp-timeline-date-col">
 					<?php echo esc_html( $pixelpost_date ); ?>
 				</div>
 
@@ -103,36 +103,36 @@ $total_exp = count( $pixelpost_experiences );
 				<div class="hidden sm:flex flex-col items-center relative fp-timeline-center-col">
 					<!-- Circular Marker -->
 					<?php if ( $pixelpost_is_current ) : ?>
-						<div class="w-3.5 h-3.5 rounded-full bg-primary ring-4 ring-[#F5EAE1] dark:ring-[#2C1F17] mt-1 z-10 flex-shrink-0 fp-node-current"></div>
+						<div class="w-4 h-4 rounded-full bg-primary ring-4 ring-[#F5EAE1] dark:ring-[#2C1F17] mt-1.5 z-10 flex-shrink-0 fp-node-current"></div>
 					<?php else : ?>
-						<div class="w-2.5 h-2.5 rounded-full bg-[#CBC7C0] dark:bg-[#45423E] mt-1.5 z-10 flex-shrink-0 fp-node-past"></div>
+						<div class="w-3 h-3 rounded-full bg-[#B8B4AC] dark:bg-[#524E48] mt-2 z-10 flex-shrink-0 fp-node-past"></div>
 					<?php endif; ?>
 
 					<!-- Continuous connecting line -->
 					<?php if ( ! $is_last ) : ?>
-						<div class="w-px flex-1 bg-[#E9E6E0] dark:bg-[#2E2D29] my-1 fp-timeline-spine"></div>
+						<div class="w-[2px] flex-1 bg-[#D4CEBF] dark:bg-[#3D3A35] my-1 fp-timeline-spine"></div>
 					<?php endif; ?>
 				</div>
 
 				<!-- RIGHT: Content Column -->
-				<div class="<?php echo $is_last ? 'pb-2' : 'pb-10 sm:pb-14'; ?> sm:pl-6 fp-timeline-content-col">
-					<div class="flex flex-wrap items-center gap-2.5 mb-1">
-						<h3 class="font-bold text-lg sm:text-xl text-on-surface fp-timeline-job-title"><?php echo esc_html( $pixelpost_title ); ?></h3>
+				<div class="<?php echo $is_last ? 'pb-2' : 'pb-14 sm:pb-16'; ?> sm:pl-8 fp-timeline-content-col">
+					<div class="flex flex-wrap items-center gap-2.5 mb-1.5">
+						<h3 class="font-serif font-bold text-xl sm:text-2xl text-on-surface leading-snug fp-timeline-job-title"><?php echo esc_html( $pixelpost_title ); ?></h3>
 						<?php if ( $pixelpost_is_current ) : ?>
-							<span class="inline-flex items-center px-2 py-0.5 text-xs font-semibold rounded bg-[#F5EAE1] dark:bg-[#2C1F17] text-[#A94F20] dark:text-[#D4733F] fp-current-badge">
+							<span class="inline-flex items-center px-2.5 py-0.5 text-xs font-semibold rounded bg-[#F5EAE1] dark:bg-[#2C1F17] text-[#A94F20] dark:text-[#D4733F] fp-current-badge">
 								<?php esc_html_e( 'Current', 'pixelpost' ); ?>
 							</span>
 						<?php endif; ?>
 					</div>
 
 					<?php if ( ! empty( $pixelpost_company ) ) : ?>
-						<div class="text-xs uppercase tracking-wider font-semibold text-on-surface-variant mb-3 fp-timeline-company-name">
+						<div class="text-xs uppercase tracking-wider font-bold text-[#77736D] mt-1 mb-3 fp-timeline-company-name">
 							<?php echo esc_html( $pixelpost_company ); ?>
 						</div>
 					<?php endif; ?>
 
 					<?php if ( ! empty( $pixelpost_desc ) ) : ?>
-						<p class="text-sm sm:text-base text-on-surface-variant leading-relaxed max-w-2xl mb-3 fp-timeline-desc">
+						<p class="text-sm sm:text-[15px] text-[#55524D] dark:text-[#A39E96] leading-[1.7] max-w-2xl mb-3.5 fp-timeline-desc">
 							<?php echo esc_html( $pixelpost_desc ); ?>
 						</p>
 					<?php endif; ?>

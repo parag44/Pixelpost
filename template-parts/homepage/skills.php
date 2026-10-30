@@ -41,23 +41,23 @@ foreach ( $pixelpost_skills_items as $idx => $item ) {
 	}
 }
 ?>
-<section id="skills" class="w-full max-w-[1140px] mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20 border-b border-[#E9E6E0] dark:border-[#2E2D29] fp-skills-section" aria-label="<?php esc_attr_e( 'Skills and Expertise', 'pixelpost' ); ?>" data-pixelpost-customize="skills" data-pixelpost-label="<?php esc_attr_e( 'Skills & Expertise', 'pixelpost' ); ?>">
+<section id="skills" class="w-full max-w-[1140px] mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-24 border-b border-[#E9E6E0] dark:border-[#2E2D29] fp-skills-section" aria-label="<?php esc_attr_e( 'Skills and Expertise', 'pixelpost' ); ?>" data-pixelpost-customize="skills" data-pixelpost-label="<?php esc_attr_e( 'Skills & Expertise', 'pixelpost' ); ?>">
 	<!-- Section Header with Script Note on Right -->
 	<div class="flex flex-col md:flex-row md:items-start justify-between mb-12 lg:mb-16 gap-6">
 		<div class="flex flex-col max-w-2xl">
 			<?php if ( ! empty( $pixelpost_eyebrow ) ) : ?>
 				<div class="inline-flex items-center gap-2 mb-3">
 					<span class="text-xs uppercase tracking-widest font-semibold text-[#A94F20] dark:text-[#D4733F]"><?php echo esc_html( $pixelpost_eyebrow ); ?></span>
-					<span class="w-8 h-px bg-[#A94F20]/40"></span>
+					<span class="w-8 h-px bg-[#A94F20]/50"></span>
 				</div>
 			<?php endif; ?>
 
 			<?php if ( ! empty( $pixelpost_heading ) ) : ?>
-				<h2 class="font-serif text-3xl sm:text-4xl text-on-surface mb-3"><?php echo esc_html( $pixelpost_heading ); ?></h2>
+				<h2 class="font-serif text-3xl sm:text-4xl lg:text-[40px] text-on-surface mb-3 leading-tight"><?php echo esc_html( $pixelpost_heading ); ?></h2>
 			<?php endif; ?>
 
 			<?php if ( ! empty( $pixelpost_subtitle ) ) : ?>
-				<p class="text-base text-on-surface-variant leading-relaxed"><?php echo esc_html( $pixelpost_subtitle ); ?></p>
+				<p class="text-base sm:text-[17px] text-on-surface-variant leading-relaxed"><?php echo esc_html( $pixelpost_subtitle ); ?></p>
 			<?php endif; ?>
 		</div>
 
@@ -72,21 +72,28 @@ foreach ( $pixelpost_skills_items as $idx => $item ) {
 	<!-- 2-Column Categorized Layout -->
 	<div class="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16 fp-skills-columns">
 		<!-- Left Column -->
-		<div class="space-y-8 sm:space-y-10 fp-skills-col-left">
+		<div class="space-y-10 lg:space-y-12 fp-skills-col-left">
 			<?php foreach ( $left_col_items as $matrix ) :
-				$title = ! empty( $matrix['title'] ) ? $matrix['title'] : '';
-				$icon  = ! empty( $matrix['icon'] ) ? $matrix['icon'] : 'code';
-				$tags  = ! empty( $matrix['tags'] ) ? $matrix['tags'] : '';
+				$title    = ! empty( $matrix['title'] ) ? $matrix['title'] : '';
+				$raw_icon = ! empty( $matrix['icon'] ) ? $matrix['icon'] : 'code';
+				$tags     = ! empty( $matrix['tags'] ) ? $matrix['tags'] : '';
 				if ( is_array( $tags ) ) {
 					$tags = implode( ', ', $tags );
 				}
+				$icon_map = array(
+					'terminal' => 'wrench',
+					'tools'    => 'wrench',
+					'verified' => 'shield-check',
+					'qa'       => 'shield-check',
+				);
+				$icon_key = isset( $icon_map[ $raw_icon ] ) ? $icon_map[ $raw_icon ] : $raw_icon;
 			?>
 				<div class="fp-skill-category">
 					<div class="flex items-center gap-2.5 mb-2 text-primary">
-						<?php echo pixelpost_get_icon( $icon, array( 'width' => 18, 'height' => 18 ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-						<h3 class="font-bold text-base sm:text-lg text-on-surface"><?php echo esc_html( $title ); ?></h3>
+						<?php echo pixelpost_get_icon( $icon_key, array( 'width' => 22, 'height' => 22, 'class' => 'w-5.5 h-5.5 text-primary flex-shrink-0' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+						<h3 class="font-bold text-lg text-on-surface"><?php echo esc_html( $title ); ?></h3>
 					</div>
-					<p class="text-sm sm:text-base text-on-surface-variant leading-relaxed pl-7">
+					<p class="text-[15px] sm:text-base text-on-surface-variant leading-relaxed pl-8">
 						<?php echo esc_html( $tags ); ?>
 					</p>
 				</div>
@@ -94,21 +101,28 @@ foreach ( $pixelpost_skills_items as $idx => $item ) {
 		</div>
 
 		<!-- Right Column -->
-		<div class="space-y-8 sm:space-y-10 fp-skills-col-right">
+		<div class="space-y-10 lg:space-y-12 fp-skills-col-right">
 			<?php foreach ( $right_col_items as $matrix ) :
-				$title = ! empty( $matrix['title'] ) ? $matrix['title'] : '';
-				$icon  = ! empty( $matrix['icon'] ) ? $matrix['icon'] : 'extension';
-				$tags  = ! empty( $matrix['tags'] ) ? $matrix['tags'] : '';
+				$title    = ! empty( $matrix['title'] ) ? $matrix['title'] : '';
+				$raw_icon = ! empty( $matrix['icon'] ) ? $matrix['icon'] : 'extension';
+				$tags     = ! empty( $matrix['tags'] ) ? $matrix['tags'] : '';
 				if ( is_array( $tags ) ) {
 					$tags = implode( ', ', $tags );
 				}
+				$icon_map = array(
+					'extension' => 'puzzle',
+					'plugins'   => 'puzzle',
+					'chat'      => 'life-buoy',
+					'support'   => 'life-buoy',
+				);
+				$icon_key = isset( $icon_map[ $raw_icon ] ) ? $icon_map[ $raw_icon ] : $raw_icon;
 			?>
 				<div class="fp-skill-category">
 					<div class="flex items-center gap-2.5 mb-2 text-primary">
-						<?php echo pixelpost_get_icon( $icon, array( 'width' => 18, 'height' => 18 ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-						<h3 class="font-bold text-base sm:text-lg text-on-surface"><?php echo esc_html( $title ); ?></h3>
+						<?php echo pixelpost_get_icon( $icon_key, array( 'width' => 22, 'height' => 22, 'class' => 'w-5.5 h-5.5 text-primary flex-shrink-0' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+						<h3 class="font-bold text-lg text-on-surface"><?php echo esc_html( $title ); ?></h3>
 					</div>
-					<p class="text-sm sm:text-base text-on-surface-variant leading-relaxed pl-7">
+					<p class="text-[15px] sm:text-base text-on-surface-variant leading-relaxed pl-8">
 						<?php echo esc_html( $tags ); ?>
 					</p>
 				</div>

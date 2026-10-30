@@ -35,8 +35,8 @@ if ( empty( $pixelpost_stats ) ) {
 	return;
 }
 ?>
-<section id="stats" class="w-full max-w-[1140px] mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-10 border-t border-b border-[#E9E6E0] dark:border-[#2E2D29] fp-stats-section" aria-label="<?php esc_attr_e( 'Career Highlights', 'pixelpost' ); ?>" data-pixelpost-customize="statistics" data-pixelpost-label="<?php esc_attr_e( 'Statistics Strip', 'pixelpost' ); ?>">
-	<div class="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-0 fp-stats-grid">
+<section id="stats" class="w-full max-w-[1140px] mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-12 border-t border-b border-[#E9E6E0] dark:border-[#2E2D29] fp-stats-section" aria-label="<?php esc_attr_e( 'Career Highlights', 'pixelpost' ); ?>" data-pixelpost-customize="statistics" data-pixelpost-label="<?php esc_attr_e( 'Statistics Strip', 'pixelpost' ); ?>">
+	<div class="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-0 fp-stats-grid">
 		<?php
 		$total_stats = count( $pixelpost_stats );
 		foreach ( $pixelpost_stats as $pixelpost_index => $pixelpost_stat ) :
@@ -64,15 +64,15 @@ if ( empty( $pixelpost_stats ) ) {
 			$padding_class = ( $pixelpost_index === 0 ) ? 'lg:pr-8' : ( ( $pixelpost_index === $total_stats - 1 ) ? 'lg:pl-8' : 'lg:px-8' );
 		?>
 			<div class="flex flex-col <?php echo esc_attr( $border_class . ' ' . $padding_class ); ?> fp-stat-item">
-				<div class="flex items-baseline gap-0.5 mb-1.5 fp-stat-number-wrap">
-					<span class="font-serif text-4xl sm:text-5xl font-normal text-primary tracking-tight fp-stat-number"><?php echo esc_html( $pixelpost_num_val ); ?></span>
+				<div class="flex items-baseline gap-0.5 mb-2 fp-stat-number-wrap">
+					<span class="font-serif text-5xl sm:text-[54px] font-normal text-primary tracking-tight leading-none fp-stat-number"><?php echo esc_html( $pixelpost_num_val ); ?></span>
 					<?php if ( ! empty( $pixelpost_suffix ) ) : ?>
-						<span class="font-serif text-3xl sm:text-4xl text-primary font-normal fp-stat-suffix"><?php echo esc_html( $pixelpost_suffix ); ?></span>
+						<span class="font-serif text-4xl sm:text-[44px] text-primary font-normal leading-none fp-stat-suffix"><?php echo esc_html( $pixelpost_suffix ); ?></span>
 					<?php endif; ?>
 				</div>
-				<span class="font-bold text-sm sm:text-base text-on-surface mb-1 fp-stat-label"><?php echo esc_html( $pixelpost_label ); ?></span>
+				<span class="font-bold text-[15px] sm:text-base text-on-surface mb-1 leading-snug fp-stat-label"><?php echo esc_html( $pixelpost_label ); ?></span>
 				<?php if ( ! empty( $pixelpost_desc ) ) : ?>
-					<p class="text-xs sm:text-sm text-on-surface-variant leading-relaxed fp-stat-desc"><?php echo esc_html( $pixelpost_desc ); ?></p>
+					<p class="text-xs sm:text-[13px] text-on-surface-variant leading-relaxed max-w-[220px] fp-stat-desc"><?php echo esc_html( $pixelpost_desc ); ?></p>
 				<?php endif; ?>
 			</div>
 		<?php endforeach; ?>

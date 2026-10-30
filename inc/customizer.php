@@ -1571,19 +1571,139 @@ function pixelpost_customize_register( $wp_customize ) {
 		)
 	);
 
+	// Footer Brand Type: Text vs Logo
+	$wp_customize->add_setting(
+		'pixelpost_footer_brand_type',
+		array(
+			'default'           => pixelpost_get_theme_default( 'pixelpost_footer_brand_type' ),
+			'sanitize_callback' => 'pixelpost_sanitize_footer_brand_type',
+			'transport'         => 'postMessage',
+		)
+	);
+	$wp_customize->add_control(
+		'pixelpost_footer_brand_type',
+		array(
+			'label'       => __( 'Footer Brand Display', 'pixelpost' ),
+			'description' => __( 'Choose whether to display brand text or a logo image above the footer tagline.', 'pixelpost' ),
+			'section'     => 'pixelpost_footer_section',
+			'priority'    => 5,
+			'type'        => 'radio',
+			'choices'     => array(
+				'text' => __( 'Text Brand', 'pixelpost' ),
+				'logo' => __( 'Footer Logo (Image)', 'pixelpost' ),
+			),
+		)
+	);
+
+	// Footer Brand Text
+	$wp_customize->add_setting(
+		'pixelpost_footer_brand_text',
+		array(
+			'default'           => pixelpost_get_theme_default( 'pixelpost_footer_brand_text' ),
+			'sanitize_callback' => 'sanitize_text_field',
+			'transport'         => 'postMessage',
+		)
+	);
+	$wp_customize->add_control(
+		'pixelpost_footer_brand_text',
+		array(
+			'label'       => __( 'Footer Brand Text', 'pixelpost' ),
+			'description' => __( 'Text displayed before/above the footer tagline (defaults to Parag Das or site title).', 'pixelpost' ),
+			'section'     => 'pixelpost_footer_section',
+			'priority'    => 6,
+			'type'        => 'text',
+		)
+	);
+
+	// Footer Logo Image Upload
+	$wp_customize->add_setting(
+		'pixelpost_footer_logo',
+		array(
+			'default'           => pixelpost_get_theme_default( 'pixelpost_footer_logo' ),
+			'sanitize_callback' => 'esc_url_raw',
+			'transport'         => 'postMessage',
+		)
+	);
+	$wp_customize->add_control(
+		new WP_Customize_Image_Control(
+			$wp_customize,
+			'pixelpost_footer_logo',
+			array(
+				'label'       => __( 'Footer Logo (Image)', 'pixelpost' ),
+				'description' => __( 'Upload a dedicated image logo for the footer. If left empty, it falls back to the site custom logo.', 'pixelpost' ),
+				'section'     => 'pixelpost_footer_section',
+				'priority'    => 7,
+			)
+		)
+	);
+
+	// Footer Logo Width
+	$wp_customize->add_setting(
+		'pixelpost_footer_logo_width',
+		array(
+			'default'           => pixelpost_get_theme_default( 'pixelpost_footer_logo_width' ),
+			'sanitize_callback' => 'pixelpost_sanitize_dimension',
+			'transport'         => 'postMessage',
+		)
+	);
+	$wp_customize->add_control(
+		'pixelpost_footer_logo_width',
+		array(
+			'label'       => __( 'Footer Logo Width (px)', 'pixelpost' ),
+			'description' => __( 'Maximum width in pixels for the footer logo (leave empty for auto).', 'pixelpost' ),
+			'section'     => 'pixelpost_footer_section',
+			'priority'    => 8,
+			'type'        => 'number',
+			'input_attrs' => array(
+				'min'         => 20,
+				'max'         => 600,
+				'step'        => 1,
+				'placeholder' => 'e.g. 150',
+			),
+		)
+	);
+
+	// Footer Logo Height
+	$wp_customize->add_setting(
+		'pixelpost_footer_logo_height',
+		array(
+			'default'           => pixelpost_get_theme_default( 'pixelpost_footer_logo_height' ),
+			'sanitize_callback' => 'pixelpost_sanitize_dimension',
+			'transport'         => 'postMessage',
+		)
+	);
+	$wp_customize->add_control(
+		'pixelpost_footer_logo_height',
+		array(
+			'label'       => __( 'Footer Logo Height (px)', 'pixelpost' ),
+			'description' => __( 'Maximum height in pixels for the footer logo (default: 36).', 'pixelpost' ),
+			'section'     => 'pixelpost_footer_section',
+			'priority'    => 9,
+			'type'        => 'number',
+			'input_attrs' => array(
+				'min'         => 16,
+				'max'         => 120,
+				'step'        => 1,
+				'placeholder' => 'e.g. 36',
+			),
+		)
+	);
+
 	$wp_customize->add_setting(
 		'pixelpost_footer_tagline',
 		array(
 			'default'           => pixelpost_get_theme_default( 'pixelpost_footer_tagline' ),
 			'sanitize_callback' => 'sanitize_text_field',
+			'transport'         => 'postMessage',
 		)
 	);
 	$wp_customize->add_control(
 		'pixelpost_footer_tagline',
 		array(
-			'label'   => __( 'Footer Tagline', 'pixelpost' ),
-			'section' => 'pixelpost_footer_section',
-			'type'    => 'text',
+			'label'    => __( 'Footer Tagline', 'pixelpost' ),
+			'section'  => 'pixelpost_footer_section',
+			'priority' => 10,
+			'type'     => 'text',
 		)
 	);
 
@@ -1901,6 +2021,16 @@ function pixelpost_sanitize_checkbox( $checked ) {
 function pixelpost_sanitize_dimension( $input ) {
 	$val = absint( $input );
 	return $val > 0 ? $val : '';
+}
+
+/**
+ * Sanitize footer brand type (text vs logo)
+ *
+ * @param string $input Input type.
+ * @return string
+ */
+function pixelpost_sanitize_footer_brand_type( $input ) {
+	return in_array( $input, array( 'text', 'logo' ), true ) ? $input : 'text';
 }
 
 /**

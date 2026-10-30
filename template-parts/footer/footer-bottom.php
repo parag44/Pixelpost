@@ -10,9 +10,27 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$pixelpost_site_name = get_bloginfo( 'name' );
-if ( empty( $pixelpost_site_name ) ) {
-	$pixelpost_site_name = 'Parag Das';
+$pixelpost_footer_brand_type = pixelpost_get_setting( 'pixelpost_footer_brand_type' );
+if ( empty( $pixelpost_footer_brand_type ) ) {
+	$pixelpost_footer_brand_type = 'text';
+}
+
+$pixelpost_footer_brand_text = pixelpost_get_setting( 'pixelpost_footer_brand_text' );
+if ( empty( $pixelpost_footer_brand_text ) ) {
+	$pixelpost_footer_brand_text = get_bloginfo( 'name' );
+	if ( empty( $pixelpost_footer_brand_text ) ) {
+		$pixelpost_footer_brand_text = 'Parag Das';
+	}
+}
+
+$pixelpost_site_name = $pixelpost_footer_brand_text;
+
+$pixelpost_footer_logo = pixelpost_get_setting( 'pixelpost_footer_logo' );
+if ( empty( $pixelpost_footer_logo ) && has_custom_logo() ) {
+	$custom_logo_id = get_theme_mod( 'custom_logo' );
+	if ( $custom_logo_id ) {
+		$pixelpost_footer_logo = wp_get_attachment_image_url( $custom_logo_id, 'full' );
+	}
 }
 
 $pixelpost_footer_tagline = pixelpost_get_setting( 'pixelpost_footer_tagline' );
@@ -46,10 +64,13 @@ $pixelpost_social_links = pixelpost_get_social_links();
 
 	<!-- Top Row: Brand & Tagline | Horizontal Nav | Social Links -->
 	<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-8 pb-12 fp-footer-top-row">
-		<!-- Left: Site Name & Tagline -->
-		<div class="flex flex-col max-w-sm fp-footer-col-brand">
-			<a class="flex items-center mb-2 group" href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
-				<span class="font-serif text-lg font-bold text-on-surface tracking-tight leading-none fp-site-title-text"><?php echo esc_html( $pixelpost_site_name ); ?></span>
+		<!-- Left: Site Name / Logo & Tagline -->
+		<div class="flex flex-col max-w-sm fp-footer-col-brand" data-pixelpost-customize="footer-brand" data-pixelpost-label="<?php esc_attr_e( 'Footer Brand & Logo', 'pixelpost' ); ?>">
+			<a class="flex items-center mb-2 group fp-footer-brand-link" href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
+				<span class="font-serif text-lg font-bold text-on-surface tracking-tight leading-none fp-site-title-text fp-footer-brand-text<?php echo ( 'logo' === $pixelpost_footer_brand_type && ! empty( $pixelpost_footer_logo ) ) ? ' hidden' : ''; ?>"><?php echo esc_html( $pixelpost_footer_brand_text ); ?></span>
+				<?php if ( ! empty( $pixelpost_footer_logo ) ) : ?>
+					<img src="<?php echo esc_url( $pixelpost_footer_logo ); ?>" alt="<?php echo esc_attr( $pixelpost_footer_brand_text ); ?>" class="fp-footer-logo max-h-9 w-auto object-contain transition-opacity group-hover:opacity-90<?php echo ( 'logo' !== $pixelpost_footer_brand_type ) ? ' hidden' : ''; ?>" />
+				<?php endif; ?>
 			</a>
 			<?php if ( ! empty( $pixelpost_footer_tagline ) ) : ?>
 				<p class="text-xs sm:text-[13px] text-on-surface-variant leading-relaxed fp-footer-tagline">

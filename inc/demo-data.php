@@ -487,6 +487,11 @@ function pixelpost_get_theme_default( $key ) {
 		'pixelpost_contact_avail_context'       => 'WordPress Support, QA & Product Development',
 
 		// Footer (Repeater + Flat fallbacks)
+		'pixelpost_footer_brand_type'           => 'text',
+		'pixelpost_footer_brand_text'           => 'Parag Das',
+		'pixelpost_footer_logo'                 => '',
+		'pixelpost_footer_logo_width'           => '',
+		'pixelpost_footer_logo_height'          => '36',
 		'pixelpost_footer_tagline'              => 'WordPress specialist focused on troubleshooting, quality, and better web experiences.',
 		'pixelpost_footer_nav_show'             => true,
 		'pixelpost_footer_nav_title'            => 'Navigation',

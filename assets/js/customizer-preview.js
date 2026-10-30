@@ -168,6 +168,98 @@
     });
   });
 
+  // Footer Brand Type (Text vs Logo)
+  api('pixelpost_footer_brand_type', function(value) {
+    value.bind(function(to) {
+      if (to === 'logo') {
+        $('.fp-footer-brand-text').addClass('hidden');
+        $('.fp-footer-logo').removeClass('hidden');
+      } else {
+        $('.fp-footer-brand-text').removeClass('hidden');
+        $('.fp-footer-logo').addClass('hidden');
+      }
+    });
+  });
+
+  // Footer Brand Text
+  api('pixelpost_footer_brand_text', function(value) {
+    value.bind(function(to) {
+      $('.fp-footer-brand-text').text(to);
+    });
+  });
+
+  // Footer Logo URL
+  api('pixelpost_footer_logo', function(value) {
+    value.bind(function(to) {
+      var $link = $('.fp-footer-brand-link');
+      var $img = $link.find('.fp-footer-logo');
+      if (to) {
+        if ($img.length) {
+          $img.attr('src', to);
+        } else {
+          $img = $('<img class="fp-footer-logo max-h-9 w-auto object-contain transition-opacity group-hover:opacity-90" />')
+            .attr('src', to)
+            .appendTo($link);
+        }
+        var brandType = api('pixelpost_footer_brand_type') ? api('pixelpost_footer_brand_type').get() : 'text';
+        if (brandType === 'logo') {
+          $img.removeClass('hidden');
+          $('.fp-footer-brand-text').addClass('hidden');
+        }
+      } else {
+        if ($img.length) {
+          $img.addClass('hidden');
+        }
+        $('.fp-footer-brand-text').removeClass('hidden');
+      }
+    });
+  });
+
+  // Footer Logo Width
+  api('pixelpost_footer_logo_width', function(value) {
+    value.bind(function(to) {
+      var $logo = $('.fp-footer-logo, .fp-footer-col-brand img');
+      var val = parseInt(to, 10);
+      if (val > 0) {
+        $logo.css({
+          'max-width': val + 'px',
+          'width': val + 'px'
+        });
+      } else {
+        $logo.css({
+          'max-width': '',
+          'width': ''
+        });
+      }
+    });
+  });
+
+  // Footer Logo Height
+  api('pixelpost_footer_logo_height', function(value) {
+    value.bind(function(to) {
+      var $logo = $('.fp-footer-logo, .fp-footer-col-brand img');
+      var val = parseInt(to, 10);
+      if (val > 0) {
+        $logo.css({
+          'max-height': val + 'px',
+          'height': val + 'px'
+        });
+      } else {
+        $logo.css({
+          'max-height': '',
+          'height': ''
+        });
+      }
+    });
+  });
+
+  // Footer Tagline
+  api('pixelpost_footer_tagline', function(value) {
+    value.bind(function(to) {
+      $('.fp-footer-tagline').text(to);
+    });
+  });
+
   // Colors
   api('pixelpost_color_bg', function(value) {
     value.bind(function(to) {
@@ -300,6 +392,9 @@
     { selector: '#contact', control: 'pixelpost_contact_heading', section: 'pixelpost_contact_section' },
 
     // Footer
+    { selector: '.fp-footer-col-brand', control: 'pixelpost_footer_brand_text', section: 'pixelpost_footer_section' },
+    { selector: '.fp-footer-brand-text', control: 'pixelpost_footer_brand_text', section: 'pixelpost_footer_section' },
+    { selector: '.fp-footer-logo', control: 'pixelpost_footer_logo', section: 'pixelpost_footer_section' },
     { selector: '.fp-footer-tagline', control: 'pixelpost_footer_tagline', section: 'pixelpost_footer_section' },
     { selector: '.fp-footer-col-nav', control: 'pixelpost_footer_nav_show', section: 'pixelpost_footer_section' },
     { selector: '.fp-footer-nav-title', control: 'pixelpost_footer_nav_title', section: 'pixelpost_footer_section' },
@@ -351,7 +446,8 @@
     'contact-email': { control: 'pixelpost_contact_items', section: 'pixelpost_contact_section' },
     'contact-location': { control: 'pixelpost_contact_items', section: 'pixelpost_contact_section' },
     'contact-availability': { control: 'pixelpost_contact_items', section: 'pixelpost_contact_section' },
-    'footer': { control: 'pixelpost_footer_copyright', section: 'pixelpost_footer_section' },
+    'footer': { control: 'pixelpost_footer_tagline', section: 'pixelpost_footer_section' },
+    'footer-brand': { control: 'pixelpost_footer_brand_text', section: 'pixelpost_footer_section' },
     'footer-nav': { control: 'pixelpost_footer_nav_show', section: 'pixelpost_footer_section' },
     'footer-copyright': { control: 'pixelpost_footer_copyright', section: 'pixelpost_footer_section' },
     'footer-back-to-top': { control: 'pixelpost_footer_back_to_top_text', section: 'pixelpost_footer_section' },

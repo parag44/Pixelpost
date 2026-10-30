@@ -340,6 +340,32 @@ function pixelpost_get_customizer_css() {
 		$css .= "}\n";
 	}
 
+	// Footer Logo Dimensions (Width / Height)
+	$footer_logo_width  = get_theme_mod( 'pixelpost_footer_logo_width', pixelpost_get_theme_default( 'pixelpost_footer_logo_width' ) );
+	$footer_logo_height = get_theme_mod( 'pixelpost_footer_logo_height', pixelpost_get_theme_default( 'pixelpost_footer_logo_height' ) );
+
+	if ( ! empty( $footer_logo_width ) || ! empty( $footer_logo_height ) ) {
+		$css .= "\n.fp-footer-logo, .fp-footer-col-brand img {\n";
+		if ( ! empty( $footer_logo_width ) && ! empty( $footer_logo_height ) ) {
+			$css .= "  max-width: " . absint( $footer_logo_width ) . "px !important;\n";
+			$css .= "  max-height: " . absint( $footer_logo_height ) . "px !important;\n";
+			$css .= "  width: 100%;\n";
+			$css .= "  height: auto;\n";
+			$css .= "  object-fit: contain;\n";
+		} elseif ( ! empty( $footer_logo_width ) ) {
+			$css .= "  max-width: " . absint( $footer_logo_width ) . "px !important;\n";
+			$css .= "  width: " . absint( $footer_logo_width ) . "px;\n";
+			$css .= "  height: auto !important;\n";
+			$css .= "  object-fit: contain;\n";
+		} elseif ( ! empty( $footer_logo_height ) ) {
+			$css .= "  max-height: " . absint( $footer_logo_height ) . "px !important;\n";
+			$css .= "  height: " . absint( $footer_logo_height ) . "px;\n";
+			$css .= "  width: auto !important;\n";
+			$css .= "  object-fit: contain;\n";
+		}
+		$css .= "}\n";
+	}
+
 	return $css;
 }
 

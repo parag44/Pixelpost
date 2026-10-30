@@ -15,8 +15,11 @@ $pixelpost_heading = pixelpost_get_setting( 'pixelpost_about_heading' );
 $pixelpost_content = pixelpost_get_setting( 'pixelpost_about_text' );
 $pixelpost_image   = pixelpost_get_setting( 'pixelpost_about_image' );
 
-if ( empty( $pixelpost_image ) || false !== strpos( $pixelpost_image, 'DSCF5599' ) || false !== strpos( $pixelpost_image, 'developer-about' ) ) {
-	$pixelpost_image = get_template_directory_uri() . '/assets/images/developer-hero.jpg';
+if ( empty( $pixelpost_image ) || false !== strpos( $pixelpost_image, 'DSCF5599' ) || false !== strpos( $pixelpost_image, 'developer-about' ) || false !== strpos( $pixelpost_image, 'building-tools' ) ) {
+	$pixelpost_image = pixelpost_get_setting( 'pixelpost_hero_image' );
+	if ( empty( $pixelpost_image ) ) {
+		$pixelpost_image = get_template_directory_uri() . '/assets/images/developer-hero.jpg';
+	}
 }
 
 $pixelpost_author_name = pixelpost_get_setting( 'pixelpost_hero_accent' );

@@ -152,7 +152,7 @@ $recent_articles  = array_slice( $articles, 1, 3 );
 					<?php foreach ( $recent_articles as $r_idx => $recent ) : ?>
 						<article class="flex items-center gap-3.5 py-4 first:pt-0 last:pb-0 group fp-recent-article-item">
 							<?php if ( ! empty( $recent['image'] ) ) : ?>
-								<div class="w-16 h-16 sm:w-18 sm:h-18 aspect-square rounded overflow-hidden flex-shrink-0 border border-[#E9E6E0] dark:border-[#2E2D29] bg-[#F5F3EF] dark:bg-[#1E1D1B] fp-recent-thumb-wrap">
+								<div class="w-16 h-16 sm:w-20 sm:h-20 aspect-square rounded overflow-hidden flex-shrink-0 border border-[#E9E6E0] dark:border-[#2E2D29] bg-[#F5F3EF] dark:bg-[#1E1D1B] fp-recent-thumb-wrap">
 									<a href="<?php echo esc_url( $recent['url'] ); ?>" class="block w-full h-full">
 										<img src="<?php echo esc_url( $recent['image'] ); ?>" alt="<?php echo esc_attr( $recent['title'] ); ?>" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
 									</a>

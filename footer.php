@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	</div><!-- .flex.flex-col.w-full -->
 </main><!-- #primary-content -->
 
-<footer id="colophon" class="w-full bg-surface-container-low shadow-[0_-1px_6px_rgba(0,0,0,0.02)] fp-site-footer">
+<footer id="colophon" class="w-full border-t border-[#E9E6E0] dark:border-[#2E2D29] fp-site-footer">
 	<?php get_template_part( 'template-parts/footer/footer-bottom' ); ?>
 </footer>
 

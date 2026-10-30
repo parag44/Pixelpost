@@ -254,23 +254,7 @@ function pixelpost_scripts() {
 }
 add_action( 'wp_enqueue_scripts', 'pixelpost_scripts' );
 
-/**
- * Load Google Fonts asynchronously to eliminate render-blocking delay
- *
- * @param string $html   The link tag for the enqueued style.
- * @param string $handle The style's registered handle.
- * @param string $href   The stylesheet's source URL.
- * @param string $media  The stylesheet's media attribute.
- * @return string
- */
-function pixelpost_async_font_loader( $html, $handle, $href, $media ) {
-	if ( 'pixelpost-fonts' === $handle && ! is_admin() ) {
-		return '<link rel="preload" as="style" href="' . esc_url( $href ) . '" onload="this.onload=null;this.rel=\'stylesheet\'">' .
-		       '<noscript><link rel="stylesheet" href="' . esc_url( $href ) . '"></noscript>' . "\n";
-	}
-	return $html;
-}
-add_filter( 'style_loader_tag', 'pixelpost_async_font_loader', 10, 4 );
+
 
 /**
  * Add preconnect resource hints for Google Fonts

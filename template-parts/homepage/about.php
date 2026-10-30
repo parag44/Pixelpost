@@ -15,7 +15,7 @@ $pixelpost_heading = pixelpost_get_setting( 'pixelpost_about_heading' );
 $pixelpost_content = pixelpost_get_setting( 'pixelpost_about_text' );
 $pixelpost_image   = pixelpost_get_setting( 'pixelpost_about_image' );
 
-if ( empty( $pixelpost_image ) ) {
+if ( empty( $pixelpost_image ) || false !== strpos( $pixelpost_image, 'DSCF5599' ) || false !== strpos( $pixelpost_image, 'developer-about' ) ) {
 	$pixelpost_image = get_template_directory_uri() . '/assets/images/developer-hero.jpg';
 }
 
@@ -39,7 +39,7 @@ if ( empty( $pixelpost_heading ) && empty( $pixelpost_content ) ) {
 				<div class="absolute -top-3 -right-3 w-12 h-12 rounded-full bg-[#A94F20] dark:bg-[#D4733F] opacity-80 -z-10" aria-hidden="true"></div>
 				<div class="absolute -inset-2 bg-[#F5EAE1] dark:bg-[#2C1F17] rounded -z-10 translate-x-2 translate-y-2" aria-hidden="true"></div>
 
-				<div class="relative rounded overflow-hidden border border-[#E9E6E0] dark:border-[#2E2D29] bg-[#FAF9F6] dark:bg-[#161514] aspect-[4/5] w-full">
+				<div class="relative rounded overflow-hidden border border-[#E9E6E0] dark:border-[#2E2D29] bg-[#FAF9F6] dark:bg-[#161514] aspect-[4/3] w-full">
 					<?php
 					echo pixelpost_render_optimized_image(
 						$pixelpost_image,

@@ -19,7 +19,7 @@ $pixelpost_sticky_class = pixelpost_get_setting( 'pixelpost_header_sticky' ) ? '
 	<?php wp_head(); ?>
 </head>
 
-<body <?php body_class( 'bg-surface font-body-md text-on-surface antialiased' ); ?>>
+<body <?php body_class( 'font-body-md text-on-surface antialiased' ); ?>>
 <?php wp_body_open(); ?>
 
 <a class="screen-reader-text" href="#primary-content"><?php esc_html_e( 'Skip to content', 'pixelpost' ); ?></a>
@@ -46,7 +46,7 @@ $pixelpost_sticky_class = pixelpost_get_setting( 'pixelpost_header_sticky' ) ? '
 	</div>
 </header>
 
-<main id="primary-content" class="w-full pt-20 bg-surface fp-site-main" tabindex="-1">
+<main id="primary-content" class="w-full pt-20 fp-site-main" tabindex="-1">
 	<?php if ( has_header_image() ) : ?>
 		<div class="fp-custom-header w-full overflow-hidden">
 			<?php the_header_image_tag(); ?>

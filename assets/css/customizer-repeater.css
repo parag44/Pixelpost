@@ -1,0 +1,468 @@
+/**
+ * Pixelpost Customizer Repeater Control Styles
+ */
+
+.fp-repeater-control {
+  margin-top: 14px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+}
+
+.fp-repeater-label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  font-size: 13px;
+  color: #1d2327;
+}
+
+.fp-repeater-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+  min-height: 4px;
+}
+
+.fp-repeater-item {
+  background: #ffffff;
+  border: 1px solid #dcdcde;
+  border-radius: 4px;
+  overflow: hidden;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.fp-repeater-item:hover {
+  border-color: #A63F2B;
+}
+
+.fp-repeater-item.fp-drag-over {
+  border-color: #A63F2B;
+  box-shadow: 0 0 0 2px rgba(166, 63, 43, 0.25);
+}
+
+.fp-repeater-item.fp-dragging {
+  opacity: 0.35;
+}
+
+.fp-item-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 10px;
+  background: #f6f7f7;
+  cursor: pointer;
+  user-select: none;
+  min-height: 38px;
+  border-bottom: 1px solid transparent;
+  transition: background 0.15s ease;
+}
+
+.fp-item-header:hover {
+  background: #f0f0f1;
+}
+
+.fp-repeater-item.is-expanded .fp-item-header {
+  border-bottom-color: #dcdcde;
+  background: #f0f0f1;
+}
+
+.fp-drag-handle {
+  cursor: grab;
+  color: #8c8f94;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  padding: 2px;
+}
+
+.fp-drag-handle:hover {
+  color: #A63F2B;
+}
+
+.fp-item-titles {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.fp-item-primary {
+  font-size: 12px;
+  font-weight: 600;
+  color: #1d2327;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+}
+
+.fp-item-subtitle {
+  font-size: 11px;
+  color: #646970;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+  margin-top: 1px;
+}
+
+.fp-item-actions {
+  display: flex;
+  gap: 2px;
+  flex-shrink: 0;
+  align-items: center;
+}
+
+.fp-item-actions button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 3px 5px;
+  border-radius: 3px;
+  color: #646970;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  font-size: 11px;
+  transition: background 0.12s, color 0.12s;
+}
+
+.fp-item-actions button:hover {
+  background: #dcdcde;
+  color: #1d2327;
+}
+
+.fp-item-actions .fp-btn-delete:hover {
+  background: #fcf0f1;
+  color: #d63638;
+}
+
+.fp-item-actions .dashicons {
+  font-size: 14px;
+  width: 14px;
+  height: 14px;
+}
+
+.fp-item-toggle .dashicons {
+  transition: transform 0.2s ease;
+}
+
+.fp-repeater-item.is-expanded .fp-item-toggle .dashicons {
+  transform: rotate(180deg);
+}
+
+.fp-item-body {
+  display: none;
+  padding: 12px;
+  background: #ffffff;
+}
+
+.fp-repeater-item.is-expanded .fp-item-body {
+  display: block;
+}
+
+.fp-field-row {
+  margin-bottom: 12px;
+  display: block;
+}
+
+.fp-field-row:last-child {
+  margin-bottom: 0;
+}
+
+.fp-field-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  color: #50575e;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.fp-field-row input[type="text"],
+.fp-field-row input[type="url"],
+.fp-field-row textarea,
+.fp-field-row select {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #8c8f94;
+  border-radius: 4px;
+  padding: 6px 8px;
+  font-size: 12px;
+  line-height: 1.4;
+  background: #ffffff;
+  color: #2c3338;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.fp-field-row input:focus,
+.fp-field-row textarea:focus,
+.fp-field-row select:focus {
+  border-color: #A63F2B;
+  box-shadow: 0 0 0 1px #A63F2B;
+  outline: none;
+}
+
+.fp-field-row textarea {
+  min-height: 64px;
+  resize: vertical;
+}
+
+.fp-repeater-add {
+  width: 100%;
+  justify-content: center;
+  display: flex !important;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px !important;
+  font-size: 13px !important;
+  border-radius: 4px !important;
+  border: 1px dashed #A63F2B !important;
+  background: #FAF6F3 !important;
+  color: #A63F2B !important;
+  cursor: pointer;
+  font-weight: 500 !important;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.fp-repeater-add:hover {
+  background: #F3EAE4 !important;
+  color: #843020 !important;
+  border-color: #843020 !important;
+}
+
+.fp-repeater-add .dashicons {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+}
+
+/* ==========================================================================
+   Icon Picker Widget Styles (v1.0.1)
+   ========================================================================== */
+
+.fp-icon-picker-widget {
+  position: relative;
+  width: 100%;
+}
+
+.fp-icon-picker-trigger {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 8px;
+  padding: 5px 8px;
+  background: #ffffff;
+  border: 1px solid #8c8f94;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.fp-icon-picker-trigger:hover {
+  border-color: #A63F2B;
+}
+
+.fp-icon-picker-trigger.is-active {
+  border-color: #A63F2B;
+  box-shadow: 0 0 0 1px #A63F2B;
+}
+
+.fp-icon-preview-box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: #FAF6F3;
+  border-radius: 4px;
+  color: #A63F2B;
+  flex-shrink: 0;
+}
+
+.fp-icon-preview-box svg {
+  width: 18px;
+  height: 18px;
+  display: block;
+}
+
+.fp-icon-selected-name {
+  flex: 1;
+  min-width: 0;
+  font-size: 12px;
+  font-weight: 500;
+  color: #1d2327;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fp-icon-picker-arrow {
+  font-size: 14px;
+  width: 14px;
+  height: 14px;
+  color: #646970;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.fp-icon-picker-trigger.is-active .fp-icon-picker-arrow {
+  transform: rotate(180deg);
+}
+
+.fp-icon-picker-popover {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  background: #ffffff;
+  border: 1px solid #dcdcde;
+  border-radius: 6px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.14);
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+.fp-icon-picker-header {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.fp-icon-search-input {
+  width: 100% !important;
+  box-sizing: border-box;
+  border: 1px solid #dcdcde !important;
+  border-radius: 4px !important;
+  padding: 5px 8px !important;
+  font-size: 11px !important;
+  outline: none;
+  background: #fbf9f5 !important;
+}
+
+.fp-icon-search-input:focus {
+  border-color: #A63F2B !important;
+  background: #ffffff !important;
+  box-shadow: 0 0 0 1px #A63F2B !important;
+}
+
+.fp-icon-category-tabs {
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+}
+
+.fp-icon-category-tabs::-webkit-scrollbar {
+  height: 3px;
+}
+
+.fp-icon-category-tabs::-webkit-scrollbar-thumb {
+  background: #dcdcde;
+  border-radius: 2px;
+}
+
+.fp-icon-cat-btn {
+  background: #f0f0f1;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  font-size: 10px;
+  font-weight: 500;
+  color: #50575e;
+  padding: 2px 7px;
+  cursor: pointer;
+  white-space: nowrap;
+  line-height: 1.4;
+  transition: all 0.12s ease;
+}
+
+.fp-icon-cat-btn:hover {
+  background: #dcdcde;
+  color: #1d2327;
+}
+
+.fp-icon-cat-btn.is-active {
+  background: #A63F2B;
+  color: #ffffff;
+  border-color: #A63F2B;
+}
+
+.fp-icon-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+  max-height: 180px;
+  overflow-y: auto;
+  padding-right: 2px;
+}
+
+.fp-icon-grid::-webkit-scrollbar {
+  width: 4px;
+}
+
+.fp-icon-grid::-webkit-scrollbar-thumb {
+  background: #dcdcde;
+  border-radius: 2px;
+}
+
+.fp-icon-option {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 2px;
+  min-height: 48px;
+  background: #fdfdfd;
+  border: 1px solid #e2e4e7;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #2c3338;
+  transition: all 0.12s ease;
+}
+
+.fp-icon-option svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  fill: none;
+  display: block;
+}
+
+.fp-icon-opt-name {
+  font-size: 9px;
+  line-height: 1.2;
+  text-align: center;
+  margin-top: 3px;
+  color: #646970;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+}
+
+.fp-icon-option:hover {
+  background: #FAF6F3;
+  border-color: #A63F2B;
+  color: #A63F2B;
+}
+
+.fp-icon-option:hover .fp-icon-opt-name {
+  color: #A63F2B;
+}
+
+.fp-icon-option.is-selected {
+  background: #FAF6F3;
+  border-color: #A63F2B;
+  color: #A63F2B;
+  box-shadow: 0 0 0 1px #A63F2B;
+}
+
+.fp-icon-option.is-selected .fp-icon-opt-name {
+  color: #A63F2B;
+  font-weight: 600;
+}

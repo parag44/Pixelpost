@@ -1,0 +1,47 @@
+/**
+ * Pixelpost Gutenberg Editor Styles
+ */
+body {
+  background-color: #FCFAF5;
+  color: #20211F;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.editor-styles-wrapper {
+  background-color: #FCFAF5 !important;
+  color: #20211F !important;
+}
+
+.editor-styles-wrapper h1,
+.editor-styles-wrapper h2,
+.editor-styles-wrapper h3,
+.editor-styles-wrapper h4,
+.editor-styles-wrapper h5,
+.editor-styles-wrapper h6 {
+  font-family: "Newsreader", "Playfair Display", "Lora", Georgia, serif;
+  color: #20211F;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+
+.editor-styles-wrapper a {
+  color: #A63F2B;
+}
+
+.editor-styles-wrapper blockquote {
+  border-left: 3px solid #A63F2B;
+  padding-left: 20px;
+  font-family: "Newsreader", "Playfair Display", "Lora", Georgia, serif;
+  font-size: 1.25rem;
+  font-style: italic;
+  color: #20211F;
+}
+
+.editor-styles-wrapper pre,
+.editor-styles-wrapper code {
+  background-color: #F5F0E7;
+  border-color: #E7E0D5;
+  font-family: SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}

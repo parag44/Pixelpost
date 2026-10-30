@@ -235,6 +235,97 @@ function pixelpost_customize_register( $wp_customize ) {
 	);
 
 	/* ==========================================================================
+	   LOGO DIMENSIONS (Site Identity & Header Settings)
+	   ========================================================================== */
+	// Logo Width Setting
+	$wp_customize->add_setting(
+		'pixelpost_logo_width',
+		array(
+			'default'           => pixelpost_get_theme_default( 'pixelpost_logo_width' ),
+			'sanitize_callback' => 'pixelpost_sanitize_dimension',
+			'transport'         => 'postMessage',
+		)
+	);
+	// Control in Site Identity (under Custom Logo uploader)
+	$wp_customize->add_control(
+		'pixelpost_logo_width',
+		array(
+			'label'       => __( 'Logo Width (px)', 'pixelpost' ),
+			'description' => __( 'Maximum width for the custom logo in pixels (leave empty for auto).', 'pixelpost' ),
+			'section'     => 'title_tagline',
+			'priority'    => 8.1,
+			'type'        => 'number',
+			'input_attrs' => array(
+				'min'         => 20,
+				'max'         => 600,
+				'step'        => 1,
+				'placeholder' => 'e.g. 180',
+			),
+		)
+	);
+	// Control also available in Header Settings
+	$wp_customize->add_control(
+		'pixelpost_logo_width_header',
+		array(
+			'label'       => __( 'Logo Width (px)', 'pixelpost' ),
+			'description' => __( 'Maximum width for the custom logo in pixels (leave empty for auto).', 'pixelpost' ),
+			'section'     => 'pixelpost_header_section',
+			'settings'    => 'pixelpost_logo_width',
+			'type'        => 'number',
+			'input_attrs' => array(
+				'min'         => 20,
+				'max'         => 600,
+				'step'        => 1,
+				'placeholder' => 'e.g. 180',
+			),
+		)
+	);
+
+	// Logo Height Setting
+	$wp_customize->add_setting(
+		'pixelpost_logo_height',
+		array(
+			'default'           => pixelpost_get_theme_default( 'pixelpost_logo_height' ),
+			'sanitize_callback' => 'pixelpost_sanitize_dimension',
+			'transport'         => 'postMessage',
+		)
+	);
+	// Control in Site Identity (under Custom Logo uploader)
+	$wp_customize->add_control(
+		'pixelpost_logo_height',
+		array(
+			'label'       => __( 'Logo Height (px)', 'pixelpost' ),
+			'description' => __( 'Maximum height for the custom logo in pixels (default: 44).', 'pixelpost' ),
+			'section'     => 'title_tagline',
+			'priority'    => 8.2,
+			'type'        => 'number',
+			'input_attrs' => array(
+				'min'         => 16,
+				'max'         => 120,
+				'step'        => 1,
+				'placeholder' => 'e.g. 44',
+			),
+		)
+	);
+	// Control also available in Header Settings
+	$wp_customize->add_control(
+		'pixelpost_logo_height_header',
+		array(
+			'label'       => __( 'Logo Height (px)', 'pixelpost' ),
+			'description' => __( 'Maximum height for the custom logo in pixels (default: 44).', 'pixelpost' ),
+			'section'     => 'pixelpost_header_section',
+			'settings'    => 'pixelpost_logo_height',
+			'type'        => 'number',
+			'input_attrs' => array(
+				'min'         => 16,
+				'max'         => 120,
+				'step'        => 1,
+				'placeholder' => 'e.g. 44',
+			),
+		)
+	);
+
+	/* ==========================================================================
 	   SECTION: HOMEPAGE SECTIONS VISIBILITY
 	   ========================================================================== */
 	$wp_customize->add_section(
@@ -1792,6 +1883,17 @@ add_action( 'customize_register', 'pixelpost_customize_register' );
  */
 function pixelpost_sanitize_checkbox( $checked ) {
 	return ( isset( $checked ) && true === (bool) $checked );
+}
+
+/**
+ * Sanitize dimension integer or empty string
+ *
+ * @param mixed $input Input dimension in px.
+ * @return int|string
+ */
+function pixelpost_sanitize_dimension( $input ) {
+	$val = absint( $input );
+	return $val > 0 ? $val : '';
 }
 
 /**

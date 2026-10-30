@@ -338,9 +338,11 @@ function pixelpost_get_theme_default( $key ) {
 		'pixelpost_color_border'                => '#E9E6E0',
 		'pixelpost_container_max_width'         => '1140',
 
-		// Header
+		// Header & Logo
 		'pixelpost_header_sticky'               => true,
 		'pixelpost_header_tagline_show'         => false,
+		'pixelpost_logo_width'                  => '',
+		'pixelpost_logo_height'                 => '44',
 
 		// SEO & Meta Tags
 		'pixelpost_seo_enable'                  => true,

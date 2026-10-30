@@ -314,6 +314,32 @@ function pixelpost_get_customizer_css() {
 	}
 	$css .= "}\n";
 
+	// Custom Logo Dimensions (Width / Height)
+	$logo_width  = get_theme_mod( 'pixelpost_logo_width', pixelpost_get_theme_default( 'pixelpost_logo_width' ) );
+	$logo_height = get_theme_mod( 'pixelpost_logo_height', pixelpost_get_theme_default( 'pixelpost_logo_height' ) );
+
+	if ( ! empty( $logo_width ) || ! empty( $logo_height ) ) {
+		$css .= "\n.custom-logo-link img.custom-logo, .fp-branding .custom-logo, .fp-branding img, .custom-logo {\n";
+		if ( ! empty( $logo_width ) && ! empty( $logo_height ) ) {
+			$css .= "  max-width: " . absint( $logo_width ) . "px !important;\n";
+			$css .= "  max-height: " . absint( $logo_height ) . "px !important;\n";
+			$css .= "  width: 100%;\n";
+			$css .= "  height: auto;\n";
+			$css .= "  object-fit: contain;\n";
+		} elseif ( ! empty( $logo_width ) ) {
+			$css .= "  max-width: " . absint( $logo_width ) . "px !important;\n";
+			$css .= "  width: " . absint( $logo_width ) . "px;\n";
+			$css .= "  height: auto !important;\n";
+			$css .= "  object-fit: contain;\n";
+		} elseif ( ! empty( $logo_height ) ) {
+			$css .= "  max-height: " . absint( $logo_height ) . "px !important;\n";
+			$css .= "  height: " . absint( $logo_height ) . "px;\n";
+			$css .= "  width: auto !important;\n";
+			$css .= "  object-fit: contain;\n";
+		}
+		$css .= "}\n";
+	}
+
 	return $css;
 }
 

@@ -24,6 +24,43 @@
     });
   });
 
+  // Custom Logo Dimensions
+  api('pixelpost_logo_width', function(value) {
+    value.bind(function(to) {
+      var $logo = $('.custom-logo-link img.custom-logo, .fp-branding .custom-logo, .fp-branding img, .custom-logo');
+      var val = parseInt(to, 10);
+      if (val > 0) {
+        $logo.css({
+          'max-width': val + 'px',
+          'width': val + 'px'
+        });
+      } else {
+        $logo.css({
+          'max-width': '',
+          'width': ''
+        });
+      }
+    });
+  });
+
+  api('pixelpost_logo_height', function(value) {
+    value.bind(function(to) {
+      var $logo = $('.custom-logo-link img.custom-logo, .fp-branding .custom-logo, .fp-branding img, .custom-logo');
+      var val = parseInt(to, 10);
+      if (val > 0) {
+        $logo.css({
+          'max-height': val + 'px',
+          'height': val + 'px'
+        });
+      } else {
+        $logo.css({
+          'max-height': '',
+          'height': ''
+        });
+      }
+    });
+  });
+
   // Hero Section
   api('pixelpost_hero_eyebrow', function(value) {
     value.bind(function(to) {

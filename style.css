@@ -4,7 +4,7 @@ Theme URI: https://parag.bd/
 Author: Parag Das
 Author URI: https://profiles.wordpress.org/parag44/
 Description: A minimal editorial WordPress theme for portfolios, personal websites, and blogs. Designed for WordPress developers, technical support engineers, consultants, and technical writers.
-Version: 2.0.3
+Version: 2.0.4
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 7.4
@@ -535,6 +535,29 @@ body.dark .fp-site-header {
   display: flex;
   align-items: center;
   gap: var(--fp-space-sm);
+}
+
+.custom-logo-link {
+  display: inline-flex;
+  align-items: center;
+  line-height: 0;
+}
+
+.custom-logo-link img.custom-logo,
+.fp-branding .custom-logo,
+.fp-branding img {
+  height: auto;
+  max-height: 44px;
+  max-width: 240px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+  transition: opacity 0.2s ease;
+}
+
+.custom-logo-link:hover img.custom-logo,
+.fp-branding a:hover img {
+  opacity: 0.85;
 }
 
 .fp-monogram-badge {

@@ -25,15 +25,9 @@
       nav.removeAttribute('aria-hidden');
       if (toggleButton) {
         toggleButton.setAttribute('aria-expanded', 'true');
+        toggleButton.setAttribute('aria-label', 'Close navigation menu');
       }
       document.body.classList.add('pixelpost-menu-open');
-
-      // Put focus on the close button per Theme Review requirements
-      if (closeButton) {
-        setTimeout(function() {
-          closeButton.focus();
-        }, 50);
-      }
     }
 
     function closeMobileMenu(returnFocus) {
@@ -47,6 +41,7 @@
       }
       if (toggleButton) {
         toggleButton.setAttribute('aria-expanded', 'false');
+        toggleButton.setAttribute('aria-label', 'Open navigation menu');
         if (returnFocus) {
           toggleButton.focus();
         }
@@ -102,27 +97,25 @@
         }
 
         if (event.key === 'Tab') {
-          var focusables = getFocusableElements(nav);
+          var navFocusables = getFocusableElements(nav);
+          var focusables = toggleButton ? [toggleButton].concat(navFocusables) : navFocusables;
           if (focusables.length === 0) return;
 
-          var firstElement = focusables[0]; // Close button is the first element
-          var lastElement  = focusables[focusables.length - 1]; // Last visible element
+          var firstElement = focusables[0];
+          var lastElement  = focusables[focusables.length - 1];
 
-          // If focus is currently outside nav, bring it to firstElement
-          if (!nav.contains(document.activeElement)) {
+          if (!nav.contains(document.activeElement) && document.activeElement !== toggleButton) {
             event.preventDefault();
             firstElement.focus();
             return;
           }
 
           if (event.shiftKey) {
-            // Shift + Tab (backwards): If on close button, wrap to last menu element
             if (document.activeElement === firstElement) {
               event.preventDefault();
               lastElement.focus();
             }
           } else {
-            // Tab (forwards): If on last element, wrap to close button
             if (document.activeElement === lastElement) {
               event.preventDefault();
               firstElement.focus();

@@ -38,8 +38,9 @@ $pixelpost_sticky_class = pixelpost_get_setting( 'pixelpost_header_sticky' ) ? '
 					<span><?php esc_html_e( "Let's Talk", "pixelpost" ); ?></span>
 					<?php echo pixelpost_get_icon( 'arrow_forward', array( 'width' => 14, 'height' => 14 ) ); ?>
 				</a>
-				<button class="pixelpost-menu-toggle fp-menu-toggle lg:hidden p-1.5 text-on-surface-variant hover:text-on-surface" aria-controls="site-navigation" aria-expanded="false" aria-label="<?php esc_attr_e( 'Open navigation menu', 'pixelpost' ); ?>">
-					<?php echo pixelpost_get_icon( 'menu', array( 'width' => 22, 'height' => 22 ) ); ?>
+				<button class="pixelpost-menu-toggle fp-menu-toggle lg:hidden p-1.5 text-on-surface-variant hover:text-on-surface flex items-center justify-center transition-all" aria-controls="site-navigation" aria-expanded="false" aria-label="<?php esc_attr_e( 'Open navigation menu', 'pixelpost' ); ?>">
+					<span class="fp-menu-icon-open"><?php echo pixelpost_get_icon( 'menu', array( 'width' => 22, 'height' => 22 ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+					<span class="fp-menu-icon-close hidden"><?php echo pixelpost_get_icon( 'close', array( 'width' => 22, 'height' => 22 ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
 				</button>
 			</div>
 		</div>

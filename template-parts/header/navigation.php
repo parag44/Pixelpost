@@ -11,12 +11,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 ?>
 <nav id="site-navigation" class="lg:flex items-center gap-6 fp-main-navigation" aria-label="<?php esc_attr_e( 'Primary Menu', 'pixelpost' ); ?>" data-pixelpost-customize="navigation" data-pixelpost-label="<?php esc_attr_e( 'Navigation Menu', 'pixelpost' ); ?>">
-	<div class="pixelpost-mobile-nav-header lg:hidden flex items-center justify-end pb-3 mb-4 border-b border-[#E9E6E0] dark:border-[#2E2D29]">
-		<button class="pixelpost-menu-close p-2 text-on-surface-variant hover:text-on-surface" aria-label="<?php esc_attr_e( 'Close navigation menu', 'pixelpost' ); ?>">
-			<?php echo pixelpost_get_icon( 'close', array( 'width' => 20, 'height' => 20 ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-			<span class="screen-reader-text"><?php esc_html_e( 'Close navigation menu', 'pixelpost' ); ?></span>
-		</button>
-	</div>
 	<?php
 	if ( has_nav_menu( 'primary' ) ) :
 		wp_nav_menu(

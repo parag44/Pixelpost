@@ -11,12 +11,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 ?>
 <nav id="site-navigation" class="lg:flex items-center gap-6 fp-main-navigation" aria-label="<?php esc_attr_e( 'Primary Menu', 'pixelpost' ); ?>" data-pixelpost-customize="navigation" data-pixelpost-label="<?php esc_attr_e( 'Navigation Menu', 'pixelpost' ); ?>">
-	<div class="pixelpost-mobile-nav-header lg:hidden flex items-center justify-between pb-4 mb-4 border-b border-[#E9E6E0] dark:border-[#2E2D29]">
-		<div class="flex items-center gap-2">
-			<span class="font-serif font-bold text-xl text-primary">P</span>
-			<span class="font-serif font-bold text-lg text-on-surface"><?php bloginfo( 'name' ); ?></span>
-		</div>
-		<button class="pixelpost-menu-close p-1 text-on-surface-variant hover:text-on-surface" aria-label="<?php esc_attr_e( 'Close navigation menu', 'pixelpost' ); ?>">
+	<div class="pixelpost-mobile-nav-header lg:hidden flex items-center justify-end pb-3 mb-4 border-b border-[#E9E6E0] dark:border-[#2E2D29]">
+		<button class="pixelpost-menu-close p-2 text-on-surface-variant hover:text-on-surface" aria-label="<?php esc_attr_e( 'Close navigation menu', 'pixelpost' ); ?>">
 			<?php echo pixelpost_get_icon( 'close', array( 'width' => 20, 'height' => 20 ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 			<span class="screen-reader-text"><?php esc_html_e( 'Close navigation menu', 'pixelpost' ); ?></span>
 		</button>
@@ -46,9 +42,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	endif;
 	?>
 	<div class="lg:hidden mt-6 pt-6 border-t border-[#E9E6E0] dark:border-[#2E2D29] flex flex-col gap-3 w-full">
-		<a href="<?php echo esc_url( home_url( '/#contact' ) ); ?>" class="inline-flex items-center justify-center gap-2 w-full py-2.5 rounded bg-primary text-on-primary font-medium text-sm">
-			<span><?php esc_html_e( "Let's Talk", "pixelpost" ); ?></span>
-			<?php echo pixelpost_get_icon( 'arrow_forward', array( 'width' => 14, 'height' => 14 ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+		<a href="<?php echo esc_url( home_url( '/#contact' ) ); ?>" class="fp-mobile-talk-btn inline-flex items-center justify-center gap-2 w-full py-3.5 px-5 rounded-md bg-[#A94F20] hover:bg-[#8C3E16] text-white font-semibold text-sm transition-all shadow-sm">
+			<span class="text-white font-semibold"><?php esc_html_e( "Let's Talk", "pixelpost" ); ?></span>
+			<?php echo pixelpost_get_icon( 'arrow_forward', array( 'width' => 16, 'height' => 16, 'class' => 'text-white' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 		</a>
 	</div>
 </nav>

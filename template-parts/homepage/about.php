@@ -33,11 +33,11 @@ if ( empty( $pixelpost_heading ) && empty( $pixelpost_content ) ) {
 	return;
 }
 ?>
-<section id="about" class="w-full max-w-[1140px] mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-24 border-b border-[#E9E6E0] dark:border-[#2E2D29] fp-about-section" aria-label="<?php esc_attr_e( 'About Me', 'pixelpost' ); ?>" data-pixelpost-customize="about" data-pixelpost-label="<?php esc_attr_e( 'About Me Section', 'pixelpost' ); ?>">
-	<div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+<section id="about" class="w-full max-w-[1140px] mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24 border-b border-[#E9E6E0] dark:border-[#2E2D29] fp-about-section overflow-hidden" aria-label="<?php esc_attr_e( 'About Me', 'pixelpost' ); ?>" data-pixelpost-customize="about" data-pixelpost-label="<?php esc_attr_e( 'About Me Section', 'pixelpost' ); ?>">
+	<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-14 items-center">
 		<!-- Left: Portrait with subtle offset composition -->
 		<div class="lg:col-span-5 flex justify-center lg:justify-start fp-about-image-col">
-			<div class="relative w-full max-w-[360px] fp-about-img-box">
+			<div class="relative w-full max-w-[280px] sm:max-w-[340px] lg:max-w-[360px] fp-about-img-box">
 				<!-- Decorative terracotta circular accent in top-right -->
 				<div class="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-[#A94F20] dark:bg-[#D4733F] z-10 shadow-sm" aria-hidden="true"></div>
 				<!-- Offset warm background frame -->
@@ -83,7 +83,7 @@ if ( empty( $pixelpost_heading ) && empty( $pixelpost_content ) ) {
 			<?php endif; ?>
 
 			<!-- 3 Key Attributes -->
-			<div class="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-6 border-t border-[#E9E6E0] dark:border-[#2E2D29] fp-about-attributes">
+			<div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 pt-6 border-t border-[#E9E6E0] dark:border-[#2E2D29] fp-about-attributes">
 				<?php
 				$default_attrs = array(
 					array(
@@ -121,14 +121,16 @@ if ( empty( $pixelpost_heading ) && empty( $pixelpost_content ) ) {
 					);
 					$a_icon = isset( $attr_map[ $raw_icon ] ) ? $attr_map[ $raw_icon ] : $raw_icon;
 				?>
-					<div class="flex flex-col items-start fp-about-attr-item">
-						<div class="text-primary mb-2.5">
-							<?php echo pixelpost_get_icon( $a_icon, array( 'width' => 22, 'height' => 22, 'class' => 'w-5.5 h-5.5 text-primary flex-shrink-0' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+					<div class="flex flex-row sm:flex-col items-start gap-3.5 sm:gap-0 p-3 sm:p-0 rounded-lg sm:rounded-none bg-[#F5EAE1]/50 dark:bg-[#2C1F17]/50 sm:bg-transparent dark:sm:bg-transparent border border-[#E9E6E0]/60 dark:border-[#2E2D29]/60 sm:border-0 fp-about-attr-item">
+						<div class="w-10 h-10 sm:w-auto sm:h-auto rounded-md sm:rounded-none bg-[#F5EAE1] dark:bg-[#2C1F17] sm:bg-transparent dark:sm:bg-transparent flex items-center justify-center sm:block text-primary flex-shrink-0 sm:mb-2.5">
+							<?php echo pixelpost_get_icon( $a_icon, array( 'width' => 20, 'height' => 20, 'class' => 'w-5 h-5 text-primary flex-shrink-0' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 						</div>
-						<h3 class="font-bold text-base text-on-surface mb-1"><?php echo esc_html( $a_title ); ?></h3>
-						<?php if ( ! empty( $a_desc ) ) : ?>
-							<p class="text-xs sm:text-[13px] text-on-surface-variant leading-relaxed"><?php echo esc_html( $a_desc ); ?></p>
-						<?php endif; ?>
+						<div class="flex-1 min-w-0">
+							<h3 class="font-bold text-base text-on-surface mb-0.5 sm:mb-1"><?php echo esc_html( $a_title ); ?></h3>
+							<?php if ( ! empty( $a_desc ) ) : ?>
+								<p class="text-xs sm:text-[13px] text-on-surface-variant leading-relaxed"><?php echo esc_html( $a_desc ); ?></p>
+							<?php endif; ?>
+						</div>
 					</div>
 				<?php endforeach; ?>
 			</div>

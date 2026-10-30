@@ -1,109 +1,341 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 375" width="600" height="375">
-  <rect width="600" height="375" fill="#16181D"/>
-  <!-- Window Header -->
-  <rect width="600" height="36" fill="#1F232B"/>
-  <circle cx="20" cy="18" r="5" fill="#EF4444"/>
-  <circle cx="36" cy="18" r="5" fill="#F59E0B"/>
-  <circle cx="52" cy="18" r="5" fill="#10B981"/>
-  <text x="80" y="22" fill="#E2E8F0" font-family="monospace, sans-serif" font-size="12" font-weight="bold">SiteIntelix — Developer &amp; Admin Toolkit v2.8</text>
-  <rect x="470" y="8" width="110" height="20" rx="3" fill="#10B981" fill-opacity="0.2" stroke="#10B981" stroke-width="1"/>
-  <text x="483" y="22" fill="#34D399" font-family="monospace, sans-serif" font-size="10" font-weight="bold">SYSTEM HEALTHY</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 640" width="1024" height="640">
+  <defs>
+    <filter id="card-shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="1" stdDeviation="2" flood-color="#000000" flood-opacity="0.05" />
+    </filter>
+  </defs>
 
-  <!-- Metric Badges Row -->
-  <g transform="translate(20, 48)">
-    <rect x="0" y="0" width="132" height="44" rx="4" fill="#222630" stroke="#2D3342" stroke-width="1"/>
-    <text x="10" y="18" fill="#94A3B8" font-family="sans-serif" font-size="9" font-weight="bold">PHP / ENVIRONMENT</text>
-    <text x="10" y="35" fill="#F8FAFC" font-family="monospace, sans-serif" font-size="13" font-weight="bold">PHP 8.2.14 · WP 6.7</text>
+  <!-- Background Base (WP Admin Canvas) -->
+  <rect width="1024" height="640" fill="#F0F0F1"/>
 
-    <rect x="142" y="0" width="132" height="44" rx="4" fill="#222630" stroke="#2D3342" stroke-width="1"/>
-    <text x="152" y="18" fill="#94A3B8" font-family="sans-serif" font-size="9" font-weight="bold">MEMORY CONSUMPTION</text>
-    <text x="152" y="35" fill="#38BDF8" font-family="monospace, sans-serif" font-size="13" font-weight="bold">42.8 MB / 256 MB</text>
+  <!-- Top WP Admin Bar (32px high) -->
+  <rect width="1024" height="32" fill="#1D2327"/>
+  <!-- WP Logo -->
+  <circle cx="18" cy="16" r="8" fill="#FFFFFF" fill-opacity="0.15"/>
+  <text x="14" y="20" fill="#FFFFFF" font-family="Georgia, serif" font-size="11" font-weight="bold">W</text>
+  <text x="34" y="20" fill="#C3C4C7" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="500">Parag Das</text>
+  <text x="108" y="20" fill="#A7AAAD" font-family="sans-serif" font-size="11">💬 0</text>
+  <text x="142" y="20" fill="#A7AAAD" font-family="sans-serif" font-size="11">+ New</text>
+  <text x="196" y="20" fill="#72AEE6" font-family="sans-serif" font-size="11" font-weight="bold">⚡ SiteIntelix</text>
 
-    <rect x="284" y="0" width="132" height="44" rx="4" fill="#222630" stroke="#2D3342" stroke-width="1"/>
-    <text x="294" y="18" fill="#94A3B8" font-family="sans-serif" font-size="9" font-weight="bold">DATABASE STATUS</text>
-    <text x="294" y="35" fill="#34D399" font-family="monospace, sans-serif" font-size="13" font-weight="bold">MySQL 8.0 · 32 Tbls</text>
+  <!-- Howdy, admin -->
+  <text x="920" y="20" fill="#C3C4C7" font-family="sans-serif" font-size="11">Howdy, admin</text>
+  <circle cx="998" cy="16" r="8" fill="#475569"/>
 
-    <rect x="426" y="0" width="134" height="44" rx="4" fill="#222630" stroke="#2D3342" stroke-width="1"/>
-    <text x="436" y="18" fill="#94A3B8" font-family="sans-serif" font-size="9" font-weight="bold">ACTIVE MODULES</text>
-    <text x="436" y="35" fill="#FB923C" font-family="monospace, sans-serif" font-size="13" font-weight="bold">FileManager + Diag</text>
+  <!-- Left WP Admin Sidebar (width: 140px) -->
+  <rect x="0" y="32" width="140" height="608" fill="#1D2327"/>
+
+  <!-- Sidebar menu items -->
+  <g font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" fill="#C3C4C7">
+    <!-- Standard WP items -->
+    <text x="16" y="58">Dashboard</text>
+    <text x="16" y="84">Posts</text>
+    <text x="16" y="110">Media</text>
+    <text x="16" y="136">Pages</text>
+    <text x="16" y="162">Comments</text>
+    <text x="16" y="188">Appearance</text>
+    <text x="16" y="214">Plugins <tspan fill="#FFFFFF" font-weight="bold">[7]</tspan></text>
+    <text x="16" y="240">Users</text>
+    <text x="16" y="266">Tools</text>
+    <text x="16" y="292">Settings</text>
+
+    <!-- Active Menu: SiteIntelix -->
+    <rect x="0" y="306" width="140" height="30" fill="#2271B1"/>
+    <text x="16" y="326" fill="#FFFFFF" font-weight="bold">⚡ SiteIntelix</text>
+
+    <!-- Submenu Under SiteIntelix -->
+    <rect x="0" y="336" width="140" height="270" fill="#13171A"/>
+    <text x="24" y="354" fill="#FFFFFF" font-weight="bold">Overview</text>
+    <text x="24" y="374" fill="#A7AAAD">Modules</text>
+    <text x="24" y="394" fill="#A7AAAD">Debug Log</text>
+    <text x="24" y="414" fill="#A7AAAD">Email Log</text>
+    <text x="24" y="434" fill="#A7AAAD">Cron Events</text>
+    <text x="24" y="454" fill="#A7AAAD">Database Mgr</text>
+    <text x="24" y="474" fill="#A7AAAD">File Manager</text>
+    <text x="24" y="494" fill="#A7AAAD">Version Switcher</text>
+    <text x="24" y="514" fill="#A7AAAD">Transients</text>
+    <text x="24" y="534" fill="#A7AAAD">Code Snippets</text>
+    <text x="24" y="554" fill="#A7AAAD">Diagnostics</text>
+    <text x="24" y="574" fill="#A7AAAD">Settings</text>
+    <text x="24" y="596" fill="#787C82">⮜ Collapse</text>
   </g>
 
-  <!-- Left Sidebar & Main Diagnostics View -->
-  <!-- Left Navigation Menu -->
-  <g transform="translate(20, 102)">
-    <rect width="120" height="225" rx="4" fill="#1B1E26" stroke="#282D3A" stroke-width="1"/>
-    <rect x="6" y="8" width="108" height="24" rx="3" fill="#A94F20"/>
-    <text x="16" y="24" fill="#FFFFFF" font-family="sans-serif" font-size="11" font-weight="bold">File Manager</text>
+  <!-- ========================================================
+       MAIN DASHBOARD AREA (X: 140 to 1024, Y: 32 to 640)
+       ======================================================== -->
+  <g transform="translate(156, 44)">
 
-    <text x="16" y="54" fill="#94A3B8" font-family="sans-serif" font-size="11">System Health</text>
-    <text x="16" y="82" fill="#94A3B8" font-family="sans-serif" font-size="11">DB Optimizer</text>
-    <text x="16" y="110" fill="#94A3B8" font-family="sans-serif" font-size="11">Code Snippets</text>
-    <text x="16" y="138" fill="#94A3B8" font-family="sans-serif" font-size="11">PHP Info / Logs</text>
-    <text x="16" y="166" fill="#94A3B8" font-family="sans-serif" font-size="11">Maintenance</text>
+    <!-- 1. Header Card (Width: 852px, Height: 54px) -->
+    <g filter="url(#card-shadow)">
+      <rect width="852" height="54" rx="6" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1"/>
+      <!-- Blue App Icon -->
+      <rect x="14" y="11" width="32" height="32" rx="6" fill="#EFF6FF"/>
+      <!-- Mini chart icon -->
+      <path d="M22,33 L26,27 L30,30 L36,21" stroke="#2563EB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <!-- App Name & Subtitle -->
+      <text x="54" y="27" fill="#0F172A" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="15" font-weight="bold">SiteIntelix</text>
+      <text x="54" y="41" fill="#64748B" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10.5">WordPress diagnostics and site utilities</text>
 
-    <rect x="10" y="188" width="100" height="24" rx="3" fill="#222630" stroke="#3E444E" stroke-width="1"/>
-    <text x="18" y="204" fill="#E2E8F0" font-family="monospace, sans-serif" font-size="9">+ Export Report</text>
+      <!-- Right Version & Active Modules Pills -->
+      <g transform="translate(650, 16)">
+        <!-- v2.8.2 pill -->
+        <rect x="0" y="0" width="58" height="22" rx="11" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
+        <text x="13" y="15" fill="#64748B" font-family="monospace, sans-serif" font-size="9.5" font-weight="bold">v2.8.2</text>
+
+        <!-- 14 Active Modules button -->
+        <rect x="66" y="0" width="122" height="22" rx="4" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
+        <text x="76" y="15" fill="#2563EB" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="bold">⊞ 14 Active Modules</text>
+      </g>
+    </g>
+
+    <!-- 2. Top 6 Metric Cards Row (Y: 66, Height: 72px) -->
+    <g transform="translate(0, 66)">
+      <!-- Card 1: PHP Version -->
+      <g transform="translate(0, 0)" filter="url(#card-shadow)">
+        <rect width="134" height="72" rx="6" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1"/>
+        <rect x="0" y="69" width="134" height="3" fill="#10B981" rx="1.5"/>
+        <text x="12" y="20" fill="#0284C7" font-family="monospace, sans-serif" font-size="10">&lt;&gt;</text>
+        <text x="28" y="20" fill="#64748B" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9.5" font-weight="500">PHP Version</text>
+        <text x="12" y="42" fill="#0F172A" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="bold">8.2.30</text>
+        <circle cx="16" cy="56" r="3" fill="#10B981"/>
+        <text x="24" y="59" fill="#059669" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="bold">Healthy</text>
+      </g>
+
+      <!-- Card 2: Memory Limit -->
+      <g transform="translate(144, 0)" filter="url(#card-shadow)">
+        <rect width="134" height="72" rx="6" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1"/>
+        <rect x="0" y="69" width="134" height="3" fill="#10B981" rx="1.5"/>
+        <text x="12" y="20" fill="#059669" font-family="sans-serif" font-size="10">▤</text>
+        <text x="28" y="20" fill="#64748B" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9.5" font-weight="500">Memory Limit</text>
+        <text x="12" y="42" fill="#0F172A" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="bold">256 MB</text>
+        <circle cx="16" cy="56" r="3" fill="#10B981"/>
+        <text x="24" y="59" fill="#059669" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="bold">Healthy</text>
+      </g>
+
+      <!-- Card 3: Debug Mode -->
+      <g transform="translate(288, 0)" filter="url(#card-shadow)">
+        <rect width="134" height="72" rx="6" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1"/>
+        <rect x="0" y="69" width="134" height="3" fill="#F59E0B" rx="1.5"/>
+        <circle cx="16" cy="17" r="5" fill="#FEF3C7"/>
+        <text x="14" y="20" fill="#D97706" font-family="sans-serif" font-size="8" font-weight="bold">!</text>
+        <text x="28" y="20" fill="#64748B" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9.5" font-weight="500">Debug Mode</text>
+        <text x="12" y="42" fill="#0F172A" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="bold">Enabled</text>
+        <circle cx="16" cy="56" r="3" fill="#F59E0B"/>
+        <text x="24" y="59" fill="#D97706" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="bold">Warning</text>
+      </g>
+
+      <!-- Card 4: HTTPS -->
+      <g transform="translate(432, 0)" filter="url(#card-shadow)">
+        <rect width="134" height="72" rx="6" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1"/>
+        <rect x="0" y="69" width="134" height="3" fill="#10B981" rx="1.5"/>
+        <text x="12" y="20" fill="#059669" font-family="sans-serif" font-size="10">🔒</text>
+        <text x="28" y="20" fill="#64748B" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9.5" font-weight="500">HTTPS</text>
+        <text x="12" y="42" fill="#0F172A" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="bold">Enabled</text>
+        <circle cx="16" cy="56" r="3" fill="#10B981"/>
+        <text x="24" y="59" fill="#059669" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="bold">Healthy</text>
+      </g>
+
+      <!-- Card 5: REST API -->
+      <g transform="translate(576, 0)" filter="url(#card-shadow)">
+        <rect width="134" height="72" rx="6" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1"/>
+        <rect x="0" y="69" width="134" height="3" fill="#F59E0B" rx="1.5"/>
+        <text x="12" y="20" fill="#64748B" font-family="sans-serif" font-size="10">↻</text>
+        <text x="28" y="20" fill="#64748B" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9.5" font-weight="500">REST API</text>
+        <text x="12" y="42" fill="#0F172A" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="bold">Not checked</text>
+        <circle cx="16" cy="56" r="3" fill="#F59E0B"/>
+        <text x="24" y="59" fill="#D97706" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="bold">Warning</text>
+      </g>
+
+      <!-- Card 6: WP Cron -->
+      <g transform="translate(718, 0)" filter="url(#card-shadow)">
+        <rect width="134" height="72" rx="6" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1"/>
+        <rect x="0" y="69" width="134" height="3" fill="#10B981" rx="1.5"/>
+        <text x="12" y="20" fill="#059669" font-family="sans-serif" font-size="10">⏱</text>
+        <text x="28" y="20" fill="#64748B" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9.5" font-weight="500">WP Cron</text>
+        <text x="12" y="42" fill="#0F172A" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="bold">Enabled</text>
+        <circle cx="16" cy="56" r="3" fill="#10B981"/>
+        <text x="24" y="59" fill="#059669" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="bold">Healthy</text>
+      </g>
+    </g>
+
+    <!-- 3. Two Main Section Cards Below (Y: 148) -->
+    <!-- LEFT: System Overview (Width: 418px, Height: 436px) -->
+    <g transform="translate(0, 148)" filter="url(#card-shadow)">
+      <rect width="418" height="436" rx="6" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1"/>
+      <!-- Header -->
+      <rect x="16" y="16" width="16" height="16" rx="3" fill="#3B82F6"/>
+      <text x="40" y="29" fill="#0F172A" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="bold">System Overview</text>
+      <rect x="350" y="16" width="54" height="18" rx="3" fill="#FEF3C7"/>
+      <text x="358" y="29" fill="#B45309" font-family="sans-serif" font-size="8.5" font-weight="bold">Warning</text>
+      <line x1="16" y1="46" x2="402" y2="46" stroke="#F1F5F9" stroke-width="1"/>
+
+      <!-- Table Rows (Font 10.5, Key grey, Value dark) -->
+      <g font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10.5">
+        <!-- Row 1 -->
+        <g transform="translate(16, 68)">
+          <text fill="#64748B">Site Title</text>
+          <text x="190" fill="#0F172A" font-weight="500">Parag Das</text>
+          <line x1="0" y1="14" x2="386" y2="14" stroke="#F8FAFC" stroke-width="1"/>
+        </g>
+        <!-- Row 2 -->
+        <g transform="translate(16, 98)">
+          <text fill="#64748B">Site URL</text>
+          <text x="190" fill="#2563EB" font-weight="500">https://test.wp ↗</text>
+          <line x1="0" y1="14" x2="386" y2="14" stroke="#F8FAFC" stroke-width="1"/>
+        </g>
+        <!-- Row 3 -->
+        <g transform="translate(16, 128)">
+          <text fill="#64748B">WordPress Version</text>
+          <text x="190" fill="#0F172A" font-weight="500">7.1.4</text>
+          <line x1="0" y1="14" x2="386" y2="14" stroke="#F8FAFC" stroke-width="1"/>
+        </g>
+        <!-- Row 4 -->
+        <g transform="translate(16, 158)">
+          <text fill="#64748B">Active Theme</text>
+          <text x="190" fill="#0F172A" font-weight="500">Pixelpost 1.0.0</text>
+          <line x1="0" y1="14" x2="386" y2="14" stroke="#F8FAFC" stroke-width="1"/>
+        </g>
+        <!-- Row 5 -->
+        <g transform="translate(16, 188)">
+          <text fill="#64748B">PHP Version</text>
+          <text x="190" fill="#0F172A" font-weight="500">8.2.30</text>
+          <line x1="0" y1="14" x2="386" y2="14" stroke="#F8FAFC" stroke-width="1"/>
+        </g>
+        <!-- Row 6 -->
+        <g transform="translate(16, 218)">
+          <text fill="#64748B">MySQL Version</text>
+          <text x="190" fill="#0F172A" font-weight="500">8.4.0</text>
+          <line x1="0" y1="14" x2="386" y2="14" stroke="#F8FAFC" stroke-width="1"/>
+        </g>
+        <!-- Row 7 -->
+        <g transform="translate(16, 248)">
+          <text fill="#64748B">Memory Limit</text>
+          <text x="190" fill="#0F172A" font-weight="500">256M</text>
+          <line x1="0" y1="14" x2="386" y2="14" stroke="#F8FAFC" stroke-width="1"/>
+        </g>
+        <!-- Row 8 -->
+        <g transform="translate(16, 278)">
+          <text fill="#64748B">HTTPS</text>
+          <circle cx="194" cy="-3" r="3" fill="#10B981"/>
+          <text x="202" fill="#059669" font-weight="bold">Enabled</text>
+          <line x1="0" y1="14" x2="386" y2="14" stroke="#F8FAFC" stroke-width="1"/>
+        </g>
+        <!-- Row 9 -->
+        <g transform="translate(16, 308)">
+          <text fill="#64748B">WP Cron</text>
+          <circle cx="194" cy="-3" r="3" fill="#10B981"/>
+          <text x="202" fill="#059669" font-weight="bold">Enabled</text>
+          <line x1="0" y1="14" x2="386" y2="14" stroke="#F8FAFC" stroke-width="1"/>
+        </g>
+        <!-- Row 10 -->
+        <g transform="translate(16, 338)">
+          <text fill="#64748B">Debug Mode</text>
+          <circle cx="194" cy="-3" r="4" fill="#FEF3C7"/>
+          <text x="192" cy="-3" y="0" fill="#D97706" font-size="7" font-weight="bold">!</text>
+          <text x="202" fill="#D97706" font-weight="bold">Enabled</text>
+        </g>
+      </g>
+
+      <!-- Bottom Action Buttons -->
+      <g transform="translate(142, 386)">
+        <rect x="0" y="0" width="114" height="32" rx="4" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1"/>
+        <text x="16" y="20" fill="#334155" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="500">⎘ Copy report</text>
+
+        <rect x="124" y="0" width="126" height="32" rx="4" fill="#2271B1"/>
+        <text x="142" y="20" fill="#FFFFFF" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="bold">⤓ Export JSON</text>
+      </g>
+    </g>
+
+    <!-- RIGHT: Active Modules (Width: 424px, Height: 436px) -->
+    <g transform="translate(428, 148)" filter="url(#card-shadow)">
+      <rect width="424" height="436" rx="6" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1"/>
+      <!-- Header -->
+      <circle cx="24" cy="24" r="8" fill="#EFF6FF"/>
+      <path d="M20,27 L25,20 L27,24 L30,17" stroke="#2563EB" stroke-width="1.5" fill="none"/>
+      <text x="38" y="28" fill="#0F172A" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="bold">Active Modules</text>
+
+      <!-- Filter Buttons & Search Input -->
+      <g transform="translate(16, 46)">
+        <!-- All modules button -->
+        <rect x="0" y="0" width="74" height="22" rx="11" fill="#2563EB"/>
+        <text x="12" y="15" fill="#FFFFFF" font-family="sans-serif" font-size="9" font-weight="bold">All modules</text>
+
+        <!-- Enabled button -->
+        <rect x="80" y="0" width="62" height="22" rx="11" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
+        <circle cx="88" cy="11" r="2.5" fill="#10B981"/>
+        <text x="96" y="14" fill="#64748B" font-family="sans-serif" font-size="9">Enabled</text>
+
+        <!-- Disabled button -->
+        <rect x="148" y="0" width="64" height="22" rx="11" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
+        <circle cx="156" cy="11" r="2.5" fill="#94A3B8"/>
+        <text x="164" y="14" fill="#64748B" font-family="sans-serif" font-size="9">Disabled</text>
+
+        <!-- Search Bar -->
+        <rect x="222" y="0" width="170" height="22" rx="4" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1"/>
+        <text x="232" y="15" fill="#94A3B8" font-family="sans-serif" font-size="9">🔍 Search modules...</text>
+      </g>
+
+      <!-- Module List Items -->
+      <!-- Item 1: Debug Log -->
+      <g transform="translate(16, 80)">
+        <rect width="392" height="56" rx="5" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1"/>
+        <rect x="12" y="13" width="28" height="28" rx="4" fill="#EFF6FF"/>
+        <text x="20" y="31" fill="#2563EB" font-family="sans-serif" font-size="14">📄</text>
+        <text x="48" y="26" fill="#0F172A" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="bold">Debug Log</text>
+        <text x="48" y="40" fill="#64748B" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9">Search, filter, group, clear, and download WordPress debug logs.</text>
+        <!-- Toggle Switch (Active Blue) -->
+        <rect x="348" y="18" width="32" height="18" rx="9" fill="#2563EB"/>
+        <circle cx="369" cy="27" r="7" fill="#FFFFFF"/>
+      </g>
+
+      <!-- Item 2: Email Log -->
+      <g transform="translate(16, 144)">
+        <rect width="392" height="56" rx="5" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1"/>
+        <rect x="12" y="13" width="28" height="28" rx="4" fill="#FFF7ED"/>
+        <text x="19" y="31" fill="#EA580C" font-family="sans-serif" font-size="13">✉</text>
+        <text x="48" y="26" fill="#0F172A" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="bold">Email Log</text>
+        <text x="48" y="40" fill="#64748B" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9">Track outgoing WordPress emails, delivery events, recipients, and failures.</text>
+        <!-- Toggle Switch (Active Blue) -->
+        <rect x="348" y="18" width="32" height="18" rx="9" fill="#2563EB"/>
+        <circle cx="369" cy="27" r="7" fill="#FFFFFF"/>
+      </g>
+
+      <!-- Item 3: SMTP -->
+      <g transform="translate(16, 208)">
+        <rect width="392" height="56" rx="5" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1"/>
+        <rect x="12" y="13" width="28" height="28" rx="4" fill="#ECFDF5"/>
+        <text x="19" y="31" fill="#059669" font-family="sans-serif" font-size="14">⚙</text>
+        <text x="48" y="26" fill="#0F172A" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="bold">SMTP</text>
+        <text x="48" y="40" fill="#64748B" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9">Route all WordPress emails through a configured SMTP provider.</text>
+        <!-- Toggle Switch (Active Blue) -->
+        <rect x="348" y="18" width="32" height="18" rx="9" fill="#2563EB"/>
+        <circle cx="369" cy="27" r="7" fill="#FFFFFF"/>
+      </g>
+
+      <!-- Item 4: Cron Events -->
+      <g transform="translate(16, 272)">
+        <rect width="392" height="56" rx="5" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1"/>
+        <rect x="12" y="13" width="28" height="28" rx="4" fill="#F5F3FF"/>
+        <text x="19" y="31" fill="#7C3AED" font-family="sans-serif" font-size="14">⏱</text>
+        <text x="48" y="26" fill="#0F172A" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="bold">Cron Events</text>
+        <text x="48" y="40" fill="#64748B" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9">View, run, and remove scheduled WordPress cron events.</text>
+        <!-- Toggle Switch (Active Blue) -->
+        <rect x="348" y="18" width="32" height="18" rx="9" fill="#2563EB"/>
+        <circle cx="369" cy="27" r="7" fill="#FFFFFF"/>
+      </g>
+
+      <!-- Item 5: Database Manager -->
+      <g transform="translate(16, 336)">
+        <rect width="392" height="56" rx="5" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1"/>
+        <rect x="12" y="13" width="28" height="28" rx="4" fill="#EFF6FF"/>
+        <text x="19" y="31" fill="#2563EB" font-family="sans-serif" font-size="14">🗄</text>
+        <text x="48" y="26" fill="#0F172A" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="bold">Database Manager</text>
+        <text x="48" y="40" fill="#64748B" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9">Inspect database tables, browse rows, and safely edit or delete selected records.</text>
+        <!-- Toggle Switch (Active Blue) -->
+        <rect x="348" y="18" width="32" height="18" rx="9" fill="#2563EB"/>
+        <circle cx="369" cy="27" r="7" fill="#FFFFFF"/>
+      </g>
+    </g>
+
   </g>
-
-  <!-- Right File Manager & Diagnostic Table -->
-  <g transform="translate(150, 102)">
-    <rect width="430" height="225" rx="4" fill="#1A1D24" stroke="#282D3A" stroke-width="1"/>
-    <!-- Table Header -->
-    <rect width="430" height="28" rx="4" fill="#222630"/>
-    <text x="14" y="18" fill="#94A3B8" font-family="monospace, sans-serif" font-size="10" font-weight="bold">FILE / DIRECTORY</text>
-    <text x="190" y="18" fill="#94A3B8" font-family="monospace, sans-serif" font-size="10" font-weight="bold">SIZE</text>
-    <text x="260" y="18" fill="#94A3B8" font-family="monospace, sans-serif" font-size="10" font-weight="bold">PERM</text>
-    <text x="340" y="18" fill="#94A3B8" font-family="monospace, sans-serif" font-size="10" font-weight="bold">STATUS</text>
-
-    <!-- File 1: wp-config.php -->
-    <g transform="translate(0, 32)">
-      <text x="14" y="16" fill="#F8FAFC" font-family="monospace, sans-serif" font-size="11">wp-config.php</text>
-      <text x="190" y="16" fill="#94A3B8" font-family="monospace, sans-serif" font-size="11">4.12 KB</text>
-      <text x="260" y="16" fill="#38BDF8" font-family="monospace, sans-serif" font-size="11">0640</text>
-      <rect x="336" y="4" width="68" height="16" rx="2" fill="#10B981" fill-opacity="0.15"/>
-      <text x="344" y="16" fill="#34D399" font-family="sans-serif" font-size="9" font-weight="bold">SECURE</text>
-    </g>
-
-    <!-- File 2: /wp-content/themes/ -->
-    <g transform="translate(0, 64)">
-      <rect width="430" height="26" fill="#222630" fill-opacity="0.4"/>
-      <text x="14" y="17" fill="#F8FAFC" font-family="monospace, sans-serif" font-size="11">/wp-content/themes/</text>
-      <text x="190" y="17" fill="#94A3B8" font-family="monospace, sans-serif" font-size="11">14.2 MB</text>
-      <text x="260" y="17" fill="#94A3B8" font-family="monospace, sans-serif" font-size="11">0755</text>
-      <rect x="336" y="5" width="68" height="16" rx="2" fill="#38BDF8" fill-opacity="0.15"/>
-      <text x="342" y="17" fill="#38BDF8" font-family="sans-serif" font-size="9" font-weight="bold">DIR (3)</text>
-    </g>
-
-    <!-- File 3: /wp-content/plugins/ -->
-    <g transform="translate(0, 96)">
-      <text x="14" y="16" fill="#F8FAFC" font-family="monospace, sans-serif" font-size="11">/wp-content/plugins/</text>
-      <text x="190" y="16" fill="#94A3B8" font-family="monospace, sans-serif" font-size="11">38.9 MB</text>
-      <text x="260" y="16" fill="#94A3B8" font-family="monospace, sans-serif" font-size="11">0755</text>
-      <rect x="336" y="4" width="68" height="16" rx="2" fill="#F59E0B" fill-opacity="0.15"/>
-      <text x="340" y="16" fill="#FBBF24" font-family="sans-serif" font-size="9" font-weight="bold">ACTIVE (8)</text>
-    </g>
-
-    <!-- File 4: debug.log -->
-    <g transform="translate(0, 128)">
-      <rect width="430" height="26" fill="#222630" fill-opacity="0.4"/>
-      <text x="14" y="17" fill="#F8FAFC" font-family="monospace, sans-serif" font-size="11">debug.log</text>
-      <text x="190" y="17" fill="#94A3B8" font-family="monospace, sans-serif" font-size="11">124 KB</text>
-      <text x="260" y="17" fill="#38BDF8" font-family="monospace, sans-serif" font-size="11">0644</text>
-      <rect x="336" y="5" width="68" height="16" rx="2" fill="#A94F20" fill-opacity="0.2"/>
-      <text x="342" y="17" fill="#FB923C" font-family="sans-serif" font-size="9" font-weight="bold">INSPECT</text>
-    </g>
-
-    <!-- File 5: .htaccess -->
-    <g transform="translate(0, 160)">
-      <text x="14" y="16" fill="#F8FAFC" font-family="monospace, sans-serif" font-size="11">.htaccess</text>
-      <text x="190" y="16" fill="#94A3B8" font-family="monospace, sans-serif" font-size="11">1.1 KB</text>
-      <text x="260" y="16" fill="#38BDF8" font-family="monospace, sans-serif" font-size="11">0644</text>
-      <rect x="336" y="4" width="68" height="16" rx="2" fill="#10B981" fill-opacity="0.15"/>
-      <text x="344" y="16" fill="#34D399" font-family="sans-serif" font-size="9" font-weight="bold">OPTIMAL</text>
-    </g>
-  </g>
-
-  <!-- Bottom Bar -->
-  <rect y="342" width="600" height="33" fill="#1F232B"/>
-  <text x="20" y="363" fill="#94A3B8" font-family="monospace, sans-serif" font-size="11">Path: /public_html/wp-content/ | Server: LiteSpeed | Diagnostic Mode: Enabled</text>
 </svg>

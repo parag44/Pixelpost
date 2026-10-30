@@ -172,14 +172,14 @@ function pixelpost_get_default_projects() {
 		),
 		array(
 			'title'       => 'WP Detector',
-			'description' => __( 'Fast, lightweight Chrome extension for developers and site auditors. Instantly detects WordPress core version, active theme, child themes, installed plugins, and server technology with one click.', 'pixelpost' ),
+			'description' => __( 'Fast, lightweight Chrome extension for developers and site auditors. Instantly inspects WordPress core versions, active themes, detected plugins, and server technology with one click.', 'pixelpost' ),
 			'icon'        => 'extension',
 			'badge1'      => __( 'Chrome Extension', 'pixelpost' ),
 			'badge2'      => __( 'Active', 'pixelpost' ),
 			'type_label'  => __( 'Browser Extension', 'pixelpost' ),
 			'type_icon'   => 'widgets',
 			'url'         => 'https://chromewebstore.google.com/detail/wp-detector/pnfcaepdbhbioeplilbgliegcnclpake',
-			'image'       => $img_uri . '/project-wp-detector.svg',
+			'image'       => $img_uri . '/project-wp-detector.png',
 			'order'       => 4,
 		),
 	);

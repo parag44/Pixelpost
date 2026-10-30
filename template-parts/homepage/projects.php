@@ -66,12 +66,12 @@ $pixelpost_projects = pixelpost_get_projects_items();
 					$pixelpost_image = $img_uri . '/project-siteintelix.svg';
 				} elseif ( stripos( $pixelpost_title, 'mail' ) !== false || stripos( $pixelpost_title, 'tally' ) !== false || stripos( $pixelpost_url, 'mail' ) !== false || stripos( $pixelpost_url, 'inspector' ) !== false ) {
 					$pixelpost_image = $img_uri . '/project-mailtally.svg';
-				} elseif ( stripos( $pixelpost_title, 'detector' ) !== false || stripos( $pixelpost_url, 'pnfcaepdbhbioeplilbgliegcnclpake' ) !== false || stripos( $pixelpost_url, 'chromewebstore' ) !== false ) {
-					$pixelpost_image = $img_uri . '/project-wp-detector.svg';
+				} elseif ( stripos( $pixelpost_title, 'detector' ) !== false || stripos( $pixelpost_title, 'stack' ) !== false || stripos( $pixelpost_url, 'pnfcaepdbhbioeplilbgliegcnclpake' ) !== false || stripos( $pixelpost_url, 'chromewebstore' ) !== false ) {
+					$pixelpost_image = $img_uri . '/project-wp-detector.png';
 				} elseif ( stripos( $pixelpost_title, 'parag' ) !== false || stripos( $pixelpost_title, 'theme' ) !== false || stripos( $pixelpost_url, 'themes/parag' ) !== false ) {
 					$pixelpost_image = $img_uri . '/project-parag-theme.svg';
 				} else {
-					$pixelpost_image = $img_uri . '/project-wp-detector.svg';
+					$pixelpost_image = $img_uri . '/project-wp-detector.png';
 				}
 			}
 			?>

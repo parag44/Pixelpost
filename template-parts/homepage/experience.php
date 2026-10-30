@@ -1,7 +1,7 @@
 <?php
 /**
  * Experience Timeline Template Part
- * Matches Google Stitch PRD: Career Path & Work Experience
+ * Matches Editorial Minimalism: 3-Part Horizontal Structure (Date | Timeline Node & Spine | Details)
  *
  * @package Pixelpost
  */
@@ -40,24 +40,34 @@ if ( empty( $pixelpost_experiences ) ) {
 if ( empty( $pixelpost_experiences ) ) {
 	return;
 }
+
+$total_exp = count( $pixelpost_experiences );
 ?>
-<section id="experience" class="w-full max-w-[1200px] mx-auto px-margin-mobile lg:px-margin pt-space-xl pb-space-lg fp-experience-section" aria-label="<?php esc_attr_e( 'Work Experience', 'pixelpost' ); ?>" data-pixelpost-customize="experience" data-pixelpost-label="<?php esc_attr_e( 'Work Experience', 'pixelpost' ); ?>">
-	<div class="flex flex-col mb-space-lg">
-		<?php if ( ! empty( $pixelpost_eyebrow ) ) : ?>
-			<span class="font-label-caps text-label-caps uppercase text-primary tracking-wider mb-space-xs"><?php echo esc_html( $pixelpost_eyebrow ); ?></span>
-		<?php endif; ?>
+<section id="experience" class="w-full max-w-[1140px] mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20 border-b border-[#E9E6E0] dark:border-[#2E2D29] fp-experience-section" aria-label="<?php esc_attr_e( 'Work Experience', 'pixelpost' ); ?>" data-pixelpost-customize="experience" data-pixelpost-label="<?php esc_attr_e( 'Work Experience', 'pixelpost' ); ?>">
+	<div class="flex flex-col sm:flex-row sm:items-end justify-between mb-12 lg:mb-16 gap-4">
+		<div class="flex flex-col max-w-2xl">
+			<?php if ( ! empty( $pixelpost_eyebrow ) ) : ?>
+				<div class="inline-flex items-center gap-2 mb-3">
+					<span class="text-xs uppercase tracking-widest font-semibold text-[#A94F20] dark:text-[#D4733F]"><?php echo esc_html( $pixelpost_eyebrow ); ?></span>
+					<span class="w-8 h-px bg-[#A94F20]/40"></span>
+				</div>
+			<?php endif; ?>
 
-		<?php if ( ! empty( $pixelpost_heading ) ) : ?>
-			<h2 class="font-headline-lg text-headline-lg text-on-surface"><?php echo esc_html( $pixelpost_heading ); ?></h2>
-		<?php endif; ?>
+			<?php if ( ! empty( $pixelpost_heading ) ) : ?>
+				<h2 class="font-serif text-3xl sm:text-4xl text-on-surface"><?php echo esc_html( $pixelpost_heading ); ?></h2>
+			<?php endif; ?>
+		</div>
 
-		<?php if ( ! empty( $pixelpost_subtitle ) ) : ?>
-			<p class="font-body-md text-body-md text-on-surface-variant max-w-xl mt-space-xs"><?php echo esc_html( $pixelpost_subtitle ); ?></p>
-		<?php endif; ?>
+		<div>
+			<a class="inline-flex items-center gap-1.5 text-sm font-medium text-[#A94F20] dark:text-[#D4733F] hover:underline" href="<?php echo esc_url( home_url( '/#contact' ) ); ?>">
+				<span><?php esc_html_e( 'View full resume', 'pixelpost' ); ?></span>
+				<?php echo pixelpost_get_icon( 'external_link', array( 'width' => 14, 'height' => 14 ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+			</a>
+		</div>
 	</div>
 
-	<!-- Timeline Container -->
-	<div class="fp-timeline" data-pixelpost-customize="experience" data-pixelpost-label="<?php esc_attr_e( 'Experience Timeline', 'pixelpost' ); ?>">
+	<!-- 3-Part Continuous Timeline -->
+	<div class="flex flex-col fp-timeline" data-pixelpost-customize="experience" data-pixelpost-label="<?php esc_attr_e( 'Experience Timeline', 'pixelpost' ); ?>">
 		<?php foreach ( $pixelpost_experiences as $pixelpost_index => $pixelpost_exp ) : ?>
 			<?php
 			$pixelpost_exp_num    = $pixelpost_index + 1;
@@ -73,79 +83,63 @@ if ( empty( $pixelpost_experiences ) ) {
 				continue;
 			}
 
-			$pixelpost_tags_arr     = is_array( $pixelpost_raw_tags ) ? $pixelpost_raw_tags : array_map( 'trim', explode( ',', $pixelpost_raw_tags ) );
-			$pixelpost_marker_class = $pixelpost_is_current ? 'fp-timeline-marker fp-timeline-marker-current' : 'fp-timeline-marker';
-			?>
-			<?php
-			/* translators: 1: job index number, 2: job title */
-			$pixelpost_item_label = sprintf( esc_html__( 'Job %1$d: %2$s', 'pixelpost' ), $pixelpost_exp_num, $pixelpost_title );
-			?>
-			<div class="fp-timeline-item group" data-pixelpost-customize="experience" data-pixelpost-label="<?php echo esc_attr( $pixelpost_item_label ); ?>">
-				<!-- Vertical connecting spine -->
-				<span class="fp-timeline-spine" aria-hidden="true"></span>
+			// Format tags with middle dot ' · '
+			if ( is_array( $pixelpost_raw_tags ) ) {
+				$tags_string = implode( ' · ', $pixelpost_raw_tags );
+			} else {
+				$tags_arr    = array_map( 'trim', explode( ',', str_replace( '·', ',', $pixelpost_raw_tags ) ) );
+				$tags_string = implode( ' · ', array_filter( $tags_arr ) );
+			}
 
-				<!-- Timeline Node Marker -->
-				<div class="<?php echo esc_attr( $pixelpost_marker_class ); ?>" aria-hidden="true">
+			$is_last = ( $pixelpost_index === $total_exp - 1 );
+			?>
+			<div class="grid grid-cols-1 sm:grid-cols-[140px_36px_1fr] lg:grid-cols-[160px_44px_1fr] gap-x-2 sm:gap-x-0 relative group fp-timeline-row">
+				<!-- LEFT: Fixed Date Column -->
+				<div class="text-sm font-normal text-on-surface-variant sm:text-right sm:pr-6 pt-0.5 mb-2 sm:mb-0 fp-timeline-date-col">
+					<?php echo esc_html( $pixelpost_date ); ?>
+				</div>
+
+				<!-- CENTER: Spine & Node Marker -->
+				<div class="hidden sm:flex flex-col items-center relative fp-timeline-center-col">
+					<!-- Circular Marker -->
 					<?php if ( $pixelpost_is_current ) : ?>
-						<?php echo pixelpost_get_icon( 'work', array( 'width' => 15, 'height' => 15 ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+						<div class="w-3.5 h-3.5 rounded-full bg-primary ring-4 ring-[#F5EAE1] dark:ring-[#2C1F17] mt-1 z-10 flex-shrink-0 fp-node-current"></div>
 					<?php else : ?>
-						<?php echo pixelpost_get_icon( 'work', array( 'width' => 14, 'height' => 14, 'class' => 'text-on-surface-variant/60 group-hover:text-primary transition-colors' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+						<div class="w-2.5 h-2.5 rounded-full bg-[#CBC7C0] dark:bg-[#45423E] mt-1.5 z-10 flex-shrink-0 fp-node-past"></div>
+					<?php endif; ?>
+
+					<!-- Continuous connecting line -->
+					<?php if ( ! $is_last ) : ?>
+						<div class="w-px flex-1 bg-[#E9E6E0] dark:bg-[#2E2D29] my-1 fp-timeline-spine"></div>
 					<?php endif; ?>
 				</div>
 
-				<!-- Experience Card -->
-				<div class="fp-timeline-card">
-					<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-space-xs">
-						<div>
-							<div class="flex flex-wrap items-center gap-2">
-								<h3 class="font-title-md text-title-md text-on-surface font-semibold group-hover:text-primary transition-colors fp-timeline-title">
-									<?php echo esc_html( $pixelpost_title ); ?>
-								</h3>
-								<?php if ( $pixelpost_is_current ) : ?>
-									<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-primary/10 text-primary font-label-caps text-label-caps uppercase font-bold tracking-wide fp-timeline-current-badge">
-										<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" aria-hidden="true"></span>
-										<?php esc_html_e( 'Current Role', 'pixelpost' ); ?>
-									</span>
-								<?php endif; ?>
-							</div>
-
-							<?php if ( ! empty( $pixelpost_company ) ) : ?>
-								<div class="mt-1">
-									<?php if ( ! empty( $pixelpost_url ) ) : ?>
-										<a class="inline-flex items-center gap-1 font-label-caps text-label-caps text-primary hover:text-primary-container uppercase font-bold tracking-wide transition-colors fp-timeline-company" href="<?php echo esc_url( $pixelpost_url ); ?>" target="_blank" rel="noopener noreferrer">
-											<span><?php echo esc_html( $pixelpost_company ); ?></span>
-											<?php echo pixelpost_get_icon( 'open_in_new', array( 'width' => 12, 'height' => 12 ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-										</a>
-									<?php else : ?>
-										<span class="font-label-caps text-label-caps text-on-surface-variant uppercase font-bold tracking-wide fp-timeline-company">
-											<?php echo esc_html( $pixelpost_company ); ?>
-										</span>
-									<?php endif; ?>
-								</div>
-							<?php endif; ?>
-						</div>
-
-						<?php if ( ! empty( $pixelpost_date ) ) : ?>
-							<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded bg-surface-container font-label-caps text-label-caps text-on-surface-variant font-semibold self-start sm:self-center flex-shrink-0 fp-timeline-date">
-								<?php echo pixelpost_get_icon( 'calendar_today', array( 'width' => 13, 'height' => 13, 'class' => 'text-primary' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-								<span><?php echo esc_html( $pixelpost_date ); ?></span>
+				<!-- RIGHT: Content Column -->
+				<div class="<?php echo $is_last ? 'pb-2' : 'pb-10 sm:pb-14'; ?> sm:pl-6 fp-timeline-content-col">
+					<div class="flex flex-wrap items-center gap-2.5 mb-1">
+						<h3 class="font-bold text-lg sm:text-xl text-on-surface fp-timeline-job-title"><?php echo esc_html( $pixelpost_title ); ?></h3>
+						<?php if ( $pixelpost_is_current ) : ?>
+							<span class="inline-flex items-center px-2 py-0.5 text-xs font-semibold rounded bg-[#F5EAE1] dark:bg-[#2C1F17] text-[#A94F20] dark:text-[#D4733F] fp-current-badge">
+								<?php esc_html_e( 'Current', 'pixelpost' ); ?>
 							</span>
 						<?php endif; ?>
 					</div>
 
+					<?php if ( ! empty( $pixelpost_company ) ) : ?>
+						<div class="text-xs uppercase tracking-wider font-semibold text-on-surface-variant mb-3 fp-timeline-company-name">
+							<?php echo esc_html( $pixelpost_company ); ?>
+						</div>
+					<?php endif; ?>
+
 					<?php if ( ! empty( $pixelpost_desc ) ) : ?>
-						<p class="font-body-md text-body-md text-on-surface-variant mt-space-sm mb-space-md max-w-3xl leading-relaxed fp-timeline-desc">
+						<p class="text-sm sm:text-base text-on-surface-variant leading-relaxed max-w-2xl mb-3 fp-timeline-desc">
 							<?php echo esc_html( $pixelpost_desc ); ?>
 						</p>
 					<?php endif; ?>
 
-					<?php if ( ! empty( $pixelpost_tags_arr ) && ! empty( array_filter( $pixelpost_tags_arr ) ) ) : ?>
-						<div class="flex flex-wrap items-center gap-2 pt-space-xs border-t border-surface-container-high/40 fp-timeline-tags">
-							<?php foreach ( $pixelpost_tags_arr as $pixelpost_t ) : ?>
-								<?php if ( ! empty( $pixelpost_t ) ) : ?>
-									<span class="fp-tag-chip"><?php echo esc_html( $pixelpost_t ); ?></span>
-								<?php endif; ?>
-							<?php endforeach; ?>
+					<?php if ( ! empty( $tags_string ) ) : ?>
+						<div class="text-xs sm:text-sm text-on-surface-variant/90 leading-relaxed fp-timeline-skills">
+							<span class="font-semibold text-on-surface"><?php esc_html_e( 'Skills:', 'pixelpost' ); ?></span> <?php echo esc_html( $tags_string ); ?>
 						</div>
 					<?php endif; ?>
 				</div>

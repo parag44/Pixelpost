@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 375" width="600" height="375">
+  <rect width="600" height="375" fill="#FBF9F5"/>
+  <!-- Top navigation bar of editorial theme -->
+  <rect width="600" height="44" fill="#FFFFFF" stroke="#E9E6E0" stroke-width="1"/>
+  <text x="30" y="28" fill="#A94F20" font-family="serif" font-size="18" font-weight="bold">P</text>
+  <text x="48" y="27" fill="#242321" font-family="serif" font-size="15" font-weight="bold">The Editorial Archive</text>
+  <text x="360" y="26" fill="#77736D" font-family="sans-serif" font-size="11">Essays</text>
+  <text x="410" y="26" fill="#77736D" font-family="sans-serif" font-size="11">Reviews</text>
+  <text x="465" y="26" fill="#77736D" font-family="sans-serif" font-size="11">Issues</text>
+  <rect x="520" y="12" width="55" height="20" rx="3" fill="#A94F20"/>
+  <text x="532" y="26" fill="#FFFFFF" font-family="sans-serif" font-size="10" font-weight="bold">Read</text>
+
+  <!-- Editorial layout preview -->
+  <rect x="30" y="65" width="340" height="170" fill="#E5E0D8" rx="3"/>
+  <rect x="30" y="65" width="340" height="170" fill="#C2B8A3" opacity="0.3"/>
+  <!-- decorative landscape lines in photo box -->
+  <path d="M30,170 Q120,110 200,140 Q280,110 370,160 L370,235 L30,235 Z" fill="#8B7E66" opacity="0.5"/>
+  <path d="M30,195 Q140,150 240,175 Q320,155 370,185 L370,235 L30,235 Z" fill="#5A503C" opacity="0.6"/>
+
+  <!-- Side article snippets -->
+  <g transform="translate(390, 65)">
+    <text x="0" y="12" fill="#A94F20" font-family="sans-serif" font-size="9" font-weight="bold">FEATURED ESSAY — OCT 2024</text>
+    <text x="0" y="35" fill="#242321" font-family="serif" font-size="18" font-weight="bold">The Geometry of</text>
+    <text x="0" y="55" fill="#242321" font-family="serif" font-size="18" font-weight="bold">Modern Typography</text>
+    <text x="0" y="80" fill="#77736D" font-family="sans-serif" font-size="11">Exploring how serif headings and</text>
+    <text x="0" y="96" fill="#77736D" font-family="sans-serif" font-size="11">calibrated whitespace create calm,</text>
+    <text x="0" y="112" fill="#77736D" font-family="sans-serif" font-size="11">focused reading spaces.</text>
+    <text x="0" y="145" fill="#A94F20" font-family="sans-serif" font-size="11" font-weight="bold">Continue Reading →</text>
+  </g>
+
+  <!-- Bottom 3 miniature article rows -->
+  <line x1="30" y1="255" x2="570" y2="255" stroke="#E9E6E0" stroke-width="1"/>
+  <g transform="translate(30, 275)">
+    <rect width="50" height="50" rx="2" fill="#D9D3C7"/>
+    <text x="65" y="18" fill="#242321" font-family="serif" font-size="12" font-weight="bold">Architecture in the Age of Speed</text>
+    <text x="65" y="35" fill="#77736D" font-family="sans-serif" font-size="10">OCT 24 · 4 MIN READ</text>
+  </g>
+  <g transform="translate(310, 275)">
+    <rect width="50" height="50" rx="2" fill="#D9D3C7"/>
+    <text x="65" y="18" fill="#242321" font-family="serif" font-size="12" font-weight="bold">The Quiet Discipline of Code</text>
+    <text x="65" y="35" fill="#77736D" font-family="sans-serif" font-size="10">OCT 18 · 6 MIN READ</text>
+  </g>
+</svg>

@@ -1,7 +1,7 @@
 <?php
 /**
  * Statistics & Highlights Strip Template Part
- * Matches Google Stitch PRD: Bento Architecture
+ * Matches Editorial Minimalism: Clean horizontal strip with dividers
  *
  * @package Pixelpost
  */
@@ -35,50 +35,46 @@ if ( empty( $pixelpost_stats ) ) {
 	return;
 }
 ?>
-<section id="stats" class="w-full max-w-[1200px] mx-auto px-margin-mobile lg:px-margin py-space-md fp-stats-section" aria-label="<?php esc_attr_e( 'Career Highlights', 'pixelpost' ); ?>" data-pixelpost-customize="statistics" data-pixelpost-label="<?php esc_attr_e( 'Statistics Strip', 'pixelpost' ); ?>">
-	<div class="bg-surface-container-lowest rounded-xl p-space-md lg:p-space-lg shadow-sm fp-stats-card">
-		<div class="grid grid-cols-2 lg:grid-cols-4 gap-space-md lg:gap-space-lg fp-stats-grid">
-			<?php foreach ( $pixelpost_stats as $pixelpost_index => $pixelpost_stat ) : ?>
-				<?php
-				$pixelpost_stat_num = $pixelpost_index + 1;
-				$pixelpost_raw_num  = ! empty( $pixelpost_stat['number'] ) ? (string) $pixelpost_stat['number'] : '';
-				$pixelpost_suffix   = ! empty( $pixelpost_stat['suffix'] ) ? $pixelpost_stat['suffix'] : '';
-				$pixelpost_label    = ! empty( $pixelpost_stat['label'] ) ? $pixelpost_stat['label'] : '';
-				$pixelpost_desc     = ! empty( $pixelpost_stat['desc'] ) ? $pixelpost_stat['desc'] : '';
+<section id="stats" class="w-full max-w-[1140px] mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-10 border-t border-b border-[#E9E6E0] dark:border-[#2E2D29] fp-stats-section" aria-label="<?php esc_attr_e( 'Career Highlights', 'pixelpost' ); ?>" data-pixelpost-customize="statistics" data-pixelpost-label="<?php esc_attr_e( 'Statistics Strip', 'pixelpost' ); ?>">
+	<div class="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-0 fp-stats-grid">
+		<?php
+		$total_stats = count( $pixelpost_stats );
+		foreach ( $pixelpost_stats as $pixelpost_index => $pixelpost_stat ) :
+			$pixelpost_stat_num = $pixelpost_index + 1;
+			$pixelpost_raw_num  = ! empty( $pixelpost_stat['number'] ) ? (string) $pixelpost_stat['number'] : '';
+			$pixelpost_suffix   = ! empty( $pixelpost_stat['suffix'] ) ? $pixelpost_stat['suffix'] : '';
+			$pixelpost_label    = ! empty( $pixelpost_stat['label'] ) ? $pixelpost_stat['label'] : '';
+			$pixelpost_desc     = ! empty( $pixelpost_stat['desc'] ) ? $pixelpost_stat['desc'] : '';
 
-				if ( empty( $pixelpost_raw_num ) && empty( $pixelpost_label ) ) {
-					continue;
-				}
+			if ( empty( $pixelpost_raw_num ) && empty( $pixelpost_label ) ) {
+				continue;
+			}
 
-				// If suffix wasn't split, separate trailing +, %, etc.
-				if ( empty( $pixelpost_suffix ) && preg_match( '/^([0-9\.,]+)(.*)$/', $pixelpost_raw_num, $pixelpost_matches ) ) {
-					$pixelpost_num_val = $pixelpost_matches[1];
-					$pixelpost_suffix  = $pixelpost_matches[2];
-				} else {
-					$pixelpost_num_val = $pixelpost_raw_num;
-				}
+			// Separate trailing +, %, etc.
+			if ( empty( $pixelpost_suffix ) && preg_match( '/^([0-9\.,]+)(.*)$/', $pixelpost_raw_num, $pixelpost_matches ) ) {
+				$pixelpost_num_val = $pixelpost_matches[1];
+				$pixelpost_suffix  = $pixelpost_matches[2];
+			} else {
+				$pixelpost_num_val = $pixelpost_raw_num;
+			}
 
-				// Metric 1 and 4 have terracotta numbers in the design
-				$pixelpost_is_primary_color = ( 0 === $pixelpost_index || 3 === $pixelpost_index );
-				$pixelpost_num_color_class  = $pixelpost_is_primary_color ? 'text-primary' : 'text-on-surface';
-				?>
-				<?php
-				/* translators: 1: statistic index number, 2: statistic label */
-				$pixelpost_stat_item_label = sprintf( esc_html__( 'Stat %1$d: %2$s', 'pixelpost' ), $pixelpost_stat_num, $pixelpost_label );
-				?>
-				<div class="flex flex-col fp-stat-item" data-pixelpost-customize="statistics" data-pixelpost-label="<?php echo esc_attr( $pixelpost_stat_item_label ); ?>">
-					<div class="flex items-baseline gap-1 fp-stat-number-wrap">
-						<span class="font-metric-val text-metric-val <?php echo esc_attr( $pixelpost_num_color_class ); ?> tracking-tight fp-stat-number"><?php echo esc_html( $pixelpost_num_val ); ?></span>
-						<?php if ( ! empty( $pixelpost_suffix ) ) : ?>
-							<span class="font-headline-sm text-headline-sm text-primary fp-stat-suffix"><?php echo esc_html( $pixelpost_suffix ); ?></span>
-						<?php endif; ?>
-					</div>
-					<span class="font-title-md text-title-md text-on-surface font-semibold mt-1 fp-stat-label"><?php echo esc_html( $pixelpost_label ); ?></span>
-					<?php if ( ! empty( $pixelpost_desc ) ) : ?>
-						<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5 fp-stat-desc"><?php echo esc_html( $pixelpost_desc ); ?></p>
+			// Add right border divider for all except the last item on desktop
+			$border_class = ( $pixelpost_index < $total_stats - 1 ) ? 'lg:border-r border-[#E9E6E0] dark:border-[#2E2D29]' : '';
+			// Horizontal padding for middle items
+			$padding_class = ( $pixelpost_index === 0 ) ? 'lg:pr-8' : ( ( $pixelpost_index === $total_stats - 1 ) ? 'lg:pl-8' : 'lg:px-8' );
+		?>
+			<div class="flex flex-col <?php echo esc_attr( $border_class . ' ' . $padding_class ); ?> fp-stat-item">
+				<div class="flex items-baseline gap-0.5 mb-1.5 fp-stat-number-wrap">
+					<span class="font-serif text-4xl sm:text-5xl font-normal text-primary tracking-tight fp-stat-number"><?php echo esc_html( $pixelpost_num_val ); ?></span>
+					<?php if ( ! empty( $pixelpost_suffix ) ) : ?>
+						<span class="font-serif text-3xl sm:text-4xl text-primary font-normal fp-stat-suffix"><?php echo esc_html( $pixelpost_suffix ); ?></span>
 					<?php endif; ?>
 				</div>
-			<?php endforeach; ?>
-		</div>
+				<span class="font-bold text-sm sm:text-base text-on-surface mb-1 fp-stat-label"><?php echo esc_html( $pixelpost_label ); ?></span>
+				<?php if ( ! empty( $pixelpost_desc ) ) : ?>
+					<p class="text-xs sm:text-sm text-on-surface-variant leading-relaxed fp-stat-desc"><?php echo esc_html( $pixelpost_desc ); ?></p>
+				<?php endif; ?>
+			</div>
+		<?php endforeach; ?>
 	</div>
 </section>

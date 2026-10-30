@@ -1,7 +1,7 @@
 <?php
 /**
  * Latest Posts Section Template Part
- * Matches Google Stitch PRD: Knowledge Base (Editorial 4-Card Grid)
+ * Matches Editorial Minimalism: Magazine Layout (Left Heading + Center Featured + Right Stacked Articles)
  *
  * @package Pixelpost
  */
@@ -16,7 +16,7 @@ $pixelpost_subtitle      = pixelpost_get_setting( 'pixelpost_blog_subtitle' );
 $pixelpost_view_all_text = pixelpost_get_setting( 'pixelpost_blog_view_all_text' );
 $pixelpost_view_all_url  = pixelpost_get_setting( 'pixelpost_blog_view_all_url' );
 $pixelpost_count         = absint( pixelpost_get_setting( 'pixelpost_blog_posts_count' ) );
-if ( empty( $pixelpost_count ) ) {
+if ( empty( $pixelpost_count ) || $pixelpost_count < 4 ) {
 	$pixelpost_count = 4;
 }
 
@@ -35,115 +35,147 @@ $pixelpost_blog_query = new WP_Query(
 
 $pixelpost_has_posts = $pixelpost_blog_query->have_posts();
 
-// Sample Stitch fallback posts
+// Sample fallback posts
 $pixelpost_default_posts = pixelpost_get_default_blog_posts();
+
+$articles = array();
+$img_uri  = get_template_directory_uri() . '/assets/images';
+
+if ( $pixelpost_has_posts ) {
+	$idx = 0;
+	while ( $pixelpost_blog_query->have_posts() ) {
+		$pixelpost_blog_query->the_post();
+
+		// Calculate read time
+		$pixelpost_content  = get_post_field( 'post_content', get_the_ID() );
+		$pixelpost_word_cnt = str_word_count( wp_strip_all_tags( $pixelpost_content ) );
+		$pixelpost_minutes  = max( 1, (int) ceil( $pixelpost_word_cnt / 200 ) );
+		/* translators: %d: reading time in minutes. */
+		$pixelpost_read_time = sprintf( esc_html__( '%d MIN READ', 'pixelpost' ), $pixelpost_minutes );
+
+		$thumb_url = has_post_thumbnail() ? get_the_post_thumbnail_url( get_the_ID(), 'large' ) : '';
+
+		// If no featured image on post, provide thematic SVG fallback
+		if ( empty( $thumb_url ) ) {
+			if ( 0 === $idx ) {
+				$thumb_url = $img_uri . '/blog-featured.svg';
+			} elseif ( 1 === $idx ) {
+				$thumb_url = $img_uri . '/blog-thumb-1.svg';
+			} elseif ( 2 === $idx ) {
+				$thumb_url = $img_uri . '/blog-thumb-2.svg';
+			} else {
+				$thumb_url = $img_uri . '/blog-thumb-3.svg';
+			}
+		}
+
+		$pixelpost_cats     = get_the_category();
+		$pixelpost_cat_name = ! empty( $pixelpost_cats[0] ) ? $pixelpost_cats[0]->name : __( 'Article', 'pixelpost' );
+
+		$articles[] = array(
+			'title'     => get_the_title(),
+			'date'      => strtoupper( get_the_date( 'M d, Y' ) ),
+			'read_time' => $pixelpost_read_time,
+			'category'  => $pixelpost_cat_name,
+			'excerpt'   => wp_strip_all_tags( get_the_excerpt() ),
+			'url'       => get_permalink(),
+			'image'     => $thumb_url,
+		);
+		$idx++;
+	}
+	wp_reset_postdata();
+}
+
+if ( empty( $articles ) ) {
+	$articles = $pixelpost_default_posts;
+}
+
+$featured_article = ! empty( $articles[0] ) ? $articles[0] : null;
+$recent_articles  = array_slice( $articles, 1, 3 );
 ?>
-<section id="blog" class="w-full max-w-[1200px] mx-auto px-margin-mobile lg:px-margin pt-space-xl pb-space-lg fp-blog-section" aria-label="<?php esc_attr_e( 'Latest Blog Posts', 'pixelpost' ); ?>" data-pixelpost-customize="blog" data-pixelpost-label="<?php esc_attr_e( 'Latest Blog Posts', 'pixelpost' ); ?>">
-	<div class="flex flex-col md:flex-row md:items-end justify-between mb-space-lg gap-space-sm">
-		<div class="flex flex-col max-w-2xl">
+<section id="blog" class="w-full max-w-[1140px] mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20 border-b border-[#E9E6E0] dark:border-[#2E2D29] fp-blog-section" aria-label="<?php esc_attr_e( 'Latest Blog Posts', 'pixelpost' ); ?>" data-pixelpost-customize="blog" data-pixelpost-label="<?php esc_attr_e( 'Latest Blog Posts', 'pixelpost' ); ?>">
+	<div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
+		<!-- Left Column: Section Title & Narrative -->
+		<div class="lg:col-span-4 flex flex-col items-start fp-blog-left">
 			<?php if ( ! empty( $pixelpost_eyebrow ) ) : ?>
-				<span class="font-label-caps text-label-caps uppercase text-primary tracking-wider mb-space-xs"><?php echo esc_html( $pixelpost_eyebrow ); ?></span>
+				<div class="inline-flex items-center gap-2 mb-3">
+					<span class="text-xs uppercase tracking-widest font-semibold text-[#A94F20] dark:text-[#D4733F]"><?php echo esc_html( $pixelpost_eyebrow ); ?></span>
+					<span class="w-8 h-px bg-[#A94F20]/40"></span>
+				</div>
 			<?php endif; ?>
 
 			<?php if ( ! empty( $pixelpost_heading ) ) : ?>
-				<h2 class="font-headline-lg text-headline-lg text-on-surface"><?php echo esc_html( $pixelpost_heading ); ?></h2>
+				<h2 class="font-serif text-3xl sm:text-4xl text-on-surface mb-3"><?php echo esc_html( $pixelpost_heading ); ?></h2>
 			<?php endif; ?>
 
 			<?php if ( ! empty( $pixelpost_subtitle ) ) : ?>
-				<p class="font-body-md text-body-md text-on-surface-variant mt-space-xs"><?php echo esc_html( $pixelpost_subtitle ); ?></p>
+				<p class="text-sm sm:text-base text-on-surface-variant leading-relaxed mb-6"><?php echo esc_html( $pixelpost_subtitle ); ?></p>
+			<?php endif; ?>
+
+			<?php if ( ! empty( $pixelpost_view_all_text ) ) : ?>
+				<a class="inline-flex items-center gap-1.5 text-sm font-semibold text-[#A94F20] dark:text-[#D4733F] hover:underline group" href="<?php echo esc_url( $pixelpost_view_all_url ); ?>">
+					<span><?php echo esc_html( $pixelpost_view_all_text ); ?></span>
+					<span class="group-hover:translate-x-0.5 transition-transform">→</span>
+				</a>
 			<?php endif; ?>
 		</div>
 
-		<?php if ( ! empty( $pixelpost_view_all_text ) ) : ?>
-			<a class="inline-flex items-center gap-1 font-label-md text-label-md text-primary hover:text-primary-container font-semibold transition-colors group" href="<?php echo esc_url( $pixelpost_view_all_url ); ?>">
-				<span><?php echo esc_html( $pixelpost_view_all_text ); ?></span>
-				<?php echo pixelpost_get_icon( 'arrow_forward', array( 'width' => 18, 'height' => 18, 'class' => 'group-hover:translate-x-1 transition-transform' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-			</a>
-		<?php endif; ?>
-	</div>
-
-	<!-- Editorial 4-Card Grid -->
-	<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md fp-posts-grid">
-		<?php
-		if ( $pixelpost_has_posts ) :
-			while ( $pixelpost_blog_query->have_posts() ) :
-				$pixelpost_blog_query->the_post();
-
-				// Calculate read time
-				$pixelpost_content   = get_post_field( 'post_content', get_the_ID() );
-				$pixelpost_word_cnt  = str_word_count( wp_strip_all_tags( $pixelpost_content ) );
-				$pixelpost_minutes   = max( 1, (int) ceil( $pixelpost_word_cnt / 200 ) );
-				/* translators: %d: reading time in minutes. */
-				$pixelpost_read_time = sprintf( esc_html__( '%d MIN READ', 'pixelpost' ), $pixelpost_minutes );
-
-				// Get primary category
-				$pixelpost_cats     = get_the_category();
-				$pixelpost_cat_name = ! empty( $pixelpost_cats[0] ) ? $pixelpost_cats[0]->name : __( 'Article', 'pixelpost' );
-				?>
-				<article id="post-<?php the_ID(); ?>" <?php post_class( 'bg-surface-container-lowest rounded-xl p-space-md shadow-sm hover:shadow-md transition-all flex flex-col justify-between group border border-outline-variant/30 fp-post-card' ); ?>>
-					<div>
-						<?php if ( has_post_thumbnail() ) : ?>
-							<div class="relative overflow-hidden rounded-lg aspect-[16/9] w-full bg-surface-container mb-space-sm fp-card-thumb">
-								<a href="<?php the_permalink(); ?>">
-									<?php the_post_thumbnail( 'medium_large', array( 'class' => 'w-full h-full object-cover group-hover:scale-105 transition-transform duration-500' ) ); ?>
-								</a>
-							</div>
-						<?php endif; ?>
-
-						<div class="flex items-center justify-between text-on-surface-variant font-label-caps text-label-caps mb-space-xs">
-							<span><?php echo esc_html( strtoupper( get_the_date( 'M d, Y' ) ) ); ?></span>
-							<span class="text-primary font-bold"><?php echo esc_html( $pixelpost_read_time ); ?></span>
+		<!-- Right Column: Editorial Magazine Layout (Featured + 3 Stacked) -->
+		<div class="lg:col-span-8 grid grid-cols-1 md:grid-cols-12 gap-8 items-start fp-blog-right">
+			<!-- Featured Large Article -->
+			<?php if ( $featured_article ) : ?>
+				<article class="md:col-span-7 flex flex-col group fp-featured-article">
+					<?php if ( ! empty( $featured_article['image'] ) ) : ?>
+						<div class="relative overflow-hidden rounded aspect-[16/10] w-full bg-[#F5F3EF] dark:bg-[#1E1D1B] border border-[#E9E6E0] dark:border-[#2E2D29] mb-3 fp-featured-img-wrap">
+							<a href="<?php echo esc_url( $featured_article['url'] ); ?>" class="block w-full h-full">
+								<img src="<?php echo esc_url( $featured_article['image'] ); ?>" alt="<?php echo esc_attr( $featured_article['title'] ); ?>" class="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500" loading="lazy" />
+							</a>
 						</div>
-						<span class="inline-block px-2 py-0.5 rounded bg-surface-container font-label-caps text-label-caps text-on-surface-variant uppercase mb-space-sm fp-category-pill"><?php echo esc_html( $pixelpost_cat_name ); ?></span>
-						<h3 class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors leading-snug mb-space-xs fp-post-card-title">
-							<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
-						</h3>
-						<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-3 mb-space-md fp-post-card-excerpt">
-							<?php echo esc_html( wp_strip_all_tags( get_the_excerpt() ) ); ?>
-						</p>
-					</div>
-					<a class="inline-flex items-center gap-1 text-primary hover:text-primary-container font-label-md text-label-md font-semibold group/read pt-space-xs border-t border-surface-container-high/40 mt-auto" href="<?php the_permalink(); ?>">
-						<span><?php esc_html_e( 'Read Analysis', 'pixelpost' ); ?></span>
-						<?php echo pixelpost_get_icon( 'arrow_forward', array( 'width' => 16, 'height' => 16, 'class' => 'group-hover/read:translate-x-1 transition-transform' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-					</a>
-				</article>
-				<?php
-			endwhile;
-			wp_reset_postdata();
-		else :
-			// Fallback to default Stitch posts
-			foreach ( $pixelpost_default_posts as $pixelpost_post_item ) :
-				?>
-				<article class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm hover:shadow-md transition-all flex flex-col justify-between group border border-outline-variant/30 fp-post-card">
-					<div>
-						<?php if ( ! empty( $pixelpost_post_item['image'] ) ) : ?>
-							<div class="relative overflow-hidden rounded-lg aspect-[16/9] w-full bg-surface-container mb-space-sm fp-card-thumb">
-								<a href="<?php echo esc_url( $pixelpost_view_all_url ); ?>">
-									<img src="<?php echo esc_url( $pixelpost_post_item['image'] ); ?>" alt="<?php echo esc_attr( $pixelpost_post_item['title'] ); ?>" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
-								</a>
-							</div>
-						<?php endif; ?>
+					<?php endif; ?>
 
-						<div class="flex items-center justify-between text-on-surface-variant font-label-caps text-label-caps mb-space-xs">
-							<span><?php echo esc_html( $pixelpost_post_item['date'] ); ?></span>
-							<span class="text-primary font-bold"><?php echo esc_html( $pixelpost_post_item['read_time'] ); ?></span>
-						</div>
-						<span class="inline-block px-2 py-0.5 rounded bg-surface-container font-label-caps text-label-caps text-on-surface-variant uppercase mb-space-sm fp-category-pill"><?php echo esc_html( $pixelpost_post_item['category'] ); ?></span>
-						<h3 class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors leading-snug mb-space-xs fp-post-card-title">
-							<a href="<?php echo esc_url( $pixelpost_view_all_url ); ?>"><?php echo esc_html( $pixelpost_post_item['title'] ); ?></a>
-						</h3>
-						<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-3 mb-space-md fp-post-card-excerpt">
-							<?php echo esc_html( $pixelpost_post_item['excerpt'] ); ?>
-						</p>
+					<div class="text-[11px] sm:text-xs uppercase tracking-wider text-on-surface-variant font-medium mb-1.5 fp-featured-meta">
+						<span><?php echo esc_html( $featured_article['date'] ); ?></span>
+						<span class="mx-1">·</span>
+						<span><?php echo esc_html( $featured_article['read_time'] ); ?></span>
 					</div>
-					<a class="inline-flex items-center gap-1 text-primary hover:text-primary-container font-label-md text-label-md font-semibold group/read pt-space-xs border-t border-surface-container-high/40 mt-auto" href="<?php echo esc_url( $pixelpost_view_all_url ); ?>">
-						<span><?php esc_html_e( 'Read Analysis', 'pixelpost' ); ?></span>
-						<?php echo pixelpost_get_icon( 'arrow_forward', array( 'width' => 16, 'height' => 16, 'class' => 'group-hover/read:translate-x-1 transition-transform' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-					</a>
+
+					<h3 class="font-serif text-xl sm:text-2xl font-bold text-on-surface group-hover:text-primary transition-colors leading-snug fp-featured-title">
+						<a href="<?php echo esc_url( $featured_article['url'] ); ?>">
+							<?php echo esc_html( $featured_article['title'] ); ?>
+						</a>
+					</h3>
 				</article>
-				<?php
-			endforeach;
-		endif;
-		?>
+			<?php endif; ?>
+
+			<!-- Stacked 3 Smaller Articles -->
+			<?php if ( ! empty( $recent_articles ) ) : ?>
+				<div class="md:col-span-5 flex flex-col divide-y divide-[#E9E6E0] dark:divide-[#2E2D29] fp-recent-articles-list">
+					<?php foreach ( $recent_articles as $r_idx => $recent ) : ?>
+						<article class="flex items-center gap-3.5 py-4 first:pt-0 last:pb-0 group fp-recent-article-item">
+							<?php if ( ! empty( $recent['image'] ) ) : ?>
+								<div class="w-16 h-16 sm:w-18 sm:h-18 aspect-square rounded overflow-hidden flex-shrink-0 border border-[#E9E6E0] dark:border-[#2E2D29] bg-[#F5F3EF] dark:bg-[#1E1D1B] fp-recent-thumb-wrap">
+									<a href="<?php echo esc_url( $recent['url'] ); ?>" class="block w-full h-full">
+										<img src="<?php echo esc_url( $recent['image'] ); ?>" alt="<?php echo esc_attr( $recent['title'] ); ?>" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+									</a>
+								</div>
+							<?php endif; ?>
+
+							<div class="flex flex-col min-w-0 flex-1">
+								<span class="text-[11px] uppercase tracking-wider text-on-surface-variant font-medium mb-0.5">
+									<?php echo esc_html( $recent['date'] ); ?>
+								</span>
+								<h4 class="font-serif font-bold text-sm sm:text-base text-on-surface group-hover:text-primary transition-colors leading-snug line-clamp-2 my-0.5 fp-recent-title">
+									<a href="<?php echo esc_url( $recent['url'] ); ?>">
+										<?php echo esc_html( $recent['title'] ); ?>
+									</a>
+								</h4>
+								<span class="text-xs text-on-surface-variant">
+									<?php echo esc_html( $recent['read_time'] ); ?>
+								</span>
+							</div>
+						</article>
+					<?php endforeach; ?>
+				</div>
+			<?php endif; ?>
+		</div>
 	</div>
 </section>

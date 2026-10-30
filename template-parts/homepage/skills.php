@@ -1,7 +1,7 @@
 <?php
 /**
  * Skills Section Template Part
- * Matches Google Stitch PRD: Skill Matrices by Domain (4 Columns)
+ * Matches Editorial Minimalism: 2-Column Categorized Tools & Technologies Layout
  *
  * @package Pixelpost
  */
@@ -10,103 +10,109 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$pixelpost_eyebrow       = pixelpost_get_setting( 'pixelpost_skills_eyebrow' );
-$pixelpost_heading       = pixelpost_get_setting( 'pixelpost_skills_heading' );
-$pixelpost_subtitle      = pixelpost_get_setting( 'pixelpost_skills_subtitle' );
-$pixelpost_view_all_show = pixelpost_get_setting( 'pixelpost_skills_view_all_show' );
-$pixelpost_view_all_text = pixelpost_get_setting( 'pixelpost_skills_view_all_text' );
-$pixelpost_view_all_url  = pixelpost_get_setting( 'pixelpost_skills_view_all_url' );
+$pixelpost_eyebrow  = pixelpost_get_setting( 'pixelpost_skills_eyebrow' );
+$pixelpost_heading  = pixelpost_get_setting( 'pixelpost_skills_heading' );
+$pixelpost_subtitle = pixelpost_get_setting( 'pixelpost_skills_subtitle' );
 
 $pixelpost_skills_items = pixelpost_get_skills_items();
 
 if ( empty( $pixelpost_skills_items ) && empty( $pixelpost_heading ) ) {
 	return;
 }
+
+// Split items into Left and Right columns
+$left_col_items  = array();
+$right_col_items = array();
+
+$total_items = count( $pixelpost_skills_items );
+$half_point  = (int) ceil( $total_items / 2 );
+
+foreach ( $pixelpost_skills_items as $idx => $item ) {
+	if ( isset( $item['column'] ) && 'right' === $item['column'] ) {
+		$right_col_items[] = $item;
+	} elseif ( isset( $item['column'] ) && 'left' === $item['column'] ) {
+		$left_col_items[] = $item;
+	} else {
+		if ( $idx < $half_point ) {
+			$left_col_items[] = $item;
+		} else {
+			$right_col_items[] = $item;
+		}
+	}
+}
 ?>
-<section id="skills" class="w-full max-w-[1200px] mx-auto px-margin-mobile lg:px-margin pt-space-xl pb-space-lg fp-skills-section" aria-label="<?php esc_attr_e( 'Skills and Expertise', 'pixelpost' ); ?>" data-pixelpost-customize="skills" data-pixelpost-label="<?php esc_attr_e( 'Skills & Expertise', 'pixelpost' ); ?>">
-	<div class="flex flex-col md:flex-row md:items-end justify-between mb-space-lg gap-space-sm">
+<section id="skills" class="w-full max-w-[1140px] mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20 border-b border-[#E9E6E0] dark:border-[#2E2D29] fp-skills-section" aria-label="<?php esc_attr_e( 'Skills and Expertise', 'pixelpost' ); ?>" data-pixelpost-customize="skills" data-pixelpost-label="<?php esc_attr_e( 'Skills & Expertise', 'pixelpost' ); ?>">
+	<!-- Section Header with Script Note on Right -->
+	<div class="flex flex-col md:flex-row md:items-start justify-between mb-12 lg:mb-16 gap-6">
 		<div class="flex flex-col max-w-2xl">
 			<?php if ( ! empty( $pixelpost_eyebrow ) ) : ?>
-				<span class="font-label-caps text-label-caps uppercase text-primary tracking-wider mb-space-xs"><?php echo esc_html( $pixelpost_eyebrow ); ?></span>
+				<div class="inline-flex items-center gap-2 mb-3">
+					<span class="text-xs uppercase tracking-widest font-semibold text-[#A94F20] dark:text-[#D4733F]"><?php echo esc_html( $pixelpost_eyebrow ); ?></span>
+					<span class="w-8 h-px bg-[#A94F20]/40"></span>
+				</div>
 			<?php endif; ?>
 
 			<?php if ( ! empty( $pixelpost_heading ) ) : ?>
-				<h2 class="font-headline-lg text-headline-lg text-on-surface"><?php echo esc_html( $pixelpost_heading ); ?></h2>
+				<h2 class="font-serif text-3xl sm:text-4xl text-on-surface mb-3"><?php echo esc_html( $pixelpost_heading ); ?></h2>
 			<?php endif; ?>
 
 			<?php if ( ! empty( $pixelpost_subtitle ) ) : ?>
-				<p class="font-body-md text-body-md text-on-surface-variant mt-space-xs"><?php echo esc_html( $pixelpost_subtitle ); ?></p>
+				<p class="text-base text-on-surface-variant leading-relaxed"><?php echo esc_html( $pixelpost_subtitle ); ?></p>
 			<?php endif; ?>
 		</div>
 
-		<?php if ( ! empty( $pixelpost_view_all_show ) && ! empty( $pixelpost_view_all_text ) ) : ?>
-			<?php
-			$pixelpost_cta_url = ! empty( $pixelpost_view_all_url ) ? $pixelpost_view_all_url : '#experience';
-			?>
-			<a class="inline-flex items-center gap-1 font-label-md text-label-md text-primary hover:text-primary-container font-semibold transition-colors group fp-skills-cta" href="<?php echo esc_url( $pixelpost_cta_url ); ?>">
-				<span><?php echo esc_html( $pixelpost_view_all_text ); ?></span>
-				<?php echo pixelpost_get_icon( 'arrow_forward', array( 'width' => 18, 'height' => 18, 'class' => 'group-hover:translate-x-1 transition-transform' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-			</a>
-		<?php endif; ?>
+		<!-- Decorative Handwritten Note -->
+		<div class="hidden md:flex flex-col items-center select-none pointer-events-none text-[#A94F20] dark:text-[#D4733F] font-script transform rotate-3 self-start mt-2 mr-4" aria-hidden="true">
+			<span class="text-2xl leading-none">Keep</span>
+			<span class="text-2xl leading-none italic">Learning</span>
+			<span class="text-2xl leading-none">Always</span>
+		</div>
 	</div>
 
-	<!-- Skill Matrices by Domain -->
-	<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-md fp-skills-grid" data-pixelpost-customize="skills-list" data-pixelpost-label="<?php esc_attr_e( 'Skills Matrix', 'pixelpost' ); ?>">
-		<?php
-		// Check if items are structured domain matrices (with title & tags)
-		$pixelpost_first_item = reset( $pixelpost_skills_items );
-		$pixelpost_is_matrix  = is_array( $pixelpost_first_item ) && isset( $pixelpost_first_item['tags'] );
-
-		if ( $pixelpost_is_matrix ) :
-			foreach ( $pixelpost_skills_items as $pixelpost_matrix ) :
-				$pixelpost_title       = ! empty( $pixelpost_matrix['title'] ) ? $pixelpost_matrix['title'] : '';
-				$pixelpost_icon        = ! empty( $pixelpost_matrix['icon'] ) ? $pixelpost_matrix['icon'] : 'code';
-				$pixelpost_badge_label = ! empty( $pixelpost_matrix['badge_label'] ) ? $pixelpost_matrix['badge_label'] : __( 'Proficiency', 'pixelpost' );
-				$pixelpost_badge_value = ! empty( $pixelpost_matrix['badge_value'] ) ? $pixelpost_matrix['badge_value'] : __( 'Mastery', 'pixelpost' );
-				$pixelpost_raw_tags    = ! empty( $pixelpost_matrix['tags'] ) ? $pixelpost_matrix['tags'] : '';
-				$pixelpost_tags_arr    = is_array( $pixelpost_raw_tags ) ? $pixelpost_raw_tags : array_map( 'trim', explode( ',', $pixelpost_raw_tags ) );
-				?>
-				<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col justify-between fp-skill-card">
-					<div>
-						<div class="flex items-center gap-2 mb-space-sm text-primary">
-							<?php echo pixelpost_get_icon( $pixelpost_icon, array( 'width' => 20, 'height' => 20 ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-							<span class="font-label-caps text-label-caps uppercase tracking-wider text-on-surface font-bold"><?php echo esc_html( $pixelpost_title ); ?></span>
-						</div>
-						<div class="flex flex-wrap gap-2">
-							<?php foreach ( $pixelpost_tags_arr as $pixelpost_tag ) : ?>
-								<?php if ( ! empty( $pixelpost_tag ) ) : ?>
-									<span class="px-space-xs py-1 rounded-full bg-surface-container-low text-on-surface font-label-md text-label-md fp-skill-pill"><?php echo esc_html( $pixelpost_tag ); ?></span>
-								<?php endif; ?>
-							<?php endforeach; ?>
-						</div>
-					</div>
-					<div class="mt-space-md pt-space-xs border-t border-surface-container-high/40 flex items-center justify-between text-on-surface-variant font-body-sm text-body-sm">
-						<span><?php echo esc_html( $pixelpost_badge_label ); ?></span>
-						<span class="font-semibold text-primary"><?php echo esc_html( $pixelpost_badge_value ); ?></span>
-					</div>
-				</div>
-				<?php
-			endforeach;
-		else :
-			// Fallback: render individual skill badges in card format
+	<!-- 2-Column Categorized Layout -->
+	<div class="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16 fp-skills-columns">
+		<!-- Left Column -->
+		<div class="space-y-8 sm:space-y-10 fp-skills-col-left">
+			<?php foreach ( $left_col_items as $matrix ) :
+				$title = ! empty( $matrix['title'] ) ? $matrix['title'] : '';
+				$icon  = ! empty( $matrix['icon'] ) ? $matrix['icon'] : 'code';
+				$tags  = ! empty( $matrix['tags'] ) ? $matrix['tags'] : '';
+				if ( is_array( $tags ) ) {
+					$tags = implode( ', ', $tags );
+				}
 			?>
-			<div class="col-span-full bg-surface-container-lowest rounded-xl p-space-md lg:p-space-lg shadow-sm">
-				<div class="flex flex-wrap gap-2">
-					<?php foreach ( $pixelpost_skills_items as $pixelpost_item ) : ?>
-						<?php
-						$pixelpost_skill_name = is_array( $pixelpost_item ) ? ( ! empty( $pixelpost_item['name'] ) ? $pixelpost_item['name'] : ( ! empty( $pixelpost_item['title'] ) ? $pixelpost_item['title'] : '' ) ) : $pixelpost_item;
-						if ( empty( $pixelpost_skill_name ) ) {
-							continue;
-						}
-						?>
-						<span class="px-space-xs py-1.5 rounded-full bg-surface-container-low text-on-surface font-label-md text-label-md fp-skill-pill">
-							<?php echo esc_html( $pixelpost_skill_name ); ?>
-						</span>
-					<?php endforeach; ?>
+				<div class="fp-skill-category">
+					<div class="flex items-center gap-2.5 mb-2 text-primary">
+						<?php echo pixelpost_get_icon( $icon, array( 'width' => 18, 'height' => 18 ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+						<h3 class="font-bold text-base sm:text-lg text-on-surface"><?php echo esc_html( $title ); ?></h3>
+					</div>
+					<p class="text-sm sm:text-base text-on-surface-variant leading-relaxed pl-7">
+						<?php echo esc_html( $tags ); ?>
+					</p>
 				</div>
-			</div>
-			<?php
-		endif;
-		?>
+			<?php endforeach; ?>
+		</div>
+
+		<!-- Right Column -->
+		<div class="space-y-8 sm:space-y-10 fp-skills-col-right">
+			<?php foreach ( $right_col_items as $matrix ) :
+				$title = ! empty( $matrix['title'] ) ? $matrix['title'] : '';
+				$icon  = ! empty( $matrix['icon'] ) ? $matrix['icon'] : 'extension';
+				$tags  = ! empty( $matrix['tags'] ) ? $matrix['tags'] : '';
+				if ( is_array( $tags ) ) {
+					$tags = implode( ', ', $tags );
+				}
+			?>
+				<div class="fp-skill-category">
+					<div class="flex items-center gap-2.5 mb-2 text-primary">
+						<?php echo pixelpost_get_icon( $icon, array( 'width' => 18, 'height' => 18 ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+						<h3 class="font-bold text-base sm:text-lg text-on-surface"><?php echo esc_html( $title ); ?></h3>
+					</div>
+					<p class="text-sm sm:text-base text-on-surface-variant leading-relaxed pl-7">
+						<?php echo esc_html( $tags ); ?>
+					</p>
+				</div>
+			<?php endforeach; ?>
+		</div>
 	</div>
 </section>

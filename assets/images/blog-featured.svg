@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8FA3B0"/>
+      <stop offset="40%" stop-color="#D1A68F"/>
+      <stop offset="70%" stop-color="#E89C6F"/>
+      <stop offset="100%" stop-color="#F3BA88"/>
+    </linearGradient>
+    <linearGradient id="m1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#806555"/>
+      <stop offset="100%" stop-color="#423228"/>
+    </linearGradient>
+    <linearGradient id="m2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4D3B31"/>
+      <stop offset="100%" stop-color="#211813"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#sky)"/>
+  <!-- Distant mist layers -->
+  <ellipse cx="400" cy="280" rx="500" ry="80" fill="#F3BA88" opacity="0.4"/>
+  <!-- Mountain layer 3 -->
+  <path d="M0,280 Q160,200 320,240 Q480,180 640,230 Q740,210 800,240 L800,450 L0,450 Z" fill="#9D7C66" opacity="0.7"/>
+  <!-- Mountain layer 2 -->
+  <path d="M0,310 Q200,230 400,270 Q580,220 800,280 L800,450 L0,450 Z" fill="url(#m1)"/>
+  <!-- Mountain layer 1 -->
+  <path d="M0,350 Q180,290 350,330 Q540,270 800,340 L800,450 L0,450 Z" fill="url(#m2)"/>
+  <!-- Fog streaks -->
+  <rect y="325" width="800" height="12" fill="#FFFFFF" opacity="0.15" filter="blur(4px)"/>
+</svg>

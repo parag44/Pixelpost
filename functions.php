@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'PIXELPOST_VERSION', '1.0.1' );
+define( 'PIXELPOST_VERSION', '2.0.0' );
 define( 'PIXELPOST_DIR', get_template_directory() );
 define( 'PIXELPOST_URI', get_template_directory_uri() );
 

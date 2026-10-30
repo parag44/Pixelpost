@@ -392,5 +392,42 @@
 
     // Initial check on page load
     setTimeout(updateScrollSpy, 100);
+
+    // Theme Toggle (Dark / Light Mode)
+    (function() {
+      var themeToggleBtn = document.getElementById('theme-toggle');
+      var moonIcon = document.querySelector('.dark-icon-moon');
+      var sunIcon = document.querySelector('.dark-icon-sun');
+
+      function updateThemeUI(isDark) {
+        if (isDark) {
+          document.documentElement.classList.add('dark');
+          document.documentElement.setAttribute('data-theme', 'dark');
+          if (moonIcon) moonIcon.classList.add('hidden');
+          if (sunIcon) sunIcon.classList.remove('hidden');
+        } else {
+          document.documentElement.classList.remove('dark');
+          document.documentElement.removeAttribute('data-theme');
+          if (moonIcon) moonIcon.classList.remove('hidden');
+          if (sunIcon) sunIcon.classList.add('hidden');
+        }
+      }
+
+      var savedTheme = localStorage.getItem('pixelpost-theme');
+      var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      var isDark = savedTheme ? (savedTheme === 'dark') : false; // default to light editorial
+
+      updateThemeUI(isDark);
+
+      if (themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          var currentlyDark = document.documentElement.classList.contains('dark');
+          var newTheme = currentlyDark ? 'light' : 'dark';
+          localStorage.setItem('pixelpost-theme', newTheme);
+          updateThemeUI(!currentlyDark);
+        });
+      }
+    })();
   });
 })();

@@ -215,10 +215,10 @@ add_action( 'after_setup_theme', 'pixelpost_content_width', 0 );
  * Enqueue scripts and styles.
  */
 function pixelpost_scripts() {
-	// Editorial Google Fonts (EB Garamond + Plus Jakarta Sans)
+	// Editorial Google Fonts (Playfair Display + EB Garamond + Inter + Caveat for handwritten notes)
 	wp_enqueue_style(
 		'pixelpost-fonts',
-		'https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&display=swap',
+		'https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap',
 		array(),
 		null
 	);
@@ -315,8 +315,10 @@ function pixelpost_get_customizer_css() {
 	}
 	if ( $text ) {
 		$css .= "  --fp-text: " . esc_attr( $text ) . ";\n";
+		$css .= "  --fp-on-surface: " . esc_attr( $text ) . ";\n";
 	}
 	if ( $accent ) {
+		$css .= "  --fp-primary: " . esc_attr( $accent ) . ";\n";
 		$css .= "  --fp-accent: " . esc_attr( $accent ) . ";\n";
 		$css .= "  --fp-focus: " . esc_attr( $accent ) . ";\n";
 	}

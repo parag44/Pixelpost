@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <rect width="200" height="200" fill="#18181B"/>
+  <!-- Monochrome architecture / lone figure -->
+  <path d="M20,180 L20,30 L90,15 L90,180 Z" fill="#27272A"/>
+  <path d="M90,180 L90,50 L180,35 L180,180 Z" fill="#3F3F46"/>
+  <line x1="20" y1="180" x2="180" y2="180" stroke="#71717A" stroke-width="2"/>
+  <circle cx="120" cy="145" r="4" fill="#E4E4E7"/>
+  <path d="M114,175 L120,152 L126,175 Z" fill="#E4E4E7"/>
+</svg>

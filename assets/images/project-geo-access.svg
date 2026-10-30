@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 375" width="600" height="375">
+  <rect width="600" height="375" fill="#0F172A"/>
+  <!-- Top bar -->
+  <rect width="600" height="42" fill="#1E293B"/>
+  <circle cx="24" cy="21" r="5" fill="#10B981"/>
+  <text x="40" y="25" fill="#F8FAFC" font-family="sans-serif" font-size="12" font-weight="bold">Geo Access Manager — Rule Engine Active</text>
+  <rect x="460" y="10" width="120" height="22" rx="11" fill="#064E3B"/>
+  <text x="478" y="25" fill="#34D399" font-family="sans-serif" font-size="11">1,842 Blocks / 24h</text>
+
+  <!-- World map abstract vector / grid -->
+  <g opacity="0.75" transform="translate(30, 60)">
+    <!-- Continents in abstract geo dot matrix -->
+    <!-- North America -->
+    <path d="M40,30 Q80,20 130,35 Q150,60 120,90 Q90,120 70,80 Z" fill="#047857" opacity="0.8"/>
+    <!-- South America -->
+    <path d="M100,105 Q125,100 135,130 Q120,180 95,150 Z" fill="#047857" opacity="0.7"/>
+    <!-- Europe -->
+    <path d="M220,25 Q260,20 280,45 Q260,70 230,60 Z" fill="#059669" opacity="0.85"/>
+    <!-- Africa -->
+    <path d="M225,75 Q270,70 285,120 Q265,170 230,130 Z" fill="#047857" opacity="0.65"/>
+    <!-- Asia -->
+    <path d="M290,20 Q390,15 440,60 Q420,120 330,80 Z" fill="#10B981" opacity="0.9"/>
+    <!-- Australia -->
+    <path d="M380,125 Q420,120 425,150 Q390,165 375,145 Z" fill="#047857" opacity="0.75"/>
+
+    <!-- Geo Ping Points -->
+    <circle cx="100" cy="55" r="4" fill="#34D399"/>
+    <circle cx="245" cy="40" r="4" fill="#34D399"/>
+    <circle cx="360" cy="65" r="5" fill="#F59E0B"/>
+    <circle cx="360" cy="65" r="9" fill="none" stroke="#F59E0B" stroke-width="1.5" opacity="0.7"/>
+    <circle cx="380" cy="75" r="4" fill="#EF4444"/>
+    <circle cx="380" cy="75" r="8" fill="none" stroke="#EF4444" stroke-width="1.5" opacity="0.6"/>
+  </g>
+
+  <!-- Rule Overlay Cards -->
+  <g transform="translate(20, 240)">
+    <rect width="170" height="115" rx="6" fill="#1E293B" stroke="#334155" stroke-width="1"/>
+    <text x="15" y="25" fill="#34D399" font-family="sans-serif" font-size="11" font-weight="bold">ALLOWED REGIONS</text>
+    <text x="15" y="48" fill="#F8FAFC" font-family="sans-serif" font-size="11">• Bangladesh (BD)</text>
+    <text x="15" y="68" fill="#F8FAFC" font-family="sans-serif" font-size="11">• United States (US)</text>
+    <text x="15" y="88" fill="#F8FAFC" font-family="sans-serif" font-size="11">• United Kingdom (GB)</text>
+    <text x="15" y="104" fill="#94A3B8" font-family="sans-serif" font-size="9">Direct WP-Admin Bypass</text>
+
+    <rect x="190" width="170" height="115" rx="6" fill="#1E293B" stroke="#334155" stroke-width="1"/>
+    <text x="205" y="25" fill="#EF4444" font-family="sans-serif" font-size="11" font-weight="bold">CHALLENGE RULES</text>
+    <text x="205" y="48" fill="#F8FAFC" font-family="sans-serif" font-size="11">• Tor Exit Nodes (Drop)</text>
+    <text x="205" y="68" fill="#F8FAFC" font-family="sans-serif" font-size="11">• Known VPNs (Captcha)</text>
+    <text x="205" y="88" fill="#F8FAFC" font-family="sans-serif" font-size="11">• High-Risk ASNs (403)</text>
+    <text x="205" y="104" fill="#94A3B8" font-family="sans-serif" font-size="9">Rate Limit: 60 req/min</text>
+
+    <rect x="380" width="180" height="115" rx="6" fill="#1E293B" stroke="#334155" stroke-width="1"/>
+    <text x="395" y="25" fill="#38BDF8" font-family="sans-serif" font-size="11" font-weight="bold">AUDIT SUMMARY</text>
+    <text x="395" y="48" fill="#94A3B8" font-family="sans-serif" font-size="11">Latency Impact: &lt;1.2ms</text>
+    <text x="395" y="68" fill="#94A3B8" font-family="sans-serif" font-size="11">Database Hits: 0 (Redis)</text>
+    <text x="395" y="92" fill="#10B981" font-family="sans-serif" font-size="14" font-weight="bold">99.98% Accuracy</text>
+  </g>
+</svg>

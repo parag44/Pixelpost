@@ -60,13 +60,6 @@ foreach ( $pixelpost_skills_items as $idx => $item ) {
 				<p class="text-base sm:text-[17px] text-on-surface-variant leading-relaxed"><?php echo esc_html( $pixelpost_subtitle ); ?></p>
 			<?php endif; ?>
 		</div>
-
-		<!-- Decorative Handwritten Note -->
-		<div class="hidden md:flex flex-col items-center select-none pointer-events-none text-[#A94F20] dark:text-[#D4733F] font-script transform rotate-3 self-start mt-2 mr-4" aria-hidden="true">
-			<span class="text-2xl leading-none">Keep</span>
-			<span class="text-2xl leading-none italic">Learning</span>
-			<span class="text-2xl leading-none">Always</span>
-		</div>
 	</div>
 
 	<!-- 2-Column Categorized Layout -->

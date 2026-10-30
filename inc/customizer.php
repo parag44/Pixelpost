@@ -380,6 +380,42 @@ function pixelpost_customize_register( $wp_customize ) {
 		)
 	);
 
+	// Location
+	$wp_customize->add_setting(
+		'pixelpost_hero_location',
+		array(
+			'default'           => pixelpost_get_theme_default( 'pixelpost_hero_location' ),
+			'sanitize_callback' => 'sanitize_text_field',
+			'transport'         => 'postMessage',
+		)
+	);
+	$wp_customize->add_control(
+		'pixelpost_hero_location',
+		array(
+			'label'   => __( 'Location', 'pixelpost' ),
+			'section' => 'pixelpost_hero_section',
+			'type'    => 'text',
+		)
+	);
+
+	// Availability Status
+	$wp_customize->add_setting(
+		'pixelpost_hero_avail_status',
+		array(
+			'default'           => pixelpost_get_theme_default( 'pixelpost_hero_avail_status' ),
+			'sanitize_callback' => 'sanitize_text_field',
+			'transport'         => 'postMessage',
+		)
+	);
+	$wp_customize->add_control(
+		'pixelpost_hero_avail_status',
+		array(
+			'label'   => __( 'Availability Status', 'pixelpost' ),
+			'section' => 'pixelpost_hero_section',
+			'type'    => 'text',
+		)
+	);
+
 	// Primary Button
 	$wp_customize->add_setting(
 		'pixelpost_hero_btn_primary_text',

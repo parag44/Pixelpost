@@ -14,7 +14,6 @@ $pixelpost_site_name = get_bloginfo( 'name' );
 if ( empty( $pixelpost_site_name ) ) {
 	$pixelpost_site_name = 'Parag Das';
 }
-$pixelpost_monogram  = mb_substr( $pixelpost_site_name, 0, 1 );
 
 $pixelpost_footer_tagline = pixelpost_get_setting( 'pixelpost_footer_tagline' );
 if ( empty( $pixelpost_footer_tagline ) ) {
@@ -47,10 +46,9 @@ $pixelpost_social_links = pixelpost_get_social_links();
 
 	<!-- Top Row: Brand & Tagline | Horizontal Nav | Social Links -->
 	<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-8 pb-12 fp-footer-top-row">
-		<!-- Left: Monogram, Name & Tagline -->
+		<!-- Left: Site Name & Tagline -->
 		<div class="flex flex-col max-w-sm fp-footer-col-brand">
-			<a class="flex items-center gap-2 mb-2 group" href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
-				<span class="font-serif font-bold text-2xl text-primary leading-none group-hover:scale-105 transition-transform fp-brand-initial"><?php echo esc_html( $pixelpost_monogram ); ?></span>
+			<a class="flex items-center mb-2 group" href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
 				<span class="font-serif text-lg font-bold text-on-surface tracking-tight leading-none fp-site-title-text"><?php echo esc_html( $pixelpost_site_name ); ?></span>
 			</a>
 			<?php if ( ! empty( $pixelpost_footer_tagline ) ) : ?>

@@ -126,13 +126,13 @@ $total_exp = count( $pixelpost_experiences );
 					</div>
 
 					<?php if ( ! empty( $pixelpost_company ) ) : ?>
-						<div class="text-xs uppercase tracking-wider font-bold text-[#77736D] mt-1 mb-3 fp-timeline-company-name">
+						<div class="text-xs uppercase tracking-wider font-bold text-[#77736D] dark:text-[#D4733F] mt-1 mb-3 fp-timeline-company-name">
 							<?php echo esc_html( $pixelpost_company ); ?>
 						</div>
 					<?php endif; ?>
 
 					<?php if ( ! empty( $pixelpost_desc ) ) : ?>
-						<p class="text-sm sm:text-[15px] text-[#55524D] dark:text-[#A39E96] leading-[1.7] max-w-2xl mb-3.5 fp-timeline-desc">
+						<p class="text-sm sm:text-[15px] text-[#55524D] dark:text-[#B5B0A6] leading-[1.7] max-w-2xl mb-3.5 fp-timeline-desc">
 							<?php echo esc_html( $pixelpost_desc ); ?>
 						</p>
 					<?php endif; ?>

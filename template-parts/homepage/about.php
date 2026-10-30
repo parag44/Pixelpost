@@ -61,15 +61,8 @@ if ( empty( $pixelpost_heading ) && empty( $pixelpost_content ) ) {
 			</div>
 		</div>
 
-		<!-- Right: Narrative, Script Note & 3 Key Attributes -->
+		<!-- Right: Narrative & 3 Key Attributes -->
 		<div class="lg:col-span-7 flex flex-col fp-about-content-col relative">
-			<!-- Handwritten Script Note top-right -->
-			<div class="hidden sm:flex flex-col items-center select-none pointer-events-none text-[#A94F20] dark:text-[#D4733F] font-script transform rotate-3 absolute -top-8 right-0" aria-hidden="true">
-				<span class="text-xl sm:text-2xl leading-tight">Same</span>
-				<span class="text-xl sm:text-2xl leading-tight italic">Passion</span>
-				<span class="text-xl sm:text-2xl leading-tight">New Problems</span>
-			</div>
-
 			<?php if ( ! empty( $pixelpost_eyebrow ) ) : ?>
 				<div class="inline-flex items-center gap-2 mb-3">
 					<span class="text-xs uppercase tracking-widest font-semibold text-[#A94F20] dark:text-[#D4733F]"><?php echo esc_html( $pixelpost_eyebrow ); ?></span>

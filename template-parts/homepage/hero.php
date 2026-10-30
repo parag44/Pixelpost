@@ -62,19 +62,19 @@ if ( empty( $pixelpost_hero_img ) ) {
 			<!-- Meta Badges: Location + Availability -->
 			<div class="flex flex-wrap items-center gap-y-2 gap-x-6 text-sm mb-8 text-on-surface-variant fp-hero-meta">
 				<?php if ( ! empty( $pixelpost_location ) ) : ?>
-					<div class="inline-flex items-center gap-1.5 fp-hero-location">
+					<div class="inline-flex items-center gap-1.5 fp-hero-location" data-pixelpost-customize="hero-location" data-pixelpost-label="<?php esc_attr_e( 'Hero Location', 'pixelpost' ); ?>">
 						<?php echo pixelpost_get_icon( 'location_on', array( 'width' => 16, 'height' => 16, 'class' => 'text-primary' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-						<span><?php echo esc_html( $pixelpost_location ); ?></span>
+						<span class="fp-hero-location-text"><?php echo esc_html( $pixelpost_location ); ?></span>
 					</div>
 				<?php endif; ?>
 
 				<?php if ( ! empty( $pixelpost_avail ) ) : ?>
-					<div class="inline-flex items-center gap-2 text-on-surface font-medium fp-hero-avail">
+					<div class="inline-flex items-center gap-2 text-on-surface font-medium fp-hero-avail" data-pixelpost-customize="hero-avail" data-pixelpost-label="<?php esc_attr_e( 'Availability Status', 'pixelpost' ); ?>">
 						<span class="relative flex h-2.5 w-2.5">
 							<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
 							<span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
 						</span>
-						<span><?php echo esc_html( $pixelpost_avail ); ?></span>
+						<span class="fp-hero-avail-text"><?php echo esc_html( $pixelpost_avail ); ?></span>
 					</div>
 				<?php endif; ?>
 			</div>
@@ -117,14 +117,6 @@ if ( empty( $pixelpost_hero_img ) ) {
 						)
 					); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					?>
-				</div>
-
-				<!-- Subtle handwritten-style decorative note placed cleanly to the right -->
-				<div class="hidden xl:flex absolute -right-24 xl:-right-28 top-1/2 -translate-y-1/2 flex-col items-start pointer-events-none select-none text-[#A94F20] dark:text-[#D4733F] font-script transform rotate-3 z-20 fp-hero-script-note" aria-hidden="true">
-					<span class="text-2xl xl:text-3xl leading-tight">Build</span>
-					<span class="text-2xl xl:text-3xl leading-tight italic">Test</span>
-					<span class="text-2xl xl:text-3xl leading-tight">Explore</span>
-					<svg width="52" height="10" viewBox="0 0 52 10" fill="none" class="mt-1 opacity-80"><path d="M2 7C16 2 36 8 50 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
 				</div>
 			</div>
 		</div>

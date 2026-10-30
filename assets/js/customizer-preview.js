@@ -14,7 +14,7 @@
   // Site title and description
   api('blogname', function(value) {
     value.bind(function(to) {
-      $('.fp-site-title a, .fp-footer-title a').text(to);
+      $('.fp-site-title a, .fp-footer-title a, .fp-site-title-text').text(to);
     });
   });
 
@@ -52,6 +52,18 @@
   api('pixelpost_hero_description', function(value) {
     value.bind(function(to) {
       $('.fp-hero-description').text(to);
+    });
+  });
+
+  api('pixelpost_hero_location', function(value) {
+    value.bind(function(to) {
+      $('.fp-hero-location-text').text(to);
+    });
+  });
+
+  api('pixelpost_hero_avail_status', function(value) {
+    value.bind(function(to) {
+      $('.fp-hero-avail-text').text(to);
     });
   });
 

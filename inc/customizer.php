@@ -1093,8 +1093,15 @@ function pixelpost_customize_register( $wp_customize ) {
 						'key'         => 'url',
 						'label'       => __( 'Project URL / Website', 'pixelpost' ),
 						'type'        => 'url',
-						'placeholder' => __( 'https://debugzen.com', 'pixelpost' ),
+						'placeholder' => __( 'https://wordpress.org/plugins/debugzen/', 'pixelpost' ),
 						'default'     => '#',
+					),
+					array(
+						'key'         => 'image',
+						'label'       => __( 'Project Screenshot / Image URL', 'pixelpost' ),
+						'type'        => 'text',
+						'placeholder' => __( 'Leave empty to use automatic project SVG', 'pixelpost' ),
+						'default'     => '',
 					),
 					array(
 						'key'     => 'icon',

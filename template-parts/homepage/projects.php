@@ -37,9 +37,9 @@ $pixelpost_projects = pixelpost_get_projects_items();
 
 		<?php if ( ! empty( $pixelpost_view_all_show ) && ! empty( $pixelpost_view_all_text ) ) : ?>
 			<?php
-			$pixelpost_cta_url = ! empty( $pixelpost_view_all_url ) ? $pixelpost_view_all_url : '#projects';
+			$pixelpost_cta_url = ! empty( $pixelpost_view_all_url ) ? $pixelpost_view_all_url : 'https://profiles.wordpress.org/parag44/';
 			?>
-			<a class="inline-flex items-center gap-1.5 text-sm font-semibold text-[#A94F20] dark:text-[#D4733F] hover:underline transition-colors group fp-projects-cta" href="<?php echo esc_url( $pixelpost_cta_url ); ?>">
+			<a class="inline-flex items-center gap-1.5 text-sm font-semibold text-[#A94F20] dark:text-[#D4733F] hover:underline transition-colors group fp-projects-cta" href="<?php echo esc_url( $pixelpost_cta_url ); ?>" <?php echo ( strpos( $pixelpost_cta_url, 'http' ) === 0 ) ? 'target="_blank" rel="noopener noreferrer"' : ''; ?>>
 				<span><?php echo esc_html( $pixelpost_view_all_text ); ?></span>
 				<?php echo pixelpost_get_icon( 'arrow_forward', array( 'width' => 14, 'height' => 14, 'class' => 'group-hover:translate-x-1 transition-transform' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 			</a>
@@ -57,17 +57,19 @@ $pixelpost_projects = pixelpost_get_projects_items();
 			$pixelpost_badge1      = ! empty( $pixelpost_item['badge1'] ) ? $pixelpost_item['badge1'] : '';
 			$pixelpost_badge2      = ! empty( $pixelpost_item['badge2'] ) ? $pixelpost_item['badge2'] : '';
 
-			// Automatic fallback images for default projects if image is empty
-			if ( empty( $pixelpost_image ) ) {
-				$img_uri = get_template_directory_uri() . '/assets/images';
-				if ( stripos( $pixelpost_title, 'debug' ) !== false ) {
+			// Automatic fallback images for default projects if image is empty or uses old placeholders
+			$img_uri = get_template_directory_uri() . '/assets/images';
+			if ( empty( $pixelpost_image ) || false !== strpos( $pixelpost_image, 'project-wp-command' ) || false !== strpos( $pixelpost_image, 'project-geo-access' ) || false !== strpos( $pixelpost_image, 'project-boilerplate' ) ) {
+				if ( stripos( $pixelpost_title, 'debug' ) !== false || stripos( $pixelpost_url, 'debugzen' ) !== false ) {
 					$pixelpost_image = $img_uri . '/project-debugzen.svg';
-				} elseif ( stripos( $pixelpost_title, 'command' ) !== false ) {
-					$pixelpost_image = $img_uri . '/project-wp-command.svg';
-				} elseif ( stripos( $pixelpost_title, 'geo' ) !== false || stripos( $pixelpost_title, 'access' ) !== false ) {
-					$pixelpost_image = $img_uri . '/project-geo-access.svg';
+				} elseif ( stripos( $pixelpost_title, 'intelix' ) !== false || stripos( $pixelpost_url, 'siteintelix' ) !== false ) {
+					$pixelpost_image = $img_uri . '/project-siteintelix.svg';
+				} elseif ( stripos( $pixelpost_title, 'mail' ) !== false || stripos( $pixelpost_title, 'tally' ) !== false || stripos( $pixelpost_url, 'mail' ) !== false || stripos( $pixelpost_url, 'inspector' ) !== false ) {
+					$pixelpost_image = $img_uri . '/project-mailtally.svg';
+				} elseif ( stripos( $pixelpost_title, 'parag' ) !== false || stripos( $pixelpost_title, 'theme' ) !== false || stripos( $pixelpost_url, 'themes/parag' ) !== false ) {
+					$pixelpost_image = $img_uri . '/project-parag-theme.svg';
 				} else {
-					$pixelpost_image = $img_uri . '/project-boilerplate.svg';
+					$pixelpost_image = $img_uri . '/project-debugzen.svg';
 				}
 			}
 			?>

@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 375" width="600" height="375">
+  <rect width="600" height="375" fill="#17191E"/>
+  <!-- Window Header -->
+  <rect width="600" height="36" fill="#1F232A"/>
+  <circle cx="20" cy="18" r="5" fill="#EF4444"/>
+  <circle cx="36" cy="18" r="5" fill="#F59E0B"/>
+  <circle cx="52" cy="18" r="5" fill="#10B981"/>
+  <text x="80" y="22" fill="#E2E8F0" font-family="monospace, sans-serif" font-size="12" font-weight="bold">MailTally — Outgoing Email Inspector &amp; Logger</text>
+  <rect x="470" y="8" width="110" height="20" rx="3" fill="#A94F20"/>
+  <text x="484" y="22" fill="#FFFFFF" font-family="monospace, sans-serif" font-size="10" font-weight="bold">WP_MAIL() LIVE</text>
+
+  <!-- Search & Tabs -->
+  <g transform="translate(20, 48)">
+    <!-- Filter Tabs -->
+    <rect x="0" y="0" width="75" height="26" rx="3" fill="#A94F20"/>
+    <text x="12" y="17" fill="#FFFFFF" font-family="sans-serif" font-size="11" font-weight="bold">All (128)</text>
+
+    <rect x="82" y="0" width="82" height="26" rx="3" fill="#222631" stroke="#2F3545" stroke-width="1"/>
+    <text x="93" y="17" fill="#34D399" font-family="sans-serif" font-size="11">Sent (122)</text>
+
+    <rect x="171" y="0" width="78" height="26" rx="3" fill="#222631" stroke="#2F3545" stroke-width="1"/>
+    <text x="182" y="17" fill="#F87171" font-family="sans-serif" font-size="11">Failed (6)</text>
+
+    <!-- Search Input -->
+    <rect x="260" y="0" width="300" height="26" rx="3" fill="#222631" stroke="#2F3545" stroke-width="1"/>
+    <text x="272" y="17" fill="#64748B" font-family="sans-serif" font-size="11">Filter by recipient, subject, or status...</text>
+  </g>
+
+  <!-- Email Log Table -->
+  <g transform="translate(20, 86)">
+    <rect width="560" height="242" rx="4" fill="#1B1E26" stroke="#282D3A" stroke-width="1"/>
+    <!-- Table Header -->
+    <rect width="560" height="28" rx="4" fill="#222631"/>
+    <text x="16" y="18" fill="#94A3B8" font-family="monospace, sans-serif" font-size="10" font-weight="bold">STATUS</text>
+    <text x="84" y="18" fill="#94A3B8" font-family="monospace, sans-serif" font-size="10" font-weight="bold">RECIPIENT</text>
+    <text x="230" y="18" fill="#94A3B8" font-family="monospace, sans-serif" font-size="10" font-weight="bold">SUBJECT</text>
+    <text x="420" y="18" fill="#94A3B8" font-family="monospace, sans-serif" font-size="10" font-weight="bold">TIMESTAMP</text>
+    <text x="510" y="18" fill="#94A3B8" font-family="monospace, sans-serif" font-size="10" font-weight="bold">VIEW</text>
+
+    <!-- Email Row 1 -->
+    <g transform="translate(0, 32)">
+      <rect x="12" y="5" width="56" height="18" rx="2" fill="#10B981" fill-opacity="0.18"/>
+      <text x="20" y="18" fill="#34D399" font-family="monospace, sans-serif" font-size="10" font-weight="bold">SENT</text>
+      <text x="84" y="18" fill="#F8FAFC" font-family="monospace, sans-serif" font-size="11">client@acme.com</text>
+      <text x="230" y="18" fill="#E2E8F0" font-family="sans-serif" font-size="11" font-weight="500">[Order #1084] Confirmation</text>
+      <text x="420" y="18" fill="#94A3B8" font-family="monospace, sans-serif" font-size="10">14:28:11 UTC</text>
+      <rect x="506" y="4" width="42" height="20" rx="2" fill="#2D3342"/>
+      <text x="514" y="18" fill="#38BDF8" font-family="sans-serif" font-size="10">HTML</text>
+    </g>
+
+    <!-- Email Row 2 -->
+    <g transform="translate(0, 70)">
+      <rect width="560" height="34" fill="#222631" fill-opacity="0.4"/>
+      <rect x="12" y="7" width="56" height="18" rx="2" fill="#10B981" fill-opacity="0.18"/>
+      <text x="20" y="20" fill="#34D399" font-family="monospace, sans-serif" font-size="10" font-weight="bold">SENT</text>
+      <text x="84" y="20" fill="#F8FAFC" font-family="monospace, sans-serif" font-size="11">admin@parag.bd</text>
+      <text x="230" y="20" fill="#E2E8F0" font-family="sans-serif" font-size="11" font-weight="500">[Security] Admin Password Reset</text>
+      <text x="420" y="20" fill="#94A3B8" font-family="monospace, sans-serif" font-size="10">14:12:04 UTC</text>
+      <rect x="506" y="6" width="42" height="20" rx="2" fill="#2D3342"/>
+      <text x="514" y="20" fill="#38BDF8" font-family="sans-serif" font-size="10">HTML</text>
+    </g>
+
+    <!-- Email Row 3 (Failed) -->
+    <g transform="translate(0, 108)">
+      <rect x="12" y="5" width="56" height="18" rx="2" fill="#EF4444" fill-opacity="0.2"/>
+      <text x="18" y="18" fill="#F87171" font-family="monospace, sans-serif" font-size="10" font-weight="bold">FAIL</text>
+      <text x="84" y="18" fill="#F87171" font-family="monospace, sans-serif" font-size="11">dev@smtp-unreachable.net</text>
+      <text x="230" y="18" fill="#FCA5A5" font-family="sans-serif" font-size="11" font-weight="500">Contact Inquiry Notification</text>
+      <text x="420" y="18" fill="#94A3B8" font-family="monospace, sans-serif" font-size="10">13:45:50 UTC</text>
+      <rect x="506" y="4" width="42" height="20" rx="2" fill="#3B1F22"/>
+      <text x="512" y="18" fill="#F87171" font-family="sans-serif" font-size="10">ERROR</text>
+    </g>
+
+    <!-- Email Row 4 -->
+    <g transform="translate(0, 146)">
+      <rect width="560" height="34" fill="#222631" fill-opacity="0.4"/>
+      <rect x="12" y="7" width="56" height="18" rx="2" fill="#10B981" fill-opacity="0.18"/>
+      <text x="20" y="20" fill="#34D399" font-family="monospace, sans-serif" font-size="10" font-weight="bold">SENT</text>
+      <text x="84" y="20" fill="#F8FAFC" font-family="monospace, sans-serif" font-size="11">sarah@editorial.io</text>
+      <text x="230" y="20" fill="#E2E8F0" font-family="sans-serif" font-size="11" font-weight="500">New Post Published: Editorial Guide</text>
+      <text x="420" y="20" fill="#94A3B8" font-family="monospace, sans-serif" font-size="10">12:05:33 UTC</text>
+      <rect x="506" y="6" width="42" height="20" rx="2" fill="#2D3342"/>
+      <text x="514" y="20" fill="#38BDF8" font-family="sans-serif" font-size="10">HTML</text>
+    </g>
+
+    <!-- Email Row 5 -->
+    <g transform="translate(0, 184)">
+      <rect x="12" y="5" width="56" height="18" rx="2" fill="#10B981" fill-opacity="0.18"/>
+      <text x="20" y="18" fill="#34D399" font-family="monospace, sans-serif" font-size="10" font-weight="bold">SENT</text>
+      <text x="84" y="18" fill="#F8FAFC" font-family="monospace, sans-serif" font-size="11">notifications@github.com</text>
+      <text x="230" y="18" fill="#E2E8F0" font-family="sans-serif" font-size="11" font-weight="500">Webhook Alert #401</text>
+      <text x="420" y="18" fill="#94A3B8" font-family="monospace, sans-serif" font-size="10">10:14:22 UTC</text>
+      <rect x="506" y="4" width="42" height="20" rx="2" fill="#2D3342"/>
+      <text x="514" y="18" fill="#38BDF8" font-family="sans-serif" font-size="10">HTML</text>
+    </g>
+  </g>
+
+  <!-- Bottom Bar -->
+  <rect y="342" width="600" height="33" fill="#1F232A"/>
+  <text x="20" y="363" fill="#94A3B8" font-family="monospace, sans-serif" font-size="11">Logging: wp_mail() Active | Retention: 30 Days | Total: 128 Captured | Export: CSV / JSON</text>
+</svg>

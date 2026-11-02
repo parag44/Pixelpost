@@ -500,50 +500,7 @@ class Pixelpost_Export_Import {
 	 * Render admin notification banners
 	 */
 	public function render_admin_notices() {
-		$screen = get_current_screen();
-		if ( ! $screen || 'appearance_page_pixelpost-setup' !== $screen->id ) {
-			return;
-		}
-
-		if ( isset( $_GET['import'] ) && 'success' === $_GET['import'] ) {
-			$count = isset( $_GET['count'] ) ? absint( $_GET['count'] ) : 0;
-			?>
-			<div class="notice notice-success is-dismissible" style="border-left-color:#46b450;">
-				<p>
-					<strong><?php esc_html_e( 'Success!', 'pixelpost' ); ?></strong>
-					<?php
-					printf(
-						/* translators: %d: number of settings */
-						esc_html__( '%d Customizer settings have been successfully imported and applied.', 'pixelpost' ),
-						$count
-					);
-					?>
-					<a href="<?php echo esc_url( admin_url( 'customize.php' ) ); ?>" class="button button-secondary" style="margin-left:12px;"><?php esc_html_e( 'Open Customizer', 'pixelpost' ); ?></a>
-				</p>
-			</div>
-			<?php
-		}
-
-		if ( isset( $_GET['reset'] ) && 'success' === $_GET['reset'] ) {
-			?>
-			<div class="notice notice-success is-dismissible" style="border-left-color:#46b450;">
-				<p>
-					<strong><?php esc_html_e( 'Defaults Restored!', 'pixelpost' ); ?></strong>
-					<?php esc_html_e( 'Theme settings have been reset to default demo configurations.', 'pixelpost' ); ?>
-					<a href="<?php echo esc_url( admin_url( 'customize.php' ) ); ?>" class="button button-secondary" style="margin-left:12px;"><?php esc_html_e( 'Open Customizer', 'pixelpost' ); ?></a>
-				</p>
-			</div>
-			<?php
-		}
-
-		if ( isset( $_GET['import'] ) && 'error' === $_GET['import'] ) {
-			$msg = isset( $_GET['msg'] ) ? sanitize_text_field( wp_unslash( $_GET['msg'] ) ) : __( 'An error occurred during import.', 'pixelpost' );
-			?>
-			<div class="notice notice-error is-dismissible">
-				<p><strong><?php esc_html_e( 'Import Failed:', 'pixelpost' ); ?></strong> <?php echo esc_html( $msg ); ?></p>
-			</div>
-			<?php
-		}
+		// Handled directly inside render_admin_page() header banner for unified UI
 	}
 
 	/**
@@ -558,138 +515,472 @@ class Pixelpost_Export_Import {
 			admin_url( 'admin-post.php?action=pixelpost_reset_demo_defaults' ),
 			'pixelpost_reset_demo_nonce'
 		);
+
+		// Notice state handling
+		$notice_type = '';
+		$notice_text = '';
+
+		if ( isset( $_GET['import'] ) && 'success' === $_GET['import'] ) {
+			$count       = isset( $_GET['count'] ) ? absint( $_GET['count'] ) : 176;
+			$notice_type = 'success';
+			$notice_text = sprintf(
+				/* translators: %d: number of settings */
+				esc_html__( '%d Customizer settings have been successfully imported and applied.', 'pixelpost' ),
+				$count
+			);
+		} elseif ( isset( $_GET['reset'] ) && 'success' === $_GET['reset'] ) {
+			$notice_type = 'success';
+			$notice_text = esc_html__( 'Theme settings have been reset to default demo configurations.', 'pixelpost' );
+		} elseif ( isset( $_GET['import'] ) && 'error' === $_GET['import'] ) {
+			$notice_type = 'error';
+			$notice_text = isset( $_GET['msg'] ) ? sanitize_text_field( wp_unslash( $_GET['msg'] ) ) : esc_html__( 'An error occurred during import.', 'pixelpost' );
+		}
 		?>
-		<div class="wrap" style="max-width:1120px; margin:24px auto 60px;">
-			<!-- Header Banner -->
-			<div style="background:#FFFFFF; border:1px solid #E9E6E0; border-radius:12px; padding:32px 36px; margin-bottom:28px; box-shadow:0 1px 3px rgba(0,0,0,0.04); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px;">
-				<div>
-					<div style="display:inline-block; font-size:11px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:#994200; background:#FAF0E8; padding:4px 10px; border-radius:4px; margin-bottom:10px;">
-						<?php esc_html_e( 'Pixelpost Editorial Portfolio - v2.0.7', 'pixelpost' ); ?>
+		<style>
+			.pixelpost-setup-wrap {
+				max-width: 1160px;
+				margin: 24px auto 48px;
+				font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+				color: #1C1A17;
+			}
+			.pixelpost-setup-wrap h1,
+			.pixelpost-setup-wrap h2,
+			.pixelpost-setup-wrap h3 {
+				font-family: inherit;
+				color: #1C1A17;
+			}
+			.fp-card {
+				background: #FFFFFF;
+				border: 1px solid #ECE8E1;
+				border-radius: 16px;
+				box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+				transition: border-color 0.2s ease, box-shadow 0.2s ease;
+			}
+			.fp-card:hover {
+				border-color: #DFDAD1;
+			}
+			.fp-btn-primary {
+				background: #994200 !important;
+				border: none !important;
+				border-radius: 8px !important;
+				color: #FFFFFF !important;
+				font-weight: 600 !important;
+				font-size: 14px !important;
+				height: 44px !important;
+				line-height: 44px !important;
+				padding: 0 20px !important;
+				display: inline-flex !important;
+				align-items: center !important;
+				justify-content: center !important;
+				gap: 8px !important;
+				text-decoration: none !important;
+				cursor: pointer !important;
+				box-shadow: 0 1px 2px rgba(153, 66, 0, 0.2) !important;
+				transition: all 0.2s ease !important;
+			}
+			.fp-btn-primary:hover {
+				background: #803700 !important;
+				transform: translateY(-1px);
+				box-shadow: 0 4px 10px rgba(153, 66, 0, 0.28) !important;
+			}
+			.fp-btn-secondary {
+				background: #FFFFFF !important;
+				border: 1.5px solid #2271b1 !important;
+				border-radius: 8px !important;
+				color: #2271b1 !important;
+				font-weight: 600 !important;
+				font-size: 14px !important;
+				height: 44px !important;
+				line-height: 41px !important;
+				padding: 0 20px !important;
+				display: inline-flex !important;
+				align-items: center !important;
+				justify-content: center !important;
+				gap: 8px !important;
+				text-decoration: none !important;
+				cursor: pointer !important;
+				transition: all 0.2s ease !important;
+			}
+			.fp-btn-secondary:hover {
+				background: #EEF4FB !important;
+				border-color: #1a5c91 !important;
+				color: #1a5c91 !important;
+				transform: translateY(-1px);
+			}
+			.fp-dropzone {
+				border: 1px dashed #C8C3BA;
+				border-radius: 8px;
+				background: #FAF9F7;
+				padding: 9px 14px;
+				display: flex;
+				align-items: center;
+				gap: 12px;
+				cursor: pointer;
+				transition: all 0.2s ease;
+			}
+			.fp-dropzone:hover,
+			.fp-dropzone.is-dragover {
+				border-color: #2271b1 !important;
+				background: #EEF4FB !important;
+			}
+			.fp-checkbox-label {
+				display: flex;
+				align-items: flex-start;
+				gap: 10px;
+				cursor: pointer;
+				user-select: none;
+			}
+			.fp-checkbox-label input[type="checkbox"] {
+				accent-color: #2271b1;
+				width: 16px;
+				height: 16px;
+				margin-top: 2px;
+				cursor: pointer;
+				border-radius: 4px;
+			}
+			@media (max-width: 860px) {
+				.fp-grid-2col {
+					grid-template-columns: 1fr !important;
+				}
+				.fp-banner-content {
+					flex-direction: column !important;
+				}
+				.fp-banner-art {
+					display: none !important;
+				}
+			}
+		</style>
+
+		<div class="wrap pixelpost-setup-wrap">
+			<!-- HEADER BANNER -->
+			<div class="fp-card" style="padding: 28px 32px; margin-bottom: 24px;">
+				<div class="fp-banner-content" style="display: flex; justify-content: space-between; align-items: center; gap: 24px;">
+					<!-- Left Text Content -->
+					<div>
+						<div style="display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #994200; background: #FAF0E8; padding: 4px 10px; border-radius: 4px; margin-bottom: 12px;">
+							<?php esc_html_e( 'PIXELPOST EDITORIAL PORTFOLIO - V2.0.7', 'pixelpost' ); ?>
+						</div>
+						<h1 style="margin: 0 0 8px 0; font-size: 30px; font-weight: 700; color: #1C1A17; line-height: 1.2; letter-spacing: -0.02em;">
+							<?php esc_html_e( 'Theme Setup & Migration', 'pixelpost' ); ?>
+						</h1>
+						<p style="margin: 0; font-size: 14px; color: #6B665F; max-width: 540px; line-height: 1.5;">
+							<?php esc_html_e( 'Export your complete portfolio setup to easily backup your content, or import settings onto a brand new site installation with one click.', 'pixelpost' ); ?>
+						</p>
 					</div>
-					<h1 style="margin:0 0 8px 0; font-size:26px; font-weight:700; color:#1C1A17; line-height:1.2;">
-						<?php esc_html_e( 'Theme Setup & Migration', 'pixelpost' ); ?>
-					</h1>
-					<p style="margin:0; font-size:14px; color:#6B665F; max-width:640px; line-height:1.5;">
-						<?php esc_html_e( 'Export your complete portfolio setup to easily backup your content, or import settings onto a brand new site installation with one click.', 'pixelpost' ); ?>
-					</p>
+
+					<!-- Right Illustration -->
+					<div class="fp-banner-art" style="flex-shrink: 0;">
+						<svg width="220" height="126" viewBox="0 0 220 126" fill="none" xmlns="http://www.w3.org/2000/svg" style="display: block;">
+							<defs>
+								<filter id="cardShadow" x="-10%" y="-10%" width="130%" height="130%" filterUnits="userSpaceOnUse">
+									<feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#1c1917" flood-opacity="0.07" />
+								</filter>
+								<filter id="sliderShadow" x="-20%" y="-20%" width="140%" height="140%" filterUnits="userSpaceOnUse">
+									<feDropShadow dx="0" dy="4" stdDeviation="7" flood-color="#1c1917" flood-opacity="0.10" />
+								</filter>
+								<radialGradient id="bannerGlow" cx="60%" cy="50%" r="50%">
+									<stop offset="0%" stop-color="#F8EFE6" stop-opacity="0.95" />
+									<stop offset="100%" stop-color="#F8EFE6" stop-opacity="0" />
+								</radialGradient>
+							</defs>
+
+							<!-- Warm ambient glow -->
+							<circle cx="150" cy="63" r="62" fill="url(#bannerGlow)" />
+
+							<!-- Swoosh arrow pointing to browser -->
+							<path d="M 22 84 C 52 64, 82 48, 106 46" stroke="#D8A581" stroke-width="3" stroke-linecap="round" fill="none" />
+							<polygon points="108,42 117,48 107,52" fill="#D8A581" />
+
+							<!-- Browser Window Mockup -->
+							<g filter="url(#cardShadow)">
+								<rect x="75" y="14" width="130" height="92" rx="10" fill="#FFFFFF" stroke="#ECE6DE" stroke-width="1.2" />
+								
+								<!-- Browser Header Bar -->
+								<path d="M 75 24 A 10 10 0 0 1 85 14 L 195 14 A 10 10 0 0 1 205 24 L 205 32 L 75 32 Z" fill="#9F5123" />
+								<!-- 3 Dots -->
+								<circle cx="87" cy="23" r="2.5" fill="#FFFFFF" opacity="0.9" />
+								<circle cx="95" cy="23" r="2.5" fill="#FFFFFF" opacity="0.6" />
+								<circle cx="103" cy="23" r="2.5" fill="#FFFFFF" opacity="0.6" />
+
+								<!-- Browser Body: Landscape Image Graphic Placeholder -->
+								<rect x="87" y="42" width="58" height="46" rx="6" fill="#FBF5F0" stroke="#F0E8DF" stroke-width="1" />
+								<circle cx="128" cy="54" r="4.5" fill="#D8A581" />
+								<polygon points="88,86 106,68 122,86" fill="#D49970" />
+								<polygon points="112,86 128,72 144,86" fill="#BD7B4D" />
+							</g>
+
+							<!-- Floating Controls / Settings Slider Card -->
+							<g filter="url(#sliderShadow)">
+								<rect x="150" y="50" width="56" height="52" rx="8" fill="#FFFFFF" stroke="#ECE6DE" stroke-width="1.2" />
+								
+								<!-- Slider 1 -->
+								<line x1="160" y1="65" x2="196" y2="65" stroke="#ECE6DE" stroke-width="2.5" stroke-linecap="round" />
+								<circle cx="184" cy="65" r="4" fill="#994200" stroke="#FFFFFF" stroke-width="1.5" />
+
+								<!-- Slider 2 -->
+								<line x1="160" y1="85" x2="196" y2="85" stroke="#ECE6DE" stroke-width="2.5" stroke-linecap="round" />
+								<circle cx="172" cy="85" r="4" fill="#994200" stroke="#FFFFFF" stroke-width="1.5" />
+							</g>
+						</svg>
+					</div>
 				</div>
-				<div style="display:flex; gap:10px;">
-					<a href="<?php echo esc_url( admin_url( 'customize.php' ) ); ?>" class="button button-primary" style="background:#994200; border-color:#803700; height:38px; line-height:36px; padding:0 18px; font-weight:600;">
-						<?php esc_html_e( 'Open Customizer', 'pixelpost' ); ?>
-					</a>
-					<a href="<?php echo esc_url( home_url( '/' ) ); ?>" target="_blank" class="button button-secondary" style="height:38px; line-height:36px; padding:0 16px;">
-						<?php esc_html_e( 'View Live Site ↗', 'pixelpost' ); ?>
-					</a>
+
+				<!-- Lower Row: Notice + Action Buttons -->
+				<div style="display: flex; justify-content: space-between; align-items: center; margin-top: 22px; flex-wrap: wrap; gap: 16px;">
+					<!-- Notice Pill -->
+					<div>
+						<?php if ( 'success' === $notice_type ) : ?>
+							<div id="fp-header-notice" style="display: inline-flex; align-items: center; gap: 10px; background: #EAF7EE; border: 1px solid #B8E4C4; border-radius: 8px; padding: 7px 14px; font-size: 13px; color: #1C1A17; max-width: 100%;">
+								<span style="width: 20px; height: 20px; border-radius: 50%; background: #28a745; color: #FFFFFF; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: bold; flex-shrink: 0;">✓</span>
+								<span><strong><?php esc_html_e( 'Success!', 'pixelpost' ); ?></strong> <?php echo esc_html( $notice_text ); ?></span>
+								<a href="<?php echo esc_url( admin_url( 'customize.php' ) ); ?>" class="button" style="height: 28px; line-height: 26px; padding: 0 12px; font-size: 12px; font-weight: 500; color: #2271b1; border: 1px solid #2271b1; background: #FFFFFF; border-radius: 5px; text-decoration: none; margin-left: 8px; white-space: nowrap;">
+									<?php esc_html_e( 'Open Customizer', 'pixelpost' ); ?>
+								</a>
+								<span onclick="document.getElementById('fp-header-notice').style.display='none';" style="cursor: pointer; color: #6B665F; font-size: 14px; margin-left: 6px; line-height: 1; padding: 2px;" title="<?php esc_attr_e( 'Dismiss', 'pixelpost' ); ?>">✕</span>
+							</div>
+						<?php elseif ( 'error' === $notice_type ) : ?>
+							<div id="fp-header-notice" style="display: inline-flex; align-items: center; gap: 10px; background: #FDF2F2; border: 1px solid #F5C6CB; border-radius: 8px; padding: 7px 14px; font-size: 13px; color: #721C24; max-width: 100%;">
+								<span style="width: 20px; height: 20px; border-radius: 50%; background: #dc3545; color: #FFFFFF; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: bold; flex-shrink: 0;">✕</span>
+								<span><strong><?php esc_html_e( 'Import Failed:', 'pixelpost' ); ?></strong> <?php echo esc_html( $notice_text ); ?></span>
+								<span onclick="document.getElementById('fp-header-notice').style.display='none';" style="cursor: pointer; color: #721C24; font-size: 14px; margin-left: 6px; line-height: 1; padding: 2px;">✕</span>
+							</div>
+						<?php endif; ?>
+					</div>
+
+					<!-- Action Buttons -->
+					<div style="display: flex; gap: 10px; margin-left: auto;">
+						<a href="<?php echo esc_url( admin_url( 'customize.php' ) ); ?>" class="button button-primary" style="background: #994200; border: none; height: 38px; line-height: 38px; padding: 0 18px; font-weight: 600; font-size: 13px; border-radius: 7px; color: #FFFFFF; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 1px 2px rgba(153, 66, 0, 0.2); transition: all 0.2s ease;">
+							<?php esc_html_e( 'Open Customizer', 'pixelpost' ); ?>
+						</a>
+						<a href="<?php echo esc_url( home_url( '/' ) ); ?>" target="_blank" class="button button-secondary" style="height: 38px; line-height: 36px; padding: 0 16px; font-weight: 600; font-size: 13px; border-radius: 7px; color: #2271b1; border: 1.5px solid #2271b1; background: #FFFFFF; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; transition: all 0.2s ease;">
+							<?php esc_html_e( 'View Live Site ↗', 'pixelpost' ); ?>
+						</a>
+					</div>
 				</div>
 			</div>
 
-			<!-- Main 2-Column Grid -->
-			<div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(360px, 1fr)); gap:24px; margin-bottom:28px;">
+			<!-- MAIN 2-COLUMN BALANCED GRID -->
+			<div class="fp-grid-2col" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); gap: 24px; margin-bottom: 24px;">
 				
-				<!-- CARD 1: EXPORT -->
-				<div style="background:#FFFFFF; border:1px solid #E9E6E0; border-radius:10px; padding:28px; box-shadow:0 1px 3px rgba(0,0,0,0.03); display:flex; flex-direction:column; justify-content:space-between;">
+				<!-- CARD 1: EXPORT CUSTOMIZER DATA -->
+				<div class="fp-card" style="padding: 28px; display: flex; flex-direction: column; justify-content: space-between;">
 					<div>
-						<div style="width:42px; height:42px; border-radius:8px; background:#FAF0E8; display:flex; align-items:center; justify-content:center; margin-bottom:16px;">
-							<span class="dashicons dashicons-download" style="font-size:22px; color:#994200; line-height:1;"></span>
+						<!-- Card Header -->
+						<div style="display: flex; align-items: flex-start; gap: 16px; margin-bottom: 20px;">
+							<div style="width: 44px; height: 44px; border-radius: 10px; background: #FAF0E8; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+								<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#994200" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+									<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+									<polyline points="7 10 12 15 17 10"></polyline>
+									<line x1="12" y1="15" x2="12" y2="3"></line>
+								</svg>
+							</div>
+							<div>
+								<h2 style="margin: 0 0 6px 0; font-size: 18px; font-weight: 700; color: #1C1A17; line-height: 1.3;">
+									<?php esc_html_e( 'Export Customizer Data', 'pixelpost' ); ?>
+								</h2>
+								<p style="margin: 0; font-size: 13px; color: #6B665F; line-height: 1.5;">
+									<?php esc_html_e( 'Creates a downloadable JSON file containing all theme settings and custom content. You can import this into any new Pixelpost installation.', 'pixelpost' ); ?>
+								</p>
+							</div>
 						</div>
-						<h2 style="margin:0 0 8px 0; font-size:18px; font-weight:700; color:#1C1A17;">
-							<?php esc_html_e( 'Export Customizer Data', 'pixelpost' ); ?>
-						</h2>
-						<p style="margin:0 0 20px 0; font-size:13px; color:#6B665F; line-height:1.6;">
-							<?php esc_html_e( 'Creates a downloadable JSON file containing all theme settings and custom content. You can import this into any new Pixelpost installation.', 'pixelpost' ); ?>
-						</p>
 
-						<div style="background:#FAF9F6; border:1px solid #EFECE6; border-radius:8px; padding:16px; margin-bottom:24px; font-size:12px; color:#555047; line-height:1.6;">
-							<strong style="color:#1C1A17; display:block; margin-bottom:6px;"><?php esc_html_e( 'Included in Export:', 'pixelpost' ); ?></strong>
-							<ul style="margin:0; padding-left:18px;">
-								<li><?php esc_html_e( 'Hero section (headline, intro, CTA buttons, indicators)', 'pixelpost' ); ?></li>
-								<li><?php esc_html_e( 'Projects I\'ve built (all 4 project cards, links, SVGs)', 'pixelpost' ); ?></li>
-								<li><?php esc_html_e( 'Skills categorized items & Work Experience timeline', 'pixelpost' ); ?></li>
-								<li><?php esc_html_e( 'Statistics metrics & About Me attributes', 'pixelpost' ); ?></li>
-								<li><?php esc_html_e( 'Brand display (text vs logo, dimensions, tagline)', 'pixelpost' ); ?></li>
-								<li><?php esc_html_e( 'Footer social links, copyright, and Additional CSS', 'pixelpost' ); ?></li>
+						<!-- Included in Export Container -->
+						<div style="background: #FAF6F0; border: 1px solid #EFECE6; border-radius: 10px; padding: 18px 20px; margin-bottom: 22px;">
+							<div style="display: flex; align-items: center; gap: 8px; margin-bottom: 14px; font-weight: 700; font-size: 13px; color: #1C1A17;">
+								<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#994200" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+									<polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+									<polyline points="2 17 12 22 22 17"></polyline>
+									<polyline points="2 12 12 17 22 12"></polyline>
+								</svg>
+								<span><?php esc_html_e( 'Included in Export', 'pixelpost' ); ?></span>
+							</div>
+							<ul style="margin: 0; padding: 0; list-style: none;">
+								<li style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 11px; font-size: 13px; color: #3C3833; line-height: 1.45;">
+									<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#994200" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+									<span><?php esc_html_e( 'Hero section (headline, intro, CTA buttons, indicators)', 'pixelpost' ); ?></span>
+								</li>
+								<li style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 11px; font-size: 13px; color: #3C3833; line-height: 1.45;">
+									<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#994200" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+									<span><?php esc_html_e( 'Projects I\'ve built (all 4 project cards, links, SVGs)', 'pixelpost' ); ?></span>
+								</li>
+								<li style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 11px; font-size: 13px; color: #3C3833; line-height: 1.45;">
+									<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#994200" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+									<span><?php esc_html_e( 'Skills categorized items & Work Experience timeline', 'pixelpost' ); ?></span>
+								</li>
+								<li style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 11px; font-size: 13px; color: #3C3833; line-height: 1.45;">
+									<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#994200" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+									<span><?php esc_html_e( 'Statistics metrics & About Me attributes', 'pixelpost' ); ?></span>
+								</li>
+								<li style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 11px; font-size: 13px; color: #3C3833; line-height: 1.45;">
+									<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#994200" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+									<span><?php esc_html_e( 'Brand display (text vs logo, dimensions, tagline)', 'pixelpost' ); ?></span>
+								</li>
+								<li style="display: flex; align-items: flex-start; gap: 10px; font-size: 13px; color: #3C3833; line-height: 1.45;">
+									<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#994200" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+									<span><?php esc_html_e( 'Footer social links, copyright, and Additional CSS', 'pixelpost' ); ?></span>
+								</li>
 							</ul>
 						</div>
 					</div>
 
-					<a href="<?php echo esc_url( $export_url ); ?>" class="button button-primary" style="background:#994200; border-color:#803700; height:40px; line-height:38px; text-align:center; font-weight:600; display:flex; align-items:center; justify-content:center; gap:8px;">
-						<span class="dashicons dashicons-download" style="margin-top:2px;"></span>
-						<?php esc_html_e( 'Download Export File (.json)', 'pixelpost' ); ?>
+					<!-- Export Button -->
+					<a href="<?php echo esc_url( $export_url ); ?>" class="fp-btn-primary" style="width: 100%;">
+						<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+							<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+							<polyline points="7 10 12 15 17 10"></polyline>
+							<line x1="12" y1="15" x2="12" y2="3"></line>
+						</svg>
+						<span><?php esc_html_e( 'Download Export File (.json)', 'pixelpost' ); ?></span>
 					</a>
 				</div>
 
-				<!-- CARD 2: IMPORT -->
-				<div style="background:#FFFFFF; border:1px solid #E9E6E0; border-radius:10px; padding:28px; box-shadow:0 1px 3px rgba(0,0,0,0.03); display:flex; flex-direction:column; justify-content:space-between;">
-					<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" enctype="multipart/form-data" style="margin:0;">
+				<!-- CARD 2: IMPORT CUSTOMIZER DATA -->
+				<div class="fp-card" style="padding: 28px; display: flex; flex-direction: column; justify-content: space-between;">
+					<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" enctype="multipart/form-data" style="margin: 0; display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
 						<input type="hidden" name="action" value="pixelpost_import_customizer" />
 						<?php wp_nonce_field( 'pixelpost_import_customizer_nonce' ); ?>
 
 						<div>
-							<div style="width:42px; height:42px; border-radius:8px; background:#EEF4FB; display:flex; align-items:center; justify-content:center; margin-bottom:16px;">
-								<span class="dashicons dashicons-upload" style="font-size:22px; color:#2271b1; line-height:1;"></span>
+							<!-- Card Header -->
+							<div style="display: flex; align-items: flex-start; gap: 16px; margin-bottom: 20px;">
+								<div style="width: 44px; height: 44px; border-radius: 10px; background: #EEF4FB; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+									<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2271b1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+										<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+										<polyline points="17 8 12 3 7 8"></polyline>
+										<line x1="12" y1="3" x2="12" y2="15"></line>
+									</svg>
+								</div>
+								<div>
+									<h2 style="margin: 0 0 6px 0; font-size: 18px; font-weight: 700; color: #1C1A17; line-height: 1.3;">
+										<?php esc_html_e( 'Import Customizer Data', 'pixelpost' ); ?>
+									</h2>
+									<p style="margin: 0; font-size: 13px; color: #6B665F; line-height: 1.5;">
+										<?php esc_html_e( 'Upload your exported JSON file to immediately configure this site to match your previous setup.', 'pixelpost' ); ?>
+									</p>
+								</div>
 							</div>
-							<h2 style="margin:0 0 8px 0; font-size:18px; font-weight:700; color:#1C1A17;">
-								<?php esc_html_e( 'Import Customizer Data', 'pixelpost' ); ?>
-							</h2>
-							<p style="margin:0 0 18px 0; font-size:13px; color:#6B665F; line-height:1.6;">
-								<?php esc_html_e( 'Upload your exported JSON file to immediately configure this site to match your previous setup.', 'pixelpost' ); ?>
-							</p>
 
-							<div style="margin-bottom:18px;">
-								<label for="pixelpost_import_file" style="display:block; font-weight:600; font-size:13px; margin-bottom:6px; color:#1C1A17;">
-									<?php esc_html_e( 'Choose Export File (.json):', 'pixelpost' ); ?>
-								</label>
-								<input type="file" name="pixelpost_import_file" id="pixelpost_import_file" accept=".json,application/json" required="required" style="width:100%; padding:10px; border:1px dashed #C3BFB6; border-radius:6px; background:#FAF9F6;" />
+							<!-- File Selection Box -->
+							<label for="pixelpost_import_file" style="display: block; font-weight: 700; font-size: 13px; margin-bottom: 8px; color: #1C1A17;">
+								<?php esc_html_e( 'Choose Export File (.json):', 'pixelpost' ); ?>
+							</label>
+							<div id="fp-dropzone" class="fp-dropzone" onclick="document.getElementById('pixelpost_import_file').click();">
+								<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8C867E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;">
+									<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+									<polyline points="14 2 14 8 20 8"></polyline>
+									<line x1="16" y1="13" x2="8" y2="13"></line>
+									<line x1="16" y1="17" x2="8" y2="17"></line>
+									<polyline points="10 9 9 9 8 9"></polyline>
+								</svg>
+								<span class="button" style="pointer-events: none; font-weight: 500; font-size: 13px; height: 28px; line-height: 26px; padding: 0 12px; background: #FFFFFF; border: 1px solid #CCD0D4; color: #2c3338; border-radius: 5px;">
+									<?php esc_html_e( 'Choose File', 'pixelpost' ); ?>
+								</span>
+								<span id="fp-filename-display" style="font-size: 13px; color: #6B665F; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1;">
+									<?php esc_html_e( 'No file chosen', 'pixelpost' ); ?>
+								</span>
+								<input type="file" name="pixelpost_import_file" id="pixelpost_import_file" accept=".json,application/json" required="required" style="display: none;" />
 							</div>
 
-							<div style="background:#FAF9F6; border:1px solid #EFECE6; border-radius:8px; padding:14px 16px; margin-bottom:20px; font-size:12px; line-height:1.6;">
-								<label style="display:block; margin-bottom:8px; cursor:pointer;">
+							<!-- Import Options Container -->
+							<div style="background: #FAF6F0; border: 1px solid #EFECE6; border-radius: 10px; padding: 16px 20px; margin-bottom: 22px;">
+								<label class="fp-checkbox-label" style="margin-bottom: 12px;">
 									<input type="checkbox" name="replace_urls" value="1" checked="checked" />
-									<strong><?php esc_html_e( 'Replace domain URLs automatically', 'pixelpost' ); ?></strong>
-									<span style="display:block; color:#6B665F; font-size:11px; margin-left:22px;">
-										<?php
-										printf(
-											/* translators: %s: current home url */
-											esc_html__( 'Converts previous site URLs (e.g. image assets) to this current site URL: %s', 'pixelpost' ),
-											'<code>' . esc_html( home_url() ) . '</code>'
-										);
-										?>
-									</span>
+									<div>
+										<strong style="color: #1C1A17; font-size: 13px;"><?php esc_html_e( 'Replace domain URLs automatically', 'pixelpost' ); ?></strong>
+										<span style="display: block; color: #6B665F; font-size: 12px; line-height: 1.45; margin-top: 3px;">
+											<?php esc_html_e( 'Converts previous site URLs (e.g. image assets) to this current site URL:', 'pixelpost' ); ?><br />
+											<code style="background: #EAE6DF; border: 1px solid #DDD8D0; border-radius: 4px; padding: 2px 6px; font-size: 11px; color: #1C1A17; font-family: monospace; display: inline-block; margin-top: 3px;"><?php echo esc_html( home_url() ); ?></code>
+										</span>
+									</div>
 								</label>
-								<label style="display:block; margin-bottom:8px; cursor:pointer;">
+								<label class="fp-checkbox-label" style="margin-bottom: 10px;">
 									<input type="checkbox" name="import_css" value="1" checked="checked" />
-									<strong><?php esc_html_e( 'Import Custom CSS', 'pixelpost' ); ?></strong>
+									<strong style="color: #1C1A17; font-size: 13px;"><?php esc_html_e( 'Import Custom CSS', 'pixelpost' ); ?></strong>
 								</label>
-								<label style="display:block; cursor:pointer;">
+								<label class="fp-checkbox-label">
 									<input type="checkbox" name="import_site_identity" value="1" />
-									<strong><?php esc_html_e( 'Import Site Title & Tagline', 'pixelpost' ); ?></strong>
+									<strong style="color: #1C1A17; font-size: 13px;"><?php esc_html_e( 'Import Site Title & Tagline', 'pixelpost' ); ?></strong>
 								</label>
 							</div>
 						</div>
 
-						<button type="submit" class="button button-secondary" style="width:100%; height:40px; font-weight:600; display:flex; align-items:center; justify-content:center; gap:8px;">
-							<span class="dashicons dashicons-upload" style="margin-top:2px;"></span>
-							<?php esc_html_e( 'Upload & Apply Settings', 'pixelpost' ); ?>
+						<!-- Import Button -->
+						<button type="submit" class="fp-btn-secondary" style="width: 100%;">
+							<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2271b1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+								<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+								<polyline points="17 8 12 3 7 8"></polyline>
+								<line x1="12" y1="3" x2="12" y2="15"></line>
+							</svg>
+							<span><?php esc_html_e( 'Upload & Apply Settings', 'pixelpost' ); ?></span>
 						</button>
 					</form>
 				</div>
 			</div>
 
 			<!-- CARD 3: RESET DEMO DEFAULTS -->
-			<div style="background:#FFFFFF; border:1px solid #E9E6E0; border-radius:10px; padding:24px 28px; box-shadow:0 1px 3px rgba(0,0,0,0.03); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+			<div class="fp-card" style="padding: 18px 26px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
 				<div>
-					<h3 style="margin:0 0 6px 0; font-size:15px; font-weight:700; color:#1C1A17;">
+					<h3 style="margin: 0 0 3px 0; font-size: 14px; font-weight: 700; color: #1C1A17;">
 						<?php esc_html_e( 'Reset to Demo Defaults', 'pixelpost' ); ?>
 					</h3>
-					<p style="margin:0; font-size:13px; color:#6B665F;">
+					<p style="margin: 0; font-size: 12px; color: #6B665F;">
 						<?php esc_html_e( 'Restore standard default starter content, 4 sample projects, skills, experience, and editorial color schemes.', 'pixelpost' ); ?>
 					</p>
 				</div>
-				<a href="<?php echo esc_url( $reset_url ); ?>" class="button button-link-delete" onclick="return confirm('<?php echo esc_js( __( 'Are you sure you want to reset all theme options to default? Any custom work will be overwritten.', 'pixelpost' ) ); ?>');" style="color:#b32d2e; text-decoration:none; font-weight:600;">
+				<a href="<?php echo esc_url( $reset_url ); ?>" class="button" onclick="return confirm('<?php echo esc_js( __( 'Are you sure you want to reset all theme options to default? Any custom work will be overwritten.', 'pixelpost' ) ); ?>');" style="color: #b32d2e; border: 1px solid #F0B8B8; background: #FFF5F5; font-weight: 600; font-size: 12px; padding: 4px 14px; border-radius: 6px; text-decoration: none; transition: all 0.2s ease;">
 					<?php esc_html_e( 'Reset to Demo Defaults', 'pixelpost' ); ?>
 				</a>
 			</div>
 		</div>
+
+		<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			var fileInput = document.getElementById('pixelpost_import_file');
+			var filenameDisplay = document.getElementById('fp-filename-display');
+			var dropzone = document.getElementById('fp-dropzone');
+
+			if (fileInput && filenameDisplay) {
+				fileInput.addEventListener('change', function() {
+					if (this.files && this.files.length > 0) {
+						filenameDisplay.textContent = this.files[0].name;
+						filenameDisplay.style.color = '#1C1A17';
+						filenameDisplay.style.fontWeight = '600';
+					} else {
+						filenameDisplay.textContent = '<?php echo esc_js( __( 'No file chosen', 'pixelpost' ) ); ?>';
+						filenameDisplay.style.color = '#6B665F';
+						filenameDisplay.style.fontWeight = 'normal';
+					}
+				});
+			}
+
+			if (dropzone && fileInput && filenameDisplay) {
+				['dragenter', 'dragover'].forEach(function(evtName) {
+					dropzone.addEventListener(evtName, function(e) {
+						e.preventDefault();
+						e.stopPropagation();
+						dropzone.classList.add('is-dragover');
+					});
+				});
+
+				['dragleave', 'drop'].forEach(function(evtName) {
+					dropzone.addEventListener(evtName, function(e) {
+						e.preventDefault();
+						e.stopPropagation();
+						dropzone.classList.remove('is-dragover');
+					});
+				});
+
+				dropzone.addEventListener('drop', function(e) {
+					if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+						fileInput.files = e.dataTransfer.files;
+						filenameDisplay.textContent = e.dataTransfer.files[0].name;
+						filenameDisplay.style.color = '#1C1A17';
+						filenameDisplay.style.fontWeight = '600';
+					}
+				});
+			}
+		});
+		</script>
 		<?php
 	}
 }

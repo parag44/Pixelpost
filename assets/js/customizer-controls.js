@@ -72,6 +72,102 @@
         api.section('menu_locations').focus();
       }
     });
+
+    // 4. In-Customizer Import Settings (AJAX)
+    $(document).on('click', '#pixelpost-btn-import-trigger', function(e) {
+      e.preventDefault();
+
+      var $btn = $(this);
+      var $feedback = $('#pixelpost-import-feedback');
+      var fileInput = document.getElementById('pixelpost-customizer-import-file');
+
+      if (!fileInput || !fileInput.files || !fileInput.files[0]) {
+        $feedback.show().css({
+          'background': '#fcf0f1',
+          'border': '1px solid #d63638',
+          'color': '#b32d2e'
+        }).html(window.pixelpostExportImport ? window.pixelpostExportImport.select_file : 'Please select a .json file first.');
+        return;
+      }
+
+      var file = fileInput.files[0];
+      if (file.name.slice(-5).toLowerCase() !== '.json') {
+        $feedback.show().css({
+          'background': '#fcf0f1',
+          'border': '1px solid #d63638',
+          'color': '#b32d2e'
+        }).html('Selected file must be in .json format.');
+        return;
+      }
+
+      var confirmMsg = (window.pixelpostExportImport && window.pixelpostExportImport.confirm_import) 
+        ? window.pixelpostExportImport.confirm_import 
+        : 'Are you sure you want to import these settings? Current customizer settings will be overwritten.';
+
+      if (!window.confirm(confirmMsg)) {
+        return;
+      }
+
+      var replaceUrls = $('#pixelpost-import-opt-replace-urls').is(':checked') ? 1 : 0;
+      var importCss = $('#pixelpost-import-opt-css').is(':checked') ? 1 : 0;
+
+      // Show loading status
+      $btn.prop('disabled', true).text(window.pixelpostExportImport ? window.pixelpostExportImport.importing_label : 'Importing...');
+      $feedback.show().css({
+        'background': '#f0f6fc',
+        'border': '1px solid #72aee6',
+        'color': '#1d2327'
+      }).html('<span class="spinner is-active" style="float:none; margin:0 6px 0 0; vertical-align:middle;"></span> Processing import...');
+
+      var reader = new FileReader();
+      reader.onload = function(evt) {
+        var jsonContent = evt.target.result;
+        var ajaxUrl = window.pixelpostExportImport ? window.pixelpostExportImport.ajax_url : '/wp-admin/admin-ajax.php';
+        var nonce = window.pixelpostExportImport ? window.pixelpostExportImport.nonce : '';
+
+        $.ajax({
+          url: ajaxUrl,
+          type: 'POST',
+          dataType: 'json',
+          data: {
+            action: 'pixelpost_ajax_import_customizer',
+            nonce: nonce,
+            json_data: jsonContent,
+            replace_urls: replaceUrls,
+            import_css: importCss
+          },
+          success: function(res) {
+            if (res && res.success) {
+              $feedback.css({
+                'background': '#edfaef',
+                'border': '1px solid #68de7c',
+                'color': '#135e23'
+              }).html('<strong>✓ ' + (res.data.message || 'Import successful!') + '</strong><br>Reloading Customizer in 2 seconds...');
+
+              setTimeout(function() {
+                window.location.reload();
+              }, 1800);
+            } else {
+              $btn.prop('disabled', false).html('<span class="dashicons dashicons-upload" style="margin-top:2px;"></span> Import & Apply Settings');
+              $feedback.css({
+                'background': '#fcf0f1',
+                'border': '1px solid #d63638',
+                'color': '#b32d2e'
+              }).html('<strong>Error:</strong> ' + (res && res.data && res.data.message ? res.data.message : 'Import failed.'));
+            }
+          },
+          error: function(xhr, status, err) {
+            $btn.prop('disabled', false).html('<span class="dashicons dashicons-upload" style="margin-top:2px;"></span> Import & Apply Settings');
+            $feedback.css({
+              'background': '#fcf0f1',
+              'border': '1px solid #d63638',
+              'color': '#b32d2e'
+            }).html('<strong>Server Error:</strong> ' + (err || 'Could not communicate with server.'));
+          }
+        });
+      };
+      reader.readAsText(file);
+    });
   });
 
   // Inject subtle sidebar focus pulse style

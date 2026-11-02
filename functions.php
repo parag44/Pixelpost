@@ -20,4 +20,5 @@ require_once PIXELPOST_DIR . '/inc/demo-data.php';
 require_once PIXELPOST_DIR . '/inc/template-tags.php';
 require_once PIXELPOST_DIR . '/inc/theme-setup.php';
 require_once PIXELPOST_DIR . '/inc/customizer.php';
+require_once PIXELPOST_DIR . '/inc/class-pixelpost-export-import.php';
 require_once PIXELPOST_DIR . '/inc/block-patterns.php';

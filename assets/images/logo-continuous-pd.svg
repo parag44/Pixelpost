@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 320" width="100%" height="100%">
+    <g transform="translate(0, 10)">
+    <!-- Central Interlocking Monogram -->
+    <g transform="translate(180, 35)">
+      <!-- Central Stem (shared spine) -->
+      <line x1="20" y1="15" x2="20" y2="155" fill="none" stroke="#242321" stroke-width="16" stroke-linecap="round"/>
+      <!-- Loop of 'P' (upper loop in accent) -->
+      <path d="M 20,20 C 65,20 85,38 85,62 C 85,86 65,102 20,102" fill="none" stroke="#A94F20" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+      <!-- Bowl of 'D' (outer sweeping loop) -->
+      <path d="M 20,20 C 95,20 125,50 125,87 C 125,124 95,155 20,155" fill="none" stroke="#242321" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+
+    <!-- Typography -->
+    <text x="250" y="244" fill="#242321" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', Roboto, sans-serif" font-weight="800" font-size="24" letter-spacing="0.3em" text-anchor="middle">PARAG DAS</text>
+    <text x="250" y="270" fill="#77736D" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', Roboto, sans-serif" font-weight="600" font-size="11" letter-spacing="0.36em" text-anchor="middle">WORDPRESS SPECIALIST · DEVELOPER</text>
+  </g>
+</svg>

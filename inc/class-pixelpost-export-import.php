@@ -3,7 +3,7 @@
  * Pixelpost Customizer Export & Import Manager
  *
  * Allows exporting all Customizer settings, homepage content, colors,
- * logo configurations, and Additional CSS to a portable JSON file,
+ * logo configurations, repeaters, and Additional CSS to a portable JSON file,
  * and importing it on a new site installation for fast, one-click site setup.
  *
  * @package Pixelpost
@@ -59,8 +59,8 @@ class Pixelpost_Export_Import {
 		// Handle AJAX import from Customizer
 		add_action( 'wp_ajax_pixelpost_ajax_import_customizer', array( $this, 'handle_ajax_import' ) );
 
-		// Enqueue scripts for Customizer controls
-		add_action( 'customize_controls_enqueue_scripts', array( $this, 'enqueue_customizer_scripts' ) );
+		// Enqueue scripts for Customizer controls (priority 30 to run after control scripts)
+		add_action( 'customize_controls_enqueue_scripts', array( $this, 'enqueue_customizer_scripts' ), 30 );
 
 		// Display admin notices
 		add_action( 'admin_notices', array( $this, 'render_admin_notices' ) );
@@ -72,14 +72,18 @@ class Pixelpost_Export_Import {
 	 * @param WP_Customize_Manager $wp_customize Customizer manager.
 	 */
 	public function customize_register( $wp_customize ) {
-		// Add Section to Customizer
+		// Ensure control class is loaded safely when WP_Customize_Control exists
+		if ( ! class_exists( 'Pixelpost_Export_Import_Control' ) ) {
+			require_once PIXELPOST_DIR . '/inc/class-pixelpost-export-import-control.php';
+		}
+
+		// Add Section to Customizer (visible at root level for quick access)
 		$wp_customize->add_section(
 			'pixelpost_export_import_section',
 			array(
 				'title'       => __( 'Export / Import Settings', 'pixelpost' ),
-				'description' => __( 'Export your customizer settings as a backup or import settings from another site.', 'pixelpost' ),
-				'panel'       => 'pixelpost_theme_options',
-				'priority'    => 99,
+				'description' => __( 'Export all customizer settings, content, and branding as a portable backup or import onto this site.', 'pixelpost' ),
+				'priority'    => 200,
 			)
 		);
 
@@ -139,37 +143,79 @@ class Pixelpost_Export_Import {
 	}
 
 	/**
-	 * Export full theme customizations into a clean data array
+	 * Export full theme customizations into a complete, self-contained data array
+	 *
+	 * Guarantees all theme settings, repeaters, branding, and custom CSS are exported.
 	 *
 	 * @return array
 	 */
 	public function get_export_data() {
 		$theme_mods = get_theme_mods();
-		$defaults   = function_exists( 'pixelpost_get_theme_defaults' ) ? pixelpost_get_theme_defaults() : array();
+		if ( ! is_array( $theme_mods ) ) {
+			$theme_mods = array();
+		}
 
-		// Merge defaults with saved mods so the export file is 100% self-contained
-		$merged_mods = array_merge( $defaults, is_array( $theme_mods ) ? $theme_mods : array() );
+		$defaults = function_exists( 'pixelpost_get_theme_defaults' ) ? pixelpost_get_theme_defaults() : array();
 
-		// Clean up system/transient keys
 		$clean_mods = array();
-		foreach ( $merged_mods as $key => $val ) {
-			if ( in_array( $key, array( 0, '0', 'custom_css_post_id', 'nav_menu_locations', 'sidebars_widgets' ), true ) ) {
-				continue;
+
+		// 1. Resolve every single registered Pixelpost setting to its active, effective value
+		// pixelpost_get_setting() checks pixelpost_* in DB, then legacy foliopress_* in DB, then default!
+		foreach ( $defaults as $key => $default_val ) {
+			if ( function_exists( 'pixelpost_get_setting' ) ) {
+				$val = pixelpost_get_setting( $key );
+			} elseif ( isset( $theme_mods[ $key ] ) ) {
+				$val = $theme_mods[ $key ];
+			} else {
+				$val = $default_val;
 			}
 			$clean_mods[ $key ] = $val;
 		}
 
-		// Custom logo URL fallback
+		// 2. Also incorporate any additional theme mods saved in the database
+		foreach ( $theme_mods as $key => $val ) {
+			if ( in_array( $key, array( 0, '0', 'custom_css_post_id', 'nav_menu_locations', 'sidebars_widgets' ), true ) ) {
+				continue;
+			}
+
+			// If it's a legacy foliopress_ key, normalize to pixelpost_ if not already set or empty
+			if ( strpos( $key, 'foliopress_' ) === 0 ) {
+				$norm_key = 'pixelpost_' . substr( $key, 11 );
+				if ( ! isset( $clean_mods[ $norm_key ] ) || empty( $clean_mods[ $norm_key ] ) ) {
+					$clean_mods[ $norm_key ] = $val;
+				}
+				// Also include legacy key so both are retained
+				$clean_mods[ $key ] = $val;
+			} else {
+				$clean_mods[ $key ] = $val;
+			}
+		}
+
+		// 3. Custom logo URL and attachment details
 		$custom_logo_url = '';
 		$custom_logo_id  = get_theme_mod( 'custom_logo' );
 		if ( ! empty( $custom_logo_id ) ) {
 			$custom_logo_url = wp_get_attachment_image_url( $custom_logo_id, 'full' );
 		}
 
-		// Additional CSS
+		// 4. Site icon (favicon)
+		$site_icon_url = '';
+		$site_icon_id  = get_option( 'site_icon' );
+		if ( ! empty( $site_icon_id ) ) {
+			$site_icon_url = wp_get_attachment_image_url( $site_icon_id, 'full' );
+		}
+
+		// 5. Additional CSS
 		$custom_css = function_exists( 'wp_get_custom_css' ) ? wp_get_custom_css() : '';
 
-		// Nav Menu Locations
+		// 6. Homepage & Reading options
+		$homepage_settings = array(
+			'show_on_front'  => get_option( 'show_on_front' ),
+			'page_on_front'  => get_option( 'page_on_front' ),
+			'page_for_posts' => get_option( 'page_for_posts' ),
+		);
+
+		// 7. Nav Menu Locations
 		$nav_menus = array();
 		$locations = get_nav_menu_locations();
 		if ( ! empty( $locations ) && is_array( $locations ) ) {
@@ -182,17 +228,21 @@ class Pixelpost_Export_Import {
 		}
 
 		return array(
-			'generator'       => 'Pixelpost Theme Setup & Migration',
-			'theme'           => 'pixelpost',
-			'version'         => defined( 'PIXELPOST_VERSION' ) ? PIXELPOST_VERSION : '2.0.7',
-			'exported_at'     => gmdate( 'c' ),
-			'site_url'        => untrailingslashit( home_url() ),
-			'site_title'      => get_bloginfo( 'name' ),
-			'site_tagline'    => get_bloginfo( 'description' ),
-			'custom_logo_url' => $custom_logo_url,
-			'custom_css'      => $custom_css,
-			'nav_menus'       => $nav_menus,
-			'mods'            => $clean_mods,
+			'generator'         => 'Pixelpost Theme Setup & Migration',
+			'theme'             => 'pixelpost',
+			'version'           => defined( 'PIXELPOST_VERSION' ) ? PIXELPOST_VERSION : '2.0.7',
+			'exported_at'       => gmdate( 'c' ),
+			'site_url'          => untrailingslashit( home_url() ),
+			'site_title'        => get_bloginfo( 'name' ),
+			'site_tagline'      => get_bloginfo( 'description' ),
+			'custom_logo_id'    => $custom_logo_id,
+			'custom_logo_url'   => $custom_logo_url,
+			'site_icon_id'      => $site_icon_id,
+			'site_icon_url'     => $site_icon_url,
+			'custom_css'        => $custom_css,
+			'homepage_settings' => $homepage_settings,
+			'nav_menus'         => $nav_menus,
+			'mods'              => $clean_mods,
 		);
 	}
 
@@ -275,11 +325,25 @@ class Pixelpost_Export_Import {
 		// 3. Import each theme mod
 		$imported_count = 0;
 		foreach ( $mods as $key => $val ) {
-			if ( ! is_string( $key ) || in_array( $key, array( '0', 'custom_css_post_id', 'nav_menu_locations', 'sidebars_widgets' ), true ) ) {
+			if ( ! is_string( $key ) || in_array( $key, array( 0, '0', 'custom_css_post_id', 'nav_menu_locations', 'sidebars_widgets' ), true ) ) {
 				continue;
 			}
-			set_theme_mod( $key, $val );
+
+			// Format value appropriately
+			$save_val = is_array( $val ) ? wp_json_encode( $val ) : $val;
+
+			// Save mod under active key
+			set_theme_mod( $key, $save_val );
 			$imported_count++;
+
+			// Maintain mirror keys for cross-compatibility
+			if ( strpos( $key, 'pixelpost_' ) === 0 ) {
+				$legacy_key = 'foliopress_' . substr( $key, 10 );
+				set_theme_mod( $legacy_key, $save_val );
+			} elseif ( strpos( $key, 'foliopress_' ) === 0 ) {
+				$modern_key = 'pixelpost_' . substr( $key, 11 );
+				set_theme_mod( $modern_key, $save_val );
+			}
 		}
 
 		// 4. Handle Custom Logo if URL is available and current logo is empty
@@ -359,26 +423,32 @@ class Pixelpost_Export_Import {
 			wp_send_json_error( array( 'message' => $result->get_error_message() ) );
 		}
 
-		wp_send_json_success( $result );
+		wp_send_json_success( array(
+			'message' => $result['message'],
+			'count'   => $result['count'],
+		) );
 	}
 
 	/**
-	 * Handle file upload from the Appearance -> Pixelpost Setup admin page
+	 * Handle admin form import via admin-post.php
 	 */
 	public function handle_admin_import() {
 		if ( ! current_user_can( 'edit_theme_options' ) ) {
 			wp_die( esc_html__( 'Sorry, you are not allowed to import theme settings.', 'pixelpost' ) );
 		}
 
-		check_admin_referer( 'pixelpost_admin_import_nonce' );
+		check_admin_referer( 'pixelpost_import_customizer_nonce' );
 
-		if ( empty( $_FILES['pixelpost_import_file']['tmp_name'] ) || ! is_uploaded_file( $_FILES['pixelpost_import_file']['tmp_name'] ) ) {
-			wp_safe_redirect( add_query_arg( array( 'page' => 'pixelpost-setup', 'status' => 'no_file' ), admin_url( 'themes.php' ) ) );
+		if ( empty( $_FILES['pixelpost_import_file']['tmp_name'] ) ) {
+			wp_safe_redirect( add_query_arg( array( 'page' => 'pixelpost-setup', 'import' => 'no_file' ), admin_url( 'themes.php' ) ) );
 			exit;
 		}
 
-		// Read uploaded file
-		$file_content = file_get_contents( $_FILES['pixelpost_import_file']['tmp_name'] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		$file_content = file_get_contents( $_FILES['pixelpost_import_file']['tmp_name'] ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
+		if ( false === $file_content ) {
+			wp_safe_redirect( add_query_arg( array( 'page' => 'pixelpost-setup', 'import' => 'read_error' ), admin_url( 'themes.php' ) ) );
+			exit;
+		}
 
 		$args = array(
 			'replace_urls'         => ! empty( $_POST['replace_urls'] ),
@@ -389,20 +459,20 @@ class Pixelpost_Export_Import {
 		$result = $this->import_data( $file_content, $args );
 
 		if ( is_wp_error( $result ) ) {
-			wp_safe_redirect( add_query_arg( array( 'page' => 'pixelpost-setup', 'status' => 'error', 'msg' => rawurlencode( $result->get_error_message() ) ), admin_url( 'themes.php' ) ) );
+			wp_safe_redirect( add_query_arg( array( 'page' => 'pixelpost-setup', 'import' => 'error', 'msg' => urlencode( $result->get_error_message() ) ), admin_url( 'themes.php' ) ) );
 			exit;
 		}
 
-		wp_safe_redirect( add_query_arg( array( 'page' => 'pixelpost-setup', 'status' => 'success', 'count' => absint( $result['count'] ) ), admin_url( 'themes.php' ) ) );
+		wp_safe_redirect( add_query_arg( array( 'page' => 'pixelpost-setup', 'import' => 'success', 'count' => $result['count'] ), admin_url( 'themes.php' ) ) );
 		exit;
 	}
 
 	/**
-	 * Reset theme settings to clean demo defaults
+	 * Reset current theme settings to initial demo defaults
 	 */
 	public function handle_reset_demo_defaults() {
 		if ( ! current_user_can( 'edit_theme_options' ) ) {
-			wp_die( esc_html__( 'Permission denied.', 'pixelpost' ) );
+			wp_die( esc_html__( 'Sorry, you are not allowed to modify theme settings.', 'pixelpost' ) );
 		}
 
 		check_admin_referer( 'pixelpost_reset_demo_nonce' );
@@ -411,6 +481,10 @@ class Pixelpost_Export_Import {
 			$defaults = pixelpost_get_theme_defaults();
 			foreach ( $defaults as $key => $val ) {
 				set_theme_mod( $key, $val );
+				if ( strpos( $key, 'pixelpost_' ) === 0 ) {
+					$legacy_key = 'foliopress_' . substr( $key, 10 );
+					set_theme_mod( $legacy_key, $val );
+				}
 			}
 		}
 
@@ -418,12 +492,12 @@ class Pixelpost_Export_Import {
 			wp_cache_flush();
 		}
 
-		wp_safe_redirect( add_query_arg( array( 'page' => 'pixelpost-setup', 'status' => 'reset_success' ), admin_url( 'themes.php' ) ) );
+		wp_safe_redirect( add_query_arg( array( 'page' => 'pixelpost-setup', 'reset' => 'success' ), admin_url( 'themes.php' ) ) );
 		exit;
 	}
 
 	/**
-	 * Render admin notices on themes.php?page=pixelpost-setup
+	 * Render admin notification banners
 	 */
 	public function render_admin_notices() {
 		$screen = get_current_screen();
@@ -431,81 +505,68 @@ class Pixelpost_Export_Import {
 			return;
 		}
 
-		$status = isset( $_GET['status'] ) ? sanitize_key( $_GET['status'] ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		if ( empty( $status ) ) {
-			return;
-		}
-
-		if ( 'success' === $status ) {
-			$count = isset( $_GET['count'] ) ? absint( $_GET['count'] ) : 0; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		if ( isset( $_GET['import'] ) && 'success' === $_GET['import'] ) {
+			$count = isset( $_GET['count'] ) ? absint( $_GET['count'] ) : 0;
 			?>
-			<div class="notice notice-success is-dismissible" style="border-left-color:#994200;">
+			<div class="notice notice-success is-dismissible" style="border-left-color:#46b450;">
 				<p>
 					<strong><?php esc_html_e( 'Success!', 'pixelpost' ); ?></strong>
 					<?php
 					printf(
-						/* translators: %d: count */
-						esc_html__( 'Imported %d theme settings successfully. Your site is now configured!', 'pixelpost' ),
+						/* translators: %d: number of settings */
+						esc_html__( '%d Customizer settings have been successfully imported and applied.', 'pixelpost' ),
 						$count
 					);
 					?>
 					<a href="<?php echo esc_url( admin_url( 'customize.php' ) ); ?>" class="button button-secondary" style="margin-left:12px;"><?php esc_html_e( 'Open Customizer', 'pixelpost' ); ?></a>
-					<a href="<?php echo esc_url( home_url( '/' ) ); ?>" target="_blank" class="button button-primary" style="margin-left:6px;"><?php esc_html_e( 'View Site ↗', 'pixelpost' ); ?></a>
 				</p>
 			</div>
 			<?php
-		} elseif ( 'reset_success' === $status ) {
+		}
+
+		if ( isset( $_GET['reset'] ) && 'success' === $_GET['reset'] ) {
 			?>
-			<div class="notice notice-success is-dismissible" style="border-left-color:#994200;">
+			<div class="notice notice-success is-dismissible" style="border-left-color:#46b450;">
 				<p>
-					<strong><?php esc_html_e( 'Success!', 'pixelpost' ); ?></strong>
-					<?php esc_html_e( 'Theme settings have been restored to clean demo defaults.', 'pixelpost' ); ?>
+					<strong><?php esc_html_e( 'Defaults Restored!', 'pixelpost' ); ?></strong>
+					<?php esc_html_e( 'Theme settings have been reset to default demo configurations.', 'pixelpost' ); ?>
 					<a href="<?php echo esc_url( admin_url( 'customize.php' ) ); ?>" class="button button-secondary" style="margin-left:12px;"><?php esc_html_e( 'Open Customizer', 'pixelpost' ); ?></a>
 				</p>
 			</div>
 			<?php
-		} elseif ( 'error' === $status ) {
-			$msg = isset( $_GET['msg'] ) ? sanitize_text_field( wp_unslash( $_GET['msg'] ) ) : __( 'An error occurred during import.', 'pixelpost' ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		}
+
+		if ( isset( $_GET['import'] ) && 'error' === $_GET['import'] ) {
+			$msg = isset( $_GET['msg'] ) ? sanitize_text_field( wp_unslash( $_GET['msg'] ) ) : __( 'An error occurred during import.', 'pixelpost' );
 			?>
 			<div class="notice notice-error is-dismissible">
-				<p><strong><?php esc_html_e( 'Import Error:', 'pixelpost' ); ?></strong> <?php echo esc_html( $msg ); ?></p>
-			</div>
-			<?php
-		} elseif ( 'no_file' === $status ) {
-			?>
-			<div class="notice notice-warning is-dismissible">
-				<p><?php esc_html_e( 'Please select a valid .json export file to import.', 'pixelpost' ); ?></p>
+				<p><strong><?php esc_html_e( 'Import Failed:', 'pixelpost' ); ?></strong> <?php echo esc_html( $msg ); ?></p>
 			</div>
 			<?php
 		}
 	}
 
 	/**
-	 * Render the full Appearance -> Pixelpost Setup admin dashboard page
+	 * Render the full Setup & Migration page in Appearance menu
 	 */
 	public function render_admin_page() {
-		if ( ! current_user_can( 'edit_theme_options' ) ) {
-			wp_die( esc_html__( 'Sorry, you are not allowed to access this page.', 'pixelpost' ) );
-		}
-
 		$export_url = wp_nonce_url(
 			admin_url( 'admin-post.php?action=pixelpost_export_customizer' ),
 			'pixelpost_export_customizer_nonce'
 		);
-
-		$theme_version = defined( 'PIXELPOST_VERSION' ) ? PIXELPOST_VERSION : '2.0.7';
-		$site_url      = home_url();
-		$theme_mods    = get_theme_mods();
-		$mods_count    = is_array( $theme_mods ) ? count( $theme_mods ) : 0;
+		$reset_url  = wp_nonce_url(
+			admin_url( 'admin-post.php?action=pixelpost_reset_demo_defaults' ),
+			'pixelpost_reset_demo_nonce'
+		);
 		?>
-		<div class="wrap pixelpost-setup-wrap" style="max-width:1120px; margin:24px auto; font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+		<div class="wrap" style="max-width:1120px; margin:24px auto 60px;">
 			<!-- Header Banner -->
-			<div style="background:#FAF9F6; border:1px solid #E9E6E0; border-radius:10px; padding:28px 32px; margin-bottom:28px; box-shadow:0 1px 3px rgba(0,0,0,0.03); display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:20px;">
+			<div style="background:#FFFFFF; border:1px solid #E9E6E0; border-radius:12px; padding:32px 36px; margin-bottom:28px; box-shadow:0 1px 3px rgba(0,0,0,0.04); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px;">
 				<div>
-					<div style="display:inline-block; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; color:#994200; margin-bottom:8px;">
-						<?php esc_html_e( 'Pixelpost Editorial Portfolio', 'pixelpost' ); ?> · v<?php echo esc_html( $theme_version ); ?>
+					<div style="display:inline-block; font-size:11px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:#994200; background:#FAF0E8; padding:4px 10px; border-radius:4px; margin-bottom:10px;">
+						<?php esc_html_e( 'Pixelpost Editorial Portfolio - v2.0.7', 'pixelpost' ); ?>
 					</div>
-					<h1 style="margin:0 0 8px 0; font-size:26px; font-weight:700; color:#1C1A17; font-family:Georgia, serif;">
+					<h1 style="margin:0 0 8px 0; font-size:26px; font-weight:700; color:#1C1A17; line-height:1.2;">
 						<?php esc_html_e( 'Theme Setup & Migration', 'pixelpost' ); ?>
 					</h1>
 					<p style="margin:0; font-size:14px; color:#6B665F; max-width:640px; line-height:1.5;">
@@ -526,7 +587,7 @@ class Pixelpost_Export_Import {
 			<div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(360px, 1fr)); gap:24px; margin-bottom:28px;">
 				
 				<!-- CARD 1: EXPORT -->
-				<div style="background:#FFFFFF; border:1px solid #E9E6E0; border-radius:10px; padding:28px; box-shadow:0 1px 3px rgba(0,0,0,0.03); display:flex; flex-col; justify-content:space-between;">
+				<div style="background:#FFFFFF; border:1px solid #E9E6E0; border-radius:10px; padding:28px; box-shadow:0 1px 3px rgba(0,0,0,0.03); display:flex; flex-direction:column; justify-content:space-between;">
 					<div>
 						<div style="width:42px; height:42px; border-radius:8px; background:#FAF0E8; display:flex; align-items:center; justify-content:center; margin-bottom:16px;">
 							<span class="dashicons dashicons-download" style="font-size:22px; color:#994200; line-height:1;"></span>
@@ -534,15 +595,15 @@ class Pixelpost_Export_Import {
 						<h2 style="margin:0 0 8px 0; font-size:18px; font-weight:700; color:#1C1A17;">
 							<?php esc_html_e( 'Export Customizer Data', 'pixelpost' ); ?>
 						</h2>
-						<p style="margin:0 0 16px 0; font-size:13px; color:#6B665F; line-height:1.5;">
+						<p style="margin:0 0 20px 0; font-size:13px; color:#6B665F; line-height:1.6;">
 							<?php esc_html_e( 'Creates a downloadable JSON file containing all theme settings and custom content. You can import this into any new Pixelpost installation.', 'pixelpost' ); ?>
 						</p>
 
-						<div style="background:#FAF9F6; border:1px solid #EFECE6; border-radius:6px; padding:12px 14px; margin-bottom:20px; font-size:12px; color:#4A4640;">
-							<strong style="display:block; margin-bottom:6px; color:#1C1A17;"><?php esc_html_e( 'Included in Export:', 'pixelpost' ); ?></strong>
-							<ul style="margin:0; padding-left:16px; line-height:1.6;">
+						<div style="background:#FAF9F6; border:1px solid #EFECE6; border-radius:8px; padding:16px; margin-bottom:24px; font-size:12px; color:#555047; line-height:1.6;">
+							<strong style="color:#1C1A17; display:block; margin-bottom:6px;"><?php esc_html_e( 'Included in Export:', 'pixelpost' ); ?></strong>
+							<ul style="margin:0; padding-left:18px;">
 								<li><?php esc_html_e( 'Hero section (headline, intro, CTA buttons, indicators)', 'pixelpost' ); ?></li>
-								<li><?php esc_html_e( 'Projects I’ve built (all 4 project cards, links, SVGs)', 'pixelpost' ); ?></li>
+								<li><?php esc_html_e( 'Projects I\'ve built (all 4 project cards, links, SVGs)', 'pixelpost' ); ?></li>
 								<li><?php esc_html_e( 'Skills categorized items & Work Experience timeline', 'pixelpost' ); ?></li>
 								<li><?php esc_html_e( 'Statistics metrics & About Me attributes', 'pixelpost' ); ?></li>
 								<li><?php esc_html_e( 'Brand display (text vs logo, dimensions, tagline)', 'pixelpost' ); ?></li>
@@ -551,57 +612,62 @@ class Pixelpost_Export_Import {
 						</div>
 					</div>
 
-					<a href="<?php echo esc_url( $export_url ); ?>" class="button button-primary" style="background:#994200; border-color:#803700; width:100%; text-align:center; height:40px; line-height:38px; font-size:13px; font-weight:600; display:flex; align-items:center; justify-content:center; gap:8px;">
+					<a href="<?php echo esc_url( $export_url ); ?>" class="button button-primary" style="background:#994200; border-color:#803700; height:40px; line-height:38px; text-align:center; font-weight:600; display:flex; align-items:center; justify-content:center; gap:8px;">
 						<span class="dashicons dashicons-download" style="margin-top:2px;"></span>
 						<?php esc_html_e( 'Download Export File (.json)', 'pixelpost' ); ?>
 					</a>
 				</div>
 
 				<!-- CARD 2: IMPORT -->
-				<div style="background:#FFFFFF; border:1px solid #E9E6E0; border-radius:10px; padding:28px; box-shadow:0 1px 3px rgba(0,0,0,0.03);">
-					<div style="width:42px; height:42px; border-radius:8px; background:#EBF4FA; display:flex; align-items:center; justify-content:center; margin-bottom:16px;">
-						<span class="dashicons dashicons-upload" style="font-size:22px; color:#2271b1; line-height:1;"></span>
-					</div>
-					<h2 style="margin:0 0 8px 0; font-size:18px; font-weight:700; color:#1C1A17;">
-						<?php esc_html_e( 'Import Customizer Data', 'pixelpost' ); ?>
-					</h2>
-					<p style="margin:0 0 16px 0; font-size:13px; color:#6B665F; line-height:1.5;">
-						<?php esc_html_e( 'Upload your exported JSON file to immediately configure this site to match your previous setup.', 'pixelpost' ); ?>
-					</p>
-
-					<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" enctype="multipart/form-data">
+				<div style="background:#FFFFFF; border:1px solid #E9E6E0; border-radius:10px; padding:28px; box-shadow:0 1px 3px rgba(0,0,0,0.03); display:flex; flex-direction:column; justify-content:space-between;">
+					<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" enctype="multipart/form-data" style="margin:0;">
 						<input type="hidden" name="action" value="pixelpost_import_customizer" />
-						<?php wp_nonce_field( 'pixelpost_admin_import_nonce' ); ?>
+						<?php wp_nonce_field( 'pixelpost_import_customizer_nonce' ); ?>
 
-						<div style="margin-bottom:16px;">
-							<label for="pixelpost_import_file_input" style="display:block; font-weight:600; font-size:13px; color:#1C1A17; margin-bottom:6px;">
-								<?php esc_html_e( 'Choose Export File (.json):', 'pixelpost' ); ?>
-							</label>
-							<input type="file" id="pixelpost_import_file_input" name="pixelpost_import_file" accept=".json,application/json" required="required" style="width:100%; padding:8px; border:1px dashed #CCD0D4; border-radius:6px; background:#FAF9F6;" />
+						<div>
+							<div style="width:42px; height:42px; border-radius:8px; background:#EEF4FB; display:flex; align-items:center; justify-content:center; margin-bottom:16px;">
+								<span class="dashicons dashicons-upload" style="font-size:22px; color:#2271b1; line-height:1;"></span>
+							</div>
+							<h2 style="margin:0 0 8px 0; font-size:18px; font-weight:700; color:#1C1A17;">
+								<?php esc_html_e( 'Import Customizer Data', 'pixelpost' ); ?>
+							</h2>
+							<p style="margin:0 0 18px 0; font-size:13px; color:#6B665F; line-height:1.6;">
+								<?php esc_html_e( 'Upload your exported JSON file to immediately configure this site to match your previous setup.', 'pixelpost' ); ?>
+							</p>
+
+							<div style="margin-bottom:18px;">
+								<label for="pixelpost_import_file" style="display:block; font-weight:600; font-size:13px; margin-bottom:6px; color:#1C1A17;">
+									<?php esc_html_e( 'Choose Export File (.json):', 'pixelpost' ); ?>
+								</label>
+								<input type="file" name="pixelpost_import_file" id="pixelpost_import_file" accept=".json,application/json" required="required" style="width:100%; padding:10px; border:1px dashed #C3BFB6; border-radius:6px; background:#FAF9F6;" />
+							</div>
+
+							<div style="background:#FAF9F6; border:1px solid #EFECE6; border-radius:8px; padding:14px 16px; margin-bottom:20px; font-size:12px; line-height:1.6;">
+								<label style="display:block; margin-bottom:8px; cursor:pointer;">
+									<input type="checkbox" name="replace_urls" value="1" checked="checked" />
+									<strong><?php esc_html_e( 'Replace domain URLs automatically', 'pixelpost' ); ?></strong>
+									<span style="display:block; color:#6B665F; font-size:11px; margin-left:22px;">
+										<?php
+										printf(
+											/* translators: %s: current home url */
+											esc_html__( 'Converts previous site URLs (e.g. image assets) to this current site URL: %s', 'pixelpost' ),
+											'<code>' . esc_html( home_url() ) . '</code>'
+										);
+										?>
+									</span>
+								</label>
+								<label style="display:block; margin-bottom:8px; cursor:pointer;">
+									<input type="checkbox" name="import_css" value="1" checked="checked" />
+									<strong><?php esc_html_e( 'Import Custom CSS', 'pixelpost' ); ?></strong>
+								</label>
+								<label style="display:block; cursor:pointer;">
+									<input type="checkbox" name="import_site_identity" value="1" />
+									<strong><?php esc_html_e( 'Import Site Title & Tagline', 'pixelpost' ); ?></strong>
+								</label>
+							</div>
 						</div>
 
-						<div style="background:#FAF9F6; border:1px solid #EFECE6; border-radius:6px; padding:14px; margin-bottom:20px; font-size:12px;">
-							<label style="display:block; margin-bottom:8px; cursor:pointer;">
-								<input type="checkbox" name="replace_urls" value="1" checked="checked" />
-								<strong><?php esc_html_e( 'Replace domain URLs automatically', 'pixelpost' ); ?></strong>
-								<span style="display:block; color:#6B665F; margin-left:22px; font-size:11px;">
-									<?php esc_html_e( 'Converts previous site URLs (e.g. image assets) to this current site URL:', 'pixelpost' ); ?>
-									<code><?php echo esc_html( $site_url ); ?></code>
-								</span>
-							</label>
-
-							<label style="display:block; margin-bottom:8px; cursor:pointer;">
-								<input type="checkbox" name="import_css" value="1" checked="checked" />
-								<strong><?php esc_html_e( 'Import Custom CSS', 'pixelpost' ); ?></strong>
-							</label>
-
-							<label style="display:block; cursor:pointer;">
-								<input type="checkbox" name="import_site_identity" value="1" />
-								<strong><?php esc_html_e( 'Import Site Title & Tagline', 'pixelpost' ); ?></strong>
-							</label>
-						</div>
-
-						<button type="submit" class="button button-secondary" style="width:100%; text-align:center; height:40px; line-height:38px; font-size:13px; font-weight:600; display:flex; align-items:center; justify-content:center; gap:8px;" onclick="return confirm('<?php echo esc_js( __( 'Are you sure you want to import this configuration? Current customizer settings will be overwritten.', 'pixelpost' ) ); ?>');">
+						<button type="submit" class="button button-secondary" style="width:100%; height:40px; font-weight:600; display:flex; align-items:center; justify-content:center; gap:8px;">
 							<span class="dashicons dashicons-upload" style="margin-top:2px;"></span>
 							<?php esc_html_e( 'Upload & Apply Settings', 'pixelpost' ); ?>
 						</button>
@@ -609,23 +675,19 @@ class Pixelpost_Export_Import {
 				</div>
 			</div>
 
-			<!-- CARD 3: RESET TO CLEAN DEMO DEFAULTS -->
-			<div style="background:#FFFFFF; border:1px solid #E9E6E0; border-radius:10px; padding:24px 28px; box-shadow:0 1px 3px rgba(0,0,0,0.03); display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:20px;">
+			<!-- CARD 3: RESET DEMO DEFAULTS -->
+			<div style="background:#FFFFFF; border:1px solid #E9E6E0; border-radius:10px; padding:24px 28px; box-shadow:0 1px 3px rgba(0,0,0,0.03); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
 				<div>
 					<h3 style="margin:0 0 6px 0; font-size:15px; font-weight:700; color:#1C1A17;">
-						<?php esc_html_e( 'Reset to Clean Demo Defaults', 'pixelpost' ); ?>
+						<?php esc_html_e( 'Reset to Demo Defaults', 'pixelpost' ); ?>
 					</h3>
-					<p style="margin:0; font-size:13px; color:#6B665F; line-height:1.4;">
-						<?php esc_html_e( 'Reset all homepage sections, sample portfolio projects, skills, and styling back to the clean theme demo defaults.', 'pixelpost' ); ?>
+					<p style="margin:0; font-size:13px; color:#6B665F;">
+						<?php esc_html_e( 'Restore standard default starter content, 4 sample projects, skills, experience, and editorial color schemes.', 'pixelpost' ); ?>
 					</p>
 				</div>
-				<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
-					<input type="hidden" name="action" value="pixelpost_reset_demo_defaults" />
-					<?php wp_nonce_field( 'pixelpost_reset_demo_nonce' ); ?>
-					<button type="submit" class="button" style="color:#b32d2e; border-color:#d63638; height:36px; line-height:34px; font-weight:600;" onclick="return confirm('<?php echo esc_js( __( 'Warning: This will overwrite all your current customizations with the theme demo defaults. Proceed?', 'pixelpost' ) ); ?>');">
-						<?php esc_html_e( 'Restore Demo Defaults', 'pixelpost' ); ?>
-					</button>
-				</form>
+				<a href="<?php echo esc_url( $reset_url ); ?>" class="button button-link-delete" onclick="return confirm('<?php echo esc_js( __( 'Are you sure you want to reset all theme options to default? Any custom work will be overwritten.', 'pixelpost' ) ); ?>');" style="color:#b32d2e; text-decoration:none; font-weight:600;">
+					<?php esc_html_e( 'Reset to Demo Defaults', 'pixelpost' ); ?>
+				</a>
 			</div>
 		</div>
 		<?php
@@ -634,81 +696,3 @@ class Pixelpost_Export_Import {
 
 // Initialize Export / Import manager
 Pixelpost_Export_Import::get_instance();
-
-if ( class_exists( 'WP_Customize_Control' ) && ! class_exists( 'Pixelpost_Export_Import_Control' ) ) {
-	/**
-	 * Custom control for Export / Import in Customizer
-	 */
-	class Pixelpost_Export_Import_Control extends WP_Customize_Control {
-		/**
-		 * Control type.
-		 *
-		 * @var string
-		 */
-		public $type = 'pixelpost-export-import';
-
-		/**
-		 * Render control content
-		 */
-		public function render_content() {
-			$export_url = wp_nonce_url(
-				admin_url( 'admin-post.php?action=pixelpost_export_customizer' ),
-				'pixelpost_export_customizer_nonce'
-			);
-			?>
-			<div class="pixelpost-export-import-wrap" style="background:#fff; border:1px solid #ccd0d4; border-radius:6px; padding:16px; margin-top:8px;">
-				<!-- Export Card -->
-				<div style="margin-bottom:20px;">
-					<h3 style="margin-top:0; margin-bottom:8px; font-size:14px; font-weight:600; color:#1e1e1e;">
-						<span class="dashicons dashicons-download" style="font-size:18px; line-height:1; vertical-align:middle; margin-right:4px; color:#994200;"></span>
-						<?php esc_html_e( 'Export Settings', 'pixelpost' ); ?>
-					</h3>
-					<p class="description" style="margin-bottom:12px; font-size:12px; line-height:1.5;">
-						<?php esc_html_e( 'Download all your theme settings, homepage content, branding, colors, and Additional CSS into a single portable backup file.', 'pixelpost' ); ?>
-					</p>
-					<a href="<?php echo esc_url( $export_url ); ?>" class="button button-primary fp-btn-export-download" style="width:100%; text-align:center; height:34px; line-height:32px; font-weight:600; display:flex; align-items:center; justify-content:center; gap:6px;">
-						<span class="dashicons dashicons-download" style="margin-top:2px;"></span>
-						<?php esc_html_e( 'Download Export (.json)', 'pixelpost' ); ?>
-					</a>
-				</div>
-
-				<hr style="border:none; border-top:1px solid #e2e4e7; margin:16px 0;" />
-
-				<!-- Import Card -->
-				<div>
-					<h3 style="margin-top:0; margin-bottom:8px; font-size:14px; font-weight:600; color:#1e1e1e;">
-						<span class="dashicons dashicons-upload" style="font-size:18px; line-height:1; vertical-align:middle; margin-right:4px; color:#2271b1;"></span>
-						<?php esc_html_e( 'Import Settings', 'pixelpost' ); ?>
-					</h3>
-					<p class="description" style="margin-bottom:12px; font-size:12px; line-height:1.5;">
-						<?php esc_html_e( 'Upload a previously exported .json file to restore or apply settings to this site installation.', 'pixelpost' ); ?>
-					</p>
-
-					<div style="margin-bottom:12px;">
-						<input type="file" id="pixelpost-customizer-import-file" accept=".json,application/json" style="width:100%; font-size:12px;" />
-					</div>
-
-					<div style="margin-bottom:14px; font-size:12px; line-height:1.4;">
-						<label style="display:block; margin-bottom:6px; cursor:pointer;">
-							<input type="checkbox" id="pixelpost-import-opt-replace-urls" value="1" checked="checked" />
-							<strong><?php esc_html_e( 'Replace domain URLs', 'pixelpost' ); ?></strong>
-							<span style="display:block; color:#646970; font-size:11px; margin-left:20px;"><?php esc_html_e( 'Converts exported asset URLs to this site URL.', 'pixelpost' ); ?></span>
-						</label>
-						<label style="display:block; cursor:pointer;">
-							<input type="checkbox" id="pixelpost-import-opt-css" value="1" checked="checked" />
-							<strong><?php esc_html_e( 'Import Additional CSS', 'pixelpost' ); ?></strong>
-						</label>
-					</div>
-
-					<button type="button" id="pixelpost-btn-import-trigger" class="button button-secondary" style="width:100%; text-align:center; height:34px; line-height:32px; font-weight:600; display:flex; align-items:center; justify-content:center; gap:6px;">
-						<span class="dashicons dashicons-upload" style="margin-top:2px;"></span>
-						<?php esc_html_e( 'Import & Apply Settings', 'pixelpost' ); ?>
-					</button>
-
-					<div id="pixelpost-import-feedback" style="margin-top:12px; display:none; padding:8px 12px; font-size:12px; border-radius:4px; line-height:1.4;"></div>
-				</div>
-			</div>
-			<?php
-		}
-	}
-}

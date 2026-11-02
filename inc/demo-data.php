@@ -325,11 +325,10 @@ function pixelpost_get_default_social_links() {
 /**
  * Returns default values for all theme settings
  *
- * @param string $key Setting key.
- * @return mixed
+ * @return array
  */
-function pixelpost_get_theme_default( $key ) {
-	$defaults = array(
+function pixelpost_get_theme_defaults() {
+	return array(
 		// Global Design
 		'pixelpost_color_bg'                    => '#FAF9F6',
 		'pixelpost_color_surface'               => '#FFFFFF',
@@ -505,7 +504,16 @@ function pixelpost_get_theme_default( $key ) {
 		'pixelpost_social_twitter'              => 'https://x.com',
 		'pixelpost_social_email'                => 'parag.feni@yahoo.com',
 	);
+}
 
+/**
+ * Returns default values for a specific theme setting
+ *
+ * @param string $key Setting key.
+ * @return mixed
+ */
+function pixelpost_get_theme_default( $key ) {
+	$defaults = pixelpost_get_theme_defaults();
 	return isset( $defaults[ $key ] ) ? $defaults[ $key ] : '';
 }
 

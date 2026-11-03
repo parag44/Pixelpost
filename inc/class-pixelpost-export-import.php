@@ -323,9 +323,23 @@ class Pixelpost_Export_Import {
 		$mods = json_decode( $mods_json, true );
 
 		// 3. Import each theme mod
-		$imported_count = 0;
+		$imported_count   = 0;
+		$allowed_prefixes = array( 'pixelpost_', 'foliopress_', 'header_', 'background_', 'custom_logo' );
+
 		foreach ( $mods as $key => $val ) {
 			if ( ! is_string( $key ) || in_array( $key, array( 0, '0', 'custom_css_post_id', 'nav_menu_locations', 'sidebars_widgets' ), true ) ) {
+				continue;
+			}
+
+			// Validate allowed theme mod key prefix to prevent option pollution
+			$is_allowed = false;
+			foreach ( $allowed_prefixes as $prefix ) {
+				if ( strpos( $key, $prefix ) === 0 ) {
+					$is_allowed = true;
+					break;
+				}
+			}
+			if ( ! $is_allowed ) {
 				continue;
 			}
 
@@ -353,15 +367,28 @@ class Pixelpost_Export_Import {
 				$logo_url = str_replace( untrailingslashit( $data['site_url'] ), untrailingslashit( home_url() ), $logo_url );
 			}
 
-			// Try to sideload the logo into media library
-			if ( function_exists( 'media_sideload_image' ) || file_exists( ABSPATH . 'wp-admin/includes/media.php' ) ) {
-				require_once ABSPATH . 'wp-admin/includes/media.php';
-				require_once ABSPATH . 'wp-admin/includes/file.php';
-				require_once ABSPATH . 'wp-admin/includes/image.php';
+			// SSRF Mitigation: Validate URL and reject internal/localhost/cloud metadata IPs
+			$validated_url = wp_http_validate_url( $logo_url );
+			$is_safe_host  = false;
+			if ( $validated_url ) {
+				$parsed = wp_parse_url( $validated_url );
+				$host   = isset( $parsed['host'] ) ? strtolower( $parsed['host'] ) : '';
+				if ( ! empty( $host ) && 'localhost' !== $host && ! preg_match( '/^(127\.|10\.|172\.(1[6-9]|2[0-9]|3[0-1])\.|192\.168\.|169\.254\.)/', $host ) ) {
+					$is_safe_host = true;
+				}
+			}
 
-				$attachment_id = media_sideload_image( $logo_url, 0, 'Site Logo', 'id' );
-				if ( ! is_wp_error( $attachment_id ) ) {
-					set_theme_mod( 'custom_logo', $attachment_id );
+			if ( $is_safe_host ) {
+				// Try to sideload the logo into media library
+				if ( function_exists( 'media_sideload_image' ) || file_exists( ABSPATH . 'wp-admin/includes/media.php' ) ) {
+					require_once ABSPATH . 'wp-admin/includes/media.php';
+					require_once ABSPATH . 'wp-admin/includes/file.php';
+					require_once ABSPATH . 'wp-admin/includes/image.php';
+
+					$attachment_id = media_sideload_image( $validated_url, 0, 'Site Logo', 'id' );
+					if ( ! is_wp_error( $attachment_id ) ) {
+						set_theme_mod( 'custom_logo', $attachment_id );
+					}
 				}
 			}
 		}
@@ -441,6 +468,21 @@ class Pixelpost_Export_Import {
 
 		if ( empty( $_FILES['pixelpost_import_file']['tmp_name'] ) ) {
 			wp_safe_redirect( add_query_arg( array( 'page' => 'pixelpost-setup', 'import' => 'no_file' ), admin_url( 'themes.php' ) ) );
+			exit;
+		}
+
+		// Security: Validate file extension (.json only)
+		$uploaded_name = ! empty( $_FILES['pixelpost_import_file']['name'] ) ? sanitize_file_name( $_FILES['pixelpost_import_file']['name'] ) : '';
+		$uploaded_ext  = strtolower( pathinfo( $uploaded_name, PATHINFO_EXTENSION ) );
+		if ( 'json' !== $uploaded_ext ) {
+			wp_safe_redirect( add_query_arg( array( 'page' => 'pixelpost-setup', 'import' => 'error', 'msg' => urlencode( __( 'Invalid file format. Only .json files are allowed.', 'pixelpost' ) ) ), admin_url( 'themes.php' ) ) );
+			exit;
+		}
+
+		// Security & DoS Protection: Restrict file size to 5MB maximum
+		$file_size = isset( $_FILES['pixelpost_import_file']['size'] ) ? absint( $_FILES['pixelpost_import_file']['size'] ) : 0;
+		if ( $file_size > 5 * MB_IN_BYTES ) {
+			wp_safe_redirect( add_query_arg( array( 'page' => 'pixelpost-setup', 'import' => 'error', 'msg' => urlencode( __( 'The uploaded file exceeds the 5MB size limit.', 'pixelpost' ) ) ), admin_url( 'themes.php' ) ) );
 			exit;
 		}
 

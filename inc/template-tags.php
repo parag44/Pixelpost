@@ -378,7 +378,16 @@ function pixelpost_render_optimized_image( $img_url, $args = array() ) {
 
 	$attachment_id = 0;
 	if ( ! empty( $img_url ) ) {
-		$attachment_id = attachment_url_to_postid( $img_url );
+		// Fast check: skip DB lookup if the image is directly inside the theme directory (theme assets are not media attachments)
+		if ( false === strpos( $img_url, '/themes/' ) ) {
+			static $pixelpost_img_cache = array();
+			if ( isset( $pixelpost_img_cache[ $img_url ] ) ) {
+				$attachment_id = $pixelpost_img_cache[ $img_url ];
+			} else {
+				$attachment_id = attachment_url_to_postid( $img_url );
+				$pixelpost_img_cache[ $img_url ] = $attachment_id;
+			}
+		}
 	}
 
 	if ( $attachment_id ) {

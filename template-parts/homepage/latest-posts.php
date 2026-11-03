@@ -30,6 +30,7 @@ $pixelpost_blog_query = new WP_Query(
 		'posts_per_page'      => $pixelpost_count,
 		'post_status'         => 'publish',
 		'ignore_sticky_posts' => true,
+		'no_found_rows'       => true,
 	)
 );
 

@@ -898,39 +898,54 @@ function pixelpost_get_social_links() {
  * @return string URL to the blog archive.
  */
 function pixelpost_get_blog_archive_url() {
+	static $cached_url = null;
+	if ( null !== $cached_url ) {
+		return $cached_url;
+	}
+
 	// 1. Customizer manual setting
 	$custom_url = pixelpost_get_setting( 'pixelpost_blog_view_all_url' );
 	if ( ! empty( $custom_url ) ) {
-		return $custom_url;
+		$cached_url = $custom_url;
+		return $cached_url;
 	}
 
 	// 2. Reading settings page_for_posts
 	$posts_page_id = get_option( 'page_for_posts' );
 	if ( $posts_page_id && 'publish' === get_post_status( $posts_page_id ) ) {
-		return get_permalink( $posts_page_id );
+		$cached_url = get_permalink( $posts_page_id );
+		return $cached_url;
 	}
 
 	// 3. Page with path 'blog'
 	$blog_page = get_page_by_path( 'blog' );
 	if ( $blog_page && 'publish' === get_post_status( $blog_page->ID ) ) {
-		return get_permalink( $blog_page->ID );
+		$cached_url = get_permalink( $blog_page->ID );
+		return $cached_url;
 	}
 
 	// 4. Page with path 'blogs'
 	$blogs_page = get_page_by_path( 'blogs' );
 	if ( $blogs_page && 'publish' === get_post_status( $blogs_page->ID ) ) {
-		return get_permalink( $blogs_page->ID );
+		$cached_url = get_permalink( $blogs_page->ID );
+		return $cached_url;
 	}
 
-	return home_url( '/blog/' );
+	$cached_url = home_url( '/blog/' );
+	return $cached_url;
 }
 
 /**
  * Auto-migrate legacy theme mods to pixelpost_* prefix
  */
 function pixelpost_migrate_legacy_theme_mods() {
+	if ( get_option( 'pixelpost_legacy_mods_migrated' ) ) {
+		return;
+	}
+
 	$mods = get_theme_mods();
 	if ( empty( $mods ) || ! is_array( $mods ) ) {
+		update_option( 'pixelpost_legacy_mods_migrated', 1, false );
 		return;
 	}
 
@@ -945,6 +960,8 @@ function pixelpost_migrate_legacy_theme_mods() {
 			}
 		}
 	}
+
+	update_option( 'pixelpost_legacy_mods_migrated', 1, false );
 }
 add_action( 'after_setup_theme', 'pixelpost_migrate_legacy_theme_mods', 5 );
 add_action( 'admin_init', 'pixelpost_migrate_legacy_theme_mods', 5 );

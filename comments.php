@@ -24,13 +24,13 @@ if ( post_password_required() ) {
 				if ( '1' === $pixelpost_comment_count ) {
 					printf(
 						/* translators: 1: title. */
-						esc_html__( '1 Thought on &ldquo;%1$s&rdquo;', 'pixelpost' ),
+						esc_html__( '1 Thought on “%1$s”', 'pixelpost' ),
 						'<span>' . wp_kses_post( get_the_title() ) . '</span>'
 					);
 				} else {
 					printf(
 						/* translators: 1: comment count number, 2: title. */
-						esc_html( _nx( '%1$s Thought on &ldquo;%2$s&rdquo;', '%1$s Thoughts on &ldquo;%2$s&rdquo;', $pixelpost_comment_count, 'comments title', 'pixelpost' ) ),
+						esc_html( _nx( '%1$s Thought on “%2$s”', '%1$s Thoughts on “%2$s”', $pixelpost_comment_count, 'comments title', 'pixelpost' ) ),
 						number_format_i18n( $pixelpost_comment_count ),
 						'<span>' . wp_kses_post( get_the_title() ) . '</span>'
 					);

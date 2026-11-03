@@ -107,7 +107,7 @@
             '<button type="button" class="fp-icon-picker-trigger">' +
               '<span class="fp-icon-preview-box">' + activeSvg + '</span>' +
               '<span class="fp-icon-selected-name">' + escHtml(activeName) + '</span>' +
-              '<span class="dashicons dashicons-arrow-down-alt2 fp-icon-picker-arrow"></span>' +
+              '<svg class="fp-icon-picker-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block; flex-shrink:0;"><polyline points="6 9 12 15 18 9"></polyline></svg>' +
             '</button>' +
             '<input type="hidden" data-key="' + k + '" value="' + escHtml(val) + '">' +
             '<div class="fp-icon-picker-popover" style="display:none;">' +
@@ -289,17 +289,19 @@
       var subtitle = subtitleKey ? (data[subtitleKey] || '') : '';
 
       var headerHtml = '<div class="fp-item-header">' +
-        '<span class="fp-drag-handle dashicons dashicons-menu" title="Drag to reorder" aria-hidden="true"></span>' +
+        '<span class="fp-drag-handle" title="Drag to reorder" aria-hidden="true">' +
+          '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><line x1="4" y1="7" x2="20" y2="7"></line><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="17" x2="20" y2="17"></line></svg>' +
+        '</span>' +
         '<div class="fp-item-titles">' +
           '<span class="fp-item-primary">' + escHtml(primary) + '</span>' +
           '<span class="fp-item-subtitle">' + escHtml(subtitle) + '</span>' +
         '</div>' +
         '<div class="fp-item-actions">' +
-          '<button type="button" class="fp-btn-up" title="Move Up" aria-label="Move Up">▲</button>' +
-          '<button type="button" class="fp-btn-down" title="Move Down" aria-label="Move Down">▼</button>' +
-          '<button type="button" class="fp-btn-clone" title="Duplicate" aria-label="Duplicate"><span class="dashicons dashicons-admin-page" aria-hidden="true"></span></button>' +
-          '<button type="button" class="fp-btn-delete" title="Delete" aria-label="Delete"><span class="dashicons dashicons-trash" aria-hidden="true"></span></button>' +
-          '<span class="fp-item-toggle"><span class="dashicons dashicons-arrow-down-alt2" aria-hidden="true"></span></span>' +
+          '<button type="button" class="fp-btn-up" title="Move Up" aria-label="Move Up"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><polyline points="18 15 12 9 6 15"></polyline></svg></button>' +
+          '<button type="button" class="fp-btn-down" title="Move Down" aria-label="Move Down"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><polyline points="6 9 12 15 18 9"></polyline></svg></button>' +
+          '<button type="button" class="fp-btn-clone" title="Duplicate" aria-label="Duplicate"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>' +
+          '<button type="button" class="fp-btn-delete" title="Delete" aria-label="Delete"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></button>' +
+          '<span class="fp-item-toggle" title="Toggle" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><polyline points="6 9 12 15 18 9"></polyline></svg></span>' +
         '</div>' +
       '</div>';
 

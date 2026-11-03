@@ -70,13 +70,23 @@
   cursor: grab;
   color: #8c8f94;
   flex-shrink: 0;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  padding: 2px;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border-radius: 4px;
+  transition: color 0.15s ease, background 0.15s ease;
 }
 
 .fp-drag-handle:hover {
   color: #A63F2B;
+  background: #eaebee;
+}
+
+.fp-drag-handle svg {
+  display: block;
 }
 
 .fp-item-titles {
@@ -106,28 +116,32 @@
 }
 
 .fp-item-actions {
-  display: flex;
+  display: inline-flex;
   gap: 2px;
   flex-shrink: 0;
   align-items: center;
 }
 
-.fp-item-actions button {
+.fp-item-actions button,
+.fp-item-actions .fp-item-toggle {
   background: none;
   border: none;
   cursor: pointer;
-  padding: 3px 5px;
-  border-radius: 3px;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border-radius: 4px;
   color: #646970;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   line-height: 1;
-  font-size: 11px;
+  box-sizing: border-box;
   transition: background 0.12s, color 0.12s;
 }
 
-.fp-item-actions button:hover {
+.fp-item-actions button:hover,
+.fp-item-actions .fp-item-toggle:hover {
   background: #dcdcde;
   color: #1d2327;
 }
@@ -137,17 +151,16 @@
   color: #d63638;
 }
 
-.fp-item-actions .dashicons {
-  font-size: 14px;
-  width: 14px;
-  height: 14px;
+.fp-item-actions svg {
+  display: block;
+  flex-shrink: 0;
 }
 
-.fp-item-toggle .dashicons {
+.fp-item-toggle svg {
   transition: transform 0.2s ease;
 }
 
-.fp-repeater-item.is-expanded .fp-item-toggle .dashicons {
+.fp-repeater-item.is-expanded .fp-item-toggle svg {
   transform: rotate(180deg);
 }
 
@@ -212,11 +225,12 @@
 .fp-repeater-add {
   width: 100%;
   justify-content: center;
-  display: flex !important;
+  display: inline-flex !important;
   align-items: center;
-  gap: 6px;
+  gap: 7px;
   padding: 8px 12px !important;
   font-size: 13px !important;
+  line-height: normal !important;
   border-radius: 4px !important;
   border: 1px dashed #A63F2B !important;
   background: #FAF6F3 !important;
@@ -232,10 +246,13 @@
   border-color: #843020 !important;
 }
 
+.fp-repeater-add svg,
 .fp-repeater-add .dashicons {
   font-size: 16px;
   width: 16px;
   height: 16px;
+  display: block;
+  flex-shrink: 0;
 }
 
 /* ==========================================================================
@@ -300,12 +317,12 @@
 }
 
 .fp-icon-picker-arrow {
-  font-size: 14px;
-  width: 14px;
-  height: 14px;
+  width: 12px;
+  height: 12px;
   color: #646970;
   flex-shrink: 0;
   transition: transform 0.2s ease;
+  display: block;
 }
 
 .fp-icon-picker-trigger.is-active .fp-icon-picker-arrow {

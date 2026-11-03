@@ -1810,7 +1810,7 @@ function pixelpost_customize_register( $wp_customize ) {
 				'description'     => sprintf(
 					/* translators: 1: opening button tag, 2: closing button tag */
 					__( 'By default, demo links are displayed. To customize, add, or reorder links, assign a custom menu to the Footer Menu location in %1$sMenus%2$s.', 'pixelpost' ),
-					'<br><button type="button" class="button button-secondary fp-btn-open-footer-menus" style="margin-top:8px;">' . esc_html__( 'Configure Footer Menu', 'pixelpost' ) . '</button><span style="display:none;">',
+					'<br><button type="button" class="button button-secondary fp-btn-open-footer-menus" style="margin-top:8px; display:inline-flex; align-items:center; justify-content:center; gap:6px; height:28px; line-height:normal; font-size:12px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block; flex-shrink:0;"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg><span>' . esc_html__( 'Configure Footer Menu', 'pixelpost' ) . '</span></button><span style="display:none;">',
 					'</span>'
 				),
 				'section'         => 'pixelpost_footer_section',

@@ -130,12 +130,14 @@
       var $feedback = $('#pixelpost-import-feedback');
       var fileInput = document.getElementById('pixelpost-customizer-import-file');
 
+      var uploadBtnDefaultHtml = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block; flex-shrink:0;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg><span>Import & Apply Settings</span>';
+
       if (!fileInput || !fileInput.files || !fileInput.files[0]) {
         $feedback.show().css({
           'background': '#fcf0f1',
           'border': '1px solid #d63638',
           'color': '#b32d2e'
-        }).html(window.pixelpostExportImport ? window.pixelpostExportImport.select_file : 'Please select a .json file first.');
+        }).html('<div style="display:flex; align-items:center; gap:8px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#d63638" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block; flex-shrink:0;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg><span>' + (window.pixelpostExportImport ? window.pixelpostExportImport.select_file : 'Please select a .json file first.') + '</span></div>');
         return;
       }
 
@@ -145,7 +147,7 @@
           'background': '#fcf0f1',
           'border': '1px solid #d63638',
           'color': '#b32d2e'
-        }).html('Selected file must be in .json format.');
+        }).html('<div style="display:flex; align-items:center; gap:8px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#d63638" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block; flex-shrink:0;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg><span>Selected file must be in .json format.</span></div>');
         return;
       }
 
@@ -161,12 +163,13 @@
       var importCss = $('#pixelpost-import-opt-css').is(':checked') ? 1 : 0;
 
       // Show loading status
-      $btn.prop('disabled', true).text(window.pixelpostExportImport ? window.pixelpostExportImport.importing_label : 'Importing...');
+      var importingText = (window.pixelpostExportImport && window.pixelpostExportImport.importing_label) ? window.pixelpostExportImport.importing_label : 'Importing...';
+      $btn.prop('disabled', true).html('<span class="spinner is-active" style="float:none; margin:0; width:16px; height:16px; display:inline-block; vertical-align:middle;"></span> <span>' + importingText + '</span>');
       $feedback.show().css({
         'background': '#f0f6fc',
         'border': '1px solid #72aee6',
         'color': '#1d2327'
-      }).html('<span class="spinner is-active" style="float:none; margin:0 6px 0 0; vertical-align:middle;"></span> Processing import...');
+      }).html('<div style="display:flex; align-items:center; gap:8px;"><span class="spinner is-active" style="float:none; margin:0; width:16px; height:16px; flex-shrink:0;"></span> <span>Processing import...</span></div>');
 
       var reader = new FileReader();
       reader.onload = function(evt) {
@@ -191,27 +194,27 @@
                 'background': '#edfaef',
                 'border': '1px solid #68de7c',
                 'color': '#135e23'
-              }).html('<strong>✓ ' + (res.data.message || 'Import successful!') + '</strong><br>Reloading Customizer in 2 seconds...');
+              }).html('<div style="display:flex; align-items:flex-start; gap:8px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#135e23" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:block; flex-shrink:0; margin-top:2px;"><polyline points="20 6 9 17 4 12"></polyline></svg><div><strong>' + (res.data.message || 'Import successful!') + '</strong><br><span style="font-size:11px;">Reloading Customizer in 2 seconds...</span></div></div>');
 
               setTimeout(function() {
                 window.location.reload();
               }, 1800);
             } else {
-              $btn.prop('disabled', false).html('<span class="dashicons dashicons-upload" style="margin-top:2px;"></span> Import & Apply Settings');
+              $btn.prop('disabled', false).html(uploadBtnDefaultHtml);
               $feedback.css({
                 'background': '#fcf0f1',
                 'border': '1px solid #d63638',
                 'color': '#b32d2e'
-              }).html('<strong>Error:</strong> ' + (res && res.data && res.data.message ? res.data.message : 'Import failed.'));
+              }).html('<div style="display:flex; align-items:flex-start; gap:8px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#d63638" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block; flex-shrink:0; margin-top:2px;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg><div><strong>Error:</strong> ' + (res && res.data && res.data.message ? res.data.message : 'Import failed.') + '</div></div>');
             }
           },
           error: function(xhr, status, err) {
-            $btn.prop('disabled', false).html('<span class="dashicons dashicons-upload" style="margin-top:2px;"></span> Import & Apply Settings');
+            $btn.prop('disabled', false).html(uploadBtnDefaultHtml);
             $feedback.css({
               'background': '#fcf0f1',
               'border': '1px solid #d63638',
               'color': '#b32d2e'
-            }).html('<strong>Server Error:</strong> ' + (err || 'Could not communicate with server.'));
+            }).html('<div style="display:flex; align-items:flex-start; gap:8px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#d63638" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block; flex-shrink:0; margin-top:2px;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg><div><strong>Server Error:</strong> ' + (err || 'Could not communicate with server.') + '</div></div>');
           }
         });
       };

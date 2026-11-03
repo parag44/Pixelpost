@@ -168,6 +168,17 @@
     });
   });
 
+  // Footer Navigation / Menu Visibility
+  api('pixelpost_footer_nav_show', function(value) {
+    value.bind(function(to) {
+      if (to) {
+        $('.fp-footer-col-nav').removeClass('hidden').show();
+      } else {
+        $('.fp-footer-col-nav').addClass('hidden').hide();
+      }
+    });
+  });
+
   // Footer Brand Type (Text vs Logo)
   api('pixelpost_footer_brand_type', function(value) {
     value.bind(function(to) {

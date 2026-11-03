@@ -1761,15 +1761,16 @@ function pixelpost_customize_register( $wp_customize ) {
 	$wp_customize->add_setting(
 		'pixelpost_footer_nav_show',
 		array(
-			'default'           => true,
+			'default'           => pixelpost_get_theme_default( 'pixelpost_footer_nav_show' ),
 			'sanitize_callback' => 'pixelpost_sanitize_checkbox',
+			'transport'         => 'postMessage',
 		)
 	);
 	$wp_customize->add_control(
 		'pixelpost_footer_nav_show',
 		array(
-			'label'       => __( 'Show Footer Navigation Column', 'pixelpost' ),
-			'description' => __( 'Toggle visibility of the navigation links column in the footer.', 'pixelpost' ),
+			'label'       => __( 'Enable Footer Menu', 'pixelpost' ),
+			'description' => __( 'Toggle visibility of the footer navigation menu links.', 'pixelpost' ),
 			'section'     => 'pixelpost_footer_section',
 			'type'        => 'checkbox',
 		)
@@ -1786,10 +1787,11 @@ function pixelpost_customize_register( $wp_customize ) {
 	$wp_customize->add_control(
 		'pixelpost_footer_nav_title',
 		array(
-			'label'       => __( 'Footer Navigation Title', 'pixelpost' ),
-			'description' => __( 'Heading displayed above the footer links (defaults to Navigation).', 'pixelpost' ),
-			'section'     => 'pixelpost_footer_section',
-			'type'        => 'text',
+			'label'           => __( 'Footer Navigation Title', 'pixelpost' ),
+			'description'     => __( 'Heading displayed above the footer links (defaults to Navigation).', 'pixelpost' ),
+			'section'         => 'pixelpost_footer_section',
+			'type'            => 'text',
+			'active_callback' => 'pixelpost_is_footer_nav_enabled',
 		)
 	);
 
@@ -1804,15 +1806,16 @@ function pixelpost_customize_register( $wp_customize ) {
 			$wp_customize,
 			'pixelpost_footer_nav_help',
 			array(
-				'label'       => __( 'Footer Menu Links', 'pixelpost' ),
-				'description' => sprintf(
+				'label'           => __( 'Footer Menu Links', 'pixelpost' ),
+				'description'     => sprintf(
 					/* translators: 1: opening button tag, 2: closing button tag */
 					__( 'By default, demo links are displayed. To customize, add, or reorder links, assign a custom menu to the Footer Menu location in %1$sMenus%2$s.', 'pixelpost' ),
 					'<br><button type="button" class="button button-secondary fp-btn-open-footer-menus" style="margin-top:8px;">' . esc_html__( 'Configure Footer Menu', 'pixelpost' ) . '</button><span style="display:none;">',
 					'</span>'
 				),
-				'section'     => 'pixelpost_footer_section',
-				'type'        => 'hidden',
+				'section'         => 'pixelpost_footer_section',
+				'type'            => 'hidden',
+				'active_callback' => 'pixelpost_is_footer_nav_enabled',
 			)
 		)
 	);
@@ -2031,6 +2034,17 @@ function pixelpost_sanitize_dimension( $input ) {
  */
 function pixelpost_sanitize_footer_brand_type( $input ) {
 	return in_array( $input, array( 'text', 'logo' ), true ) ? $input : 'text';
+}
+
+/**
+ * Check if footer nav is enabled (for Customizer active_callback)
+ *
+ * @param WP_Customize_Control $control Control instance.
+ * @return bool
+ */
+function pixelpost_is_footer_nav_enabled( $control ) {
+	$setting = $control->manager->get_setting( 'pixelpost_footer_nav_show' );
+	return $setting ? (bool) $setting->value() : true;
 }
 
 /**

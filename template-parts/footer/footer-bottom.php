@@ -53,6 +53,13 @@ if ( empty( $pixelpost_back_to_top_text ) ) {
 	$pixelpost_back_to_top_text = __( 'Back to top', 'pixelpost' );
 }
 
+$pixelpost_footer_nav_show = pixelpost_get_setting( 'pixelpost_footer_nav_show' );
+if ( false === $pixelpost_footer_nav_show || '0' === $pixelpost_footer_nav_show || 0 === $pixelpost_footer_nav_show ) {
+	$pixelpost_footer_nav_show = false;
+} else {
+	$pixelpost_footer_nav_show = true;
+}
+
 $pixelpost_social_links = pixelpost_get_social_links();
 ?>
 <div class="max-w-[1140px] mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12 fp-footer-container" data-pixelpost-customize="footer" data-pixelpost-label="<?php esc_attr_e( 'Footer Settings', 'pixelpost' ); ?>">
@@ -80,7 +87,7 @@ $pixelpost_social_links = pixelpost_get_social_links();
 		</div>
 
 		<!-- Center: Navigation Links -->
-		<nav class="flex flex-wrap items-center gap-x-7 gap-y-2.5 fp-footer-col-nav" aria-label="<?php esc_attr_e( 'Footer Navigation', 'pixelpost' ); ?>" data-pixelpost-customize="footer-nav" data-pixelpost-label="<?php esc_attr_e( 'Footer Navigation', 'pixelpost' ); ?>">
+		<nav class="flex flex-wrap items-center gap-x-7 gap-y-2.5 fp-footer-col-nav<?php echo ! $pixelpost_footer_nav_show ? ' hidden' : ''; ?>" aria-label="<?php esc_attr_e( 'Footer Navigation', 'pixelpost' ); ?>" data-pixelpost-customize="footer-nav" data-pixelpost-label="<?php esc_attr_e( 'Footer Navigation', 'pixelpost' ); ?>">
 			<?php
 			if ( has_nav_menu( 'footer' ) ) :
 				wp_nav_menu(

@@ -73,7 +73,56 @@
       }
     });
 
-    // 4. In-Customizer Import Settings (AJAX)
+    // 4. Custom File Upload in Customizer Pane
+    function updateCustFileUI(file) {
+      if (file) {
+        $('#fp-cust-filename').text(file.name);
+        var sizeKb = (file.size / 1024).toFixed(1) + ' KB';
+        $('#fp-cust-filesize').text('✓ ' + sizeKb);
+        $('#fp-cust-upload-empty').hide();
+        $('#fp-cust-upload-selected').css('display', 'flex');
+        $('#fp-customizer-dropzone').css({ 'border-color': '#2271b1', 'background': '#F0F6FC' });
+      } else {
+        var fileInput = document.getElementById('pixelpost-customizer-import-file');
+        if (fileInput) fileInput.value = '';
+        $('#fp-cust-filename').text('');
+        $('#fp-cust-filesize').text('');
+        $('#fp-cust-upload-selected').hide();
+        $('#fp-cust-upload-empty').css('display', 'flex');
+        $('#fp-customizer-dropzone').css({ 'border-color': '#D3CEC6', 'background': '#FAF9F7' });
+      }
+    }
+
+    $(document).on('change', '#pixelpost-customizer-import-file', function() {
+      if (this.files && this.files.length > 0) {
+        updateCustFileUI(this.files[0]);
+      } else {
+        updateCustFileUI(null);
+      }
+    });
+
+    $(document).on('click', '#fp-customizer-dropzone', function(e) {
+      if ($(e.target).closest('#fp-cust-remove-btn').length) {
+        return;
+      }
+      var input = document.getElementById('pixelpost-customizer-import-file');
+      if (input) input.click();
+    });
+
+    $(document).on('click', '#fp-cust-remove-btn', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      updateCustFileUI(null);
+    });
+
+    $(document).on('click', '#fp-cust-replace-btn, #fp-cust-browse-btn', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      var input = document.getElementById('pixelpost-customizer-import-file');
+      if (input) input.click();
+    });
+
+    // 5. In-Customizer Import Settings (AJAX)
     $(document).on('click', '#pixelpost-btn-import-trigger', function(e) {
       e.preventDefault();
 

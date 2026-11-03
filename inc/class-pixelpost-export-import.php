@@ -607,21 +607,85 @@ class Pixelpost_Export_Import {
 				color: #1a5c91 !important;
 				transform: translateY(-1px);
 			}
-			.fp-dropzone {
-				border: 1px dashed #C8C3BA;
-				border-radius: 8px;
+			.fp-upload-zone {
+				border: 1.5px dashed #D3CEC6;
+				border-radius: 10px;
 				background: #FAF9F7;
-				padding: 9px 14px;
-				display: flex;
-				align-items: center;
-				gap: 12px;
+				padding: 12px 16px;
 				cursor: pointer;
 				transition: all 0.2s ease;
+				position: relative;
+				outline: none;
 			}
-			.fp-dropzone:hover,
-			.fp-dropzone.is-dragover {
+			.fp-upload-zone:hover,
+			.fp-upload-zone:focus {
+				border-color: #2271b1;
+				background: #FDFCFB;
+			}
+			.fp-upload-zone.is-dragover {
 				border-color: #2271b1 !important;
 				background: #EEF4FB !important;
+				box-shadow: 0 0 0 3px rgba(34, 113, 177, 0.15) !important;
+			}
+			.fp-hidden-file-input {
+				position: absolute;
+				width: 1px;
+				height: 1px;
+				padding: 0;
+				margin: -1px;
+				overflow: hidden;
+				clip: rect(0, 0, 0, 0);
+				white-space: nowrap;
+				border: 0;
+			}
+			.fp-upload-state-row {
+				align-items: center;
+				justify-content: space-between;
+				gap: 12px;
+				width: 100%;
+			}
+			.fp-browse-btn,
+			.fp-replace-btn {
+				background: #FFFFFF !important;
+				border: 1px solid #D1CDC7 !important;
+				border-radius: 6px !important;
+				padding: 6px 14px !important;
+				font-size: 12px !important;
+				font-weight: 600 !important;
+				color: #1C1A17 !important;
+				cursor: pointer !important;
+				display: inline-flex !important;
+				align-items: center !important;
+				gap: 6px !important;
+				white-space: nowrap !important;
+				box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+				transition: all 0.2s ease !important;
+			}
+			.fp-browse-btn:hover,
+			.fp-replace-btn:hover {
+				background: #F5F3EF !important;
+				border-color: #B8B2A7 !important;
+				color: #1C1A17 !important;
+				transform: translateY(-1px);
+			}
+			.fp-remove-btn {
+				background: transparent !important;
+				border: 1px solid transparent !important;
+				border-radius: 6px !important;
+				width: 28px !important;
+				height: 28px !important;
+				display: inline-flex !important;
+				align-items: center !important;
+				justify-content: center !important;
+				color: #8C867E !important;
+				cursor: pointer !important;
+				padding: 0 !important;
+				transition: all 0.2s ease !important;
+			}
+			.fp-remove-btn:hover {
+				color: #b32d2e !important;
+				background: #FDF2F2 !important;
+				border-color: #F5C6CB !important;
 			}
 			.fp-checkbox-label {
 				display: flex;
@@ -860,25 +924,81 @@ class Pixelpost_Export_Import {
 								</div>
 							</div>
 
-							<!-- File Selection Box -->
-							<label for="pixelpost_import_file" style="display: block; font-weight: 700; font-size: 13px; margin-bottom: 8px; color: #1C1A17;">
-								<?php esc_html_e( 'Choose Export File (.json):', 'pixelpost' ); ?>
-							</label>
-							<div id="fp-dropzone" class="fp-dropzone" onclick="document.getElementById('pixelpost_import_file').click();">
-								<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8C867E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;">
-									<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-									<polyline points="14 2 14 8 20 8"></polyline>
-									<line x1="16" y1="13" x2="8" y2="13"></line>
-									<line x1="16" y1="17" x2="8" y2="17"></line>
-									<polyline points="10 9 9 9 8 9"></polyline>
-								</svg>
-								<span class="button" style="pointer-events: none; font-weight: 500; font-size: 13px; height: 28px; line-height: 26px; padding: 0 12px; background: #FFFFFF; border: 1px solid #CCD0D4; color: #2c3338; border-radius: 5px;">
-									<?php esc_html_e( 'Choose File', 'pixelpost' ); ?>
-								</span>
-								<span id="fp-filename-display" style="font-size: 13px; color: #6B665F; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1;">
-									<?php esc_html_e( 'No file chosen', 'pixelpost' ); ?>
-								</span>
-								<input type="file" name="pixelpost_import_file" id="pixelpost_import_file" accept=".json,application/json" required="required" style="display: none;" />
+							<!-- Custom File Upload Field -->
+							<div style="margin-bottom: 20px;">
+								<label style="display: block; font-weight: 700; font-size: 13px; margin-bottom: 8px; color: #1C1A17;">
+									<?php esc_html_e( 'Choose Export File (.json):', 'pixelpost' ); ?>
+								</label>
+
+								<div id="fp-dropzone" class="fp-upload-zone" tabindex="0" role="button" aria-label="<?php esc_attr_e( 'Upload JSON export file', 'pixelpost' ); ?>">
+									<input type="file" name="pixelpost_import_file" id="pixelpost_import_file" accept=".json,application/json" required="required" class="fp-hidden-file-input" />
+
+									<!-- State: Empty / No File Selected -->
+									<div id="fp-upload-empty-state" class="fp-upload-state-row" style="display: flex;">
+										<div style="display: flex; align-items: center; gap: 12px; min-width: 0; flex: 1;">
+											<!-- JSON Document Icon Badge -->
+											<div style="width: 34px; height: 34px; border-radius: 8px; background: #FAF0E8; border: 1px solid #EFE4D8; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+												<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#994200" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+													<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+													<polyline points="14 2 14 8 20 8"></polyline>
+													<path d="M9 13h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H9"></path>
+													<path d="M15 13h-2v4h2"></path>
+												</svg>
+											</div>
+											<div style="min-width: 0; line-height: 1.35;">
+												<span style="font-size: 13px; font-weight: 600; color: #44403C; display: block;">
+													<?php esc_html_e( 'No file selected', 'pixelpost' ); ?>
+												</span>
+												<span style="font-size: 11px; color: #8C867E; display: block;">
+													<?php esc_html_e( 'Click to browse or drop .json file here', 'pixelpost' ); ?>
+												</span>
+											</div>
+										</div>
+
+										<button type="button" id="fp-btn-browse-trigger" class="fp-browse-btn">
+											<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#6B665F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+												<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+												<polyline points="17 8 12 3 7 8"></polyline>
+												<line x1="12" y1="3" x2="12" y2="15"></line>
+											</svg>
+											<span><?php esc_html_e( 'Browse Files', 'pixelpost' ); ?></span>
+										</button>
+									</div>
+
+									<!-- State: File Selected -->
+									<div id="fp-upload-selected-state" class="fp-upload-state-row" style="display: none;">
+										<div style="display: flex; align-items: center; gap: 12px; min-width: 0; flex: 1;">
+											<!-- Active JSON Badge -->
+											<div style="width: 34px; height: 34px; border-radius: 8px; background: #FAF0E8; border: 1px solid #EBD5C5; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+												<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#994200" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+													<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+													<polyline points="14 2 14 8 20 8"></polyline>
+													<polyline points="9 15 12 12 15 15"></polyline>
+												</svg>
+											</div>
+											<div style="min-width: 0; line-height: 1.35; padding-right: 8px;">
+												<span id="fp-filename-text" style="font-size: 13px; font-weight: 700; color: #1C1A17; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></span>
+												<span id="fp-filesize-text" style="font-size: 11px; color: #28a745; font-weight: 500; display: block; margin-top: 1px;"></span>
+											</div>
+										</div>
+
+										<div style="display: flex; align-items: center; gap: 8px; flex-shrink: 0;">
+											<button type="button" id="fp-btn-replace-trigger" class="fp-replace-btn">
+												<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#6B665F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+													<path d="M21 2v6h-6"></path>
+													<path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path>
+												</svg>
+												<span><?php esc_html_e( 'Replace File', 'pixelpost' ); ?></span>
+											</button>
+											<button type="button" id="fp-btn-remove-trigger" class="fp-remove-btn" title="<?php esc_attr_e( 'Remove file', 'pixelpost' ); ?>">
+												<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+													<line x1="18" y1="6" x2="6" y2="18"></line>
+													<line x1="6" y1="6" x2="18" y2="18"></line>
+												</svg>
+											</button>
+										</div>
+									</div>
+								</div>
 							</div>
 
 							<!-- Import Options Container -->
@@ -935,25 +1055,84 @@ class Pixelpost_Export_Import {
 
 		<script>
 		document.addEventListener('DOMContentLoaded', function() {
-			var fileInput = document.getElementById('pixelpost_import_file');
-			var filenameDisplay = document.getElementById('fp-filename-display');
-			var dropzone = document.getElementById('fp-dropzone');
+			var fileInput     = document.getElementById('pixelpost_import_file');
+			var dropzone      = document.getElementById('fp-dropzone');
+			var emptyState    = document.getElementById('fp-upload-empty-state');
+			var selectedState = document.getElementById('fp-upload-selected-state');
+			var filenameText  = document.getElementById('fp-filename-text');
+			var filesizeText  = document.getElementById('fp-filesize-text');
+			var browseBtn     = document.getElementById('fp-btn-browse-trigger');
+			var replaceBtn    = document.getElementById('fp-btn-replace-trigger');
+			var removeBtn     = document.getElementById('fp-btn-remove-trigger');
 
-			if (fileInput && filenameDisplay) {
+			function formatBytes(bytes) {
+				if (!bytes || bytes === 0) return '0 KB';
+				var k = 1024;
+				var sizes = ['Bytes', 'KB', 'MB'];
+				var i = Math.floor(Math.log(bytes) / Math.log(k));
+				return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+			}
+
+			function showSelectedFile(file) {
+				if (!file) return;
+				if (filenameText) {
+					filenameText.textContent = file.name;
+				}
+				if (filesizeText) {
+					filesizeText.textContent = '✓ ' + formatBytes(file.size) + ' · <?php echo esc_js( __( 'Ready to import', 'pixelpost' ) ); ?>';
+				}
+				if (emptyState) emptyState.style.display = 'none';
+				if (selectedState) selectedState.style.display = 'flex';
+				if (dropzone) {
+					dropzone.style.borderColor = '#B8D4EE';
+					dropzone.style.background = '#F6F9FC';
+				}
+			}
+
+			function resetFile() {
+				if (fileInput) fileInput.value = '';
+				if (filenameText) filenameText.textContent = '';
+				if (filesizeText) filesizeText.textContent = '';
+				if (selectedState) selectedState.style.display = 'none';
+				if (emptyState) emptyState.style.display = 'flex';
+				if (dropzone) {
+					dropzone.style.borderColor = '#D3CEC6';
+					dropzone.style.background = '#FAF9F7';
+				}
+			}
+
+			if (fileInput) {
 				fileInput.addEventListener('change', function() {
 					if (this.files && this.files.length > 0) {
-						filenameDisplay.textContent = this.files[0].name;
-						filenameDisplay.style.color = '#1C1A17';
-						filenameDisplay.style.fontWeight = '600';
+						var file = this.files[0];
+						if (file.name.slice(-5).toLowerCase() !== '.json') {
+							alert('<?php echo esc_js( __( 'Please select a valid .json export file.', 'pixelpost' ) ); ?>');
+							resetFile();
+							return;
+						}
+						showSelectedFile(file);
 					} else {
-						filenameDisplay.textContent = '<?php echo esc_js( __( 'No file chosen', 'pixelpost' ) ); ?>';
-						filenameDisplay.style.color = '#6B665F';
-						filenameDisplay.style.fontWeight = 'normal';
+						resetFile();
 					}
 				});
 			}
 
-			if (dropzone && fileInput && filenameDisplay) {
+			if (dropzone && fileInput) {
+				dropzone.addEventListener('click', function(e) {
+					// Don't trigger browse if clicking the remove button
+					if (removeBtn && (e.target === removeBtn || removeBtn.contains(e.target))) {
+						return;
+					}
+					fileInput.click();
+				});
+
+				dropzone.addEventListener('keydown', function(e) {
+					if (e.key === 'Enter' || e.key === ' ') {
+						e.preventDefault();
+						fileInput.click();
+					}
+				});
+
 				['dragenter', 'dragover'].forEach(function(evtName) {
 					dropzone.addEventListener(evtName, function(e) {
 						e.preventDefault();
@@ -972,11 +1151,38 @@ class Pixelpost_Export_Import {
 
 				dropzone.addEventListener('drop', function(e) {
 					if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+						var dropped = e.dataTransfer.files[0];
+						if (dropped.name.slice(-5).toLowerCase() !== '.json') {
+							alert('<?php echo esc_js( __( 'Please select a valid .json export file.', 'pixelpost' ) ); ?>');
+							return;
+						}
 						fileInput.files = e.dataTransfer.files;
-						filenameDisplay.textContent = e.dataTransfer.files[0].name;
-						filenameDisplay.style.color = '#1C1A17';
-						filenameDisplay.style.fontWeight = '600';
+						showSelectedFile(dropped);
 					}
+				});
+			}
+
+			if (removeBtn) {
+				removeBtn.addEventListener('click', function(e) {
+					e.preventDefault();
+					e.stopPropagation();
+					resetFile();
+				});
+			}
+
+			if (replaceBtn) {
+				replaceBtn.addEventListener('click', function(e) {
+					e.preventDefault();
+					e.stopPropagation();
+					if (fileInput) fileInput.click();
+				});
+			}
+
+			if (browseBtn) {
+				browseBtn.addEventListener('click', function(e) {
+					e.preventDefault();
+					e.stopPropagation();
+					if (fileInput) fileInput.click();
 				});
 			}
 		});

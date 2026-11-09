@@ -168,6 +168,35 @@
     });
   });
 
+  // Header CTA Button ("Let's Talk") Visibility
+  api('pixelpost_header_cta_show', function(value) {
+    value.bind(function(to) {
+      if (to) {
+        $('.fp-header-talk-btn').removeClass('is-hidden-cta');
+        $('.fp-mobile-talk-btn-wrap').removeClass('is-hidden-cta');
+      } else {
+        $('.fp-header-talk-btn').addClass('is-hidden-cta');
+        $('.fp-mobile-talk-btn-wrap').addClass('is-hidden-cta');
+      }
+    });
+  });
+
+  // Header CTA Button Text
+  api('pixelpost_header_cta_text', function(value) {
+    value.bind(function(to) {
+      var text = to ? to : "Let's Talk";
+      $('.fp-header-talk-btn span, .fp-mobile-talk-btn span').text(text);
+    });
+  });
+
+  // Header CTA Button URL
+  api('pixelpost_header_cta_url', function(value) {
+    value.bind(function(to) {
+      var url = to ? to : '#contact';
+      $('.fp-header-talk-btn, .fp-mobile-talk-btn').attr('href', url);
+    });
+  });
+
   // Footer Navigation / Menu Visibility
   api('pixelpost_footer_nav_show', function(value) {
     value.bind(function(to) {
@@ -337,6 +366,8 @@
     { selector: '.fp-site-title', control: 'blogname', section: 'title_tagline' },
     { selector: '.fp-site-tagline', control: 'blogdescription', section: 'title_tagline' },
     { selector: '.fp-site-header .fp-main-navigation', control: 'pixelpost_header_sticky', section: 'pixelpost_header_section' },
+    { selector: '.fp-header-talk-btn', control: 'pixelpost_header_cta_show', section: 'pixelpost_header_section' },
+    { selector: '.fp-mobile-talk-btn', control: 'pixelpost_header_cta_show', section: 'pixelpost_header_section' },
 
     // Hero Section
     { selector: '.fp-hero-eyebrow', control: 'pixelpost_hero_eyebrow', section: 'pixelpost_hero_section' },
@@ -420,6 +451,7 @@
   var dataAttrMapping = {
     'site-branding': { control: 'blogname', section: 'title_tagline' },
     'header': { control: 'pixelpost_header_sticky', section: 'pixelpost_header_section' },
+    'header-cta': { control: 'pixelpost_header_cta_show', section: 'pixelpost_header_section' },
     'navigation': { control: 'pixelpost_header_sticky', section: 'pixelpost_header_section' },
     'hero': { control: 'pixelpost_hero_headline', section: 'pixelpost_hero_section' },
     'hero-visual': { control: 'pixelpost_hero_visual_type', section: 'pixelpost_hero_section' },

@@ -63,6 +63,19 @@
       });
     }
 
+    // 2b. Dynamic control visibility toggling
+    if (api('pixelpost_header_cta_show')) {
+      var syncHeaderCtaControls = function(val) {
+        if (api.control('pixelpost_header_cta_text')) {
+          api.control('pixelpost_header_cta_text').active(!!val);
+        }
+        if (api.control('pixelpost_header_cta_url')) {
+          api.control('pixelpost_header_cta_url').active(!!val);
+        }
+      };
+      api('pixelpost_header_cta_show').bind(syncHeaderCtaControls);
+    }
+
     // 3. Shortcut button to open Menus panel
     $(document).on('click', '.fp-btn-open-footer-menus', function(e) {
       e.preventDefault();

@@ -220,6 +220,12 @@ a.fp-button-secondary:active,
   transform: scale(0.98) translateY(1px);
 }
 
+/* Header & Mobile CTA toggle state */
+.fp-header-talk-btn.is-hidden-cta,
+.fp-mobile-talk-btn-wrap.is-hidden-cta {
+  display: none !important;
+}
+
 /* Typographic balance & orphan prevention */
 h1, h2, h3, h4,
 .font-headline-display,

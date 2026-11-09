@@ -34,10 +34,32 @@ $pixelpost_sticky_class = pixelpost_get_setting( 'pixelpost_header_sticky' ) ? '
 					<span class="dark-icon-moon"><?php echo pixelpost_get_icon( 'moon', array( 'width' => 18, 'height' => 18 ) ); ?></span>
 					<span class="dark-icon-sun hidden"><?php echo pixelpost_get_icon( 'sun', array( 'width' => 18, 'height' => 18 ) ); ?></span>
 				</button>
-				<a href="<?php echo esc_url( home_url( '/#contact' ) ); ?>" class="hidden sm:inline-flex items-center gap-1.5 px-4 py-2.5 rounded bg-primary hover:bg-primary-container text-on-primary font-medium text-sm transition-all fp-header-talk-btn">
-					<span><?php esc_html_e( "Let's Talk", "pixelpost" ); ?></span>
-					<?php echo pixelpost_get_icon( 'arrow_forward', array( 'width' => 14, 'height' => 14 ) ); ?>
-				</a>
+				<?php
+				$pixelpost_header_cta_show = pixelpost_get_setting( 'pixelpost_header_cta_show' );
+				if ( false === $pixelpost_header_cta_show || '0' === $pixelpost_header_cta_show || 0 === $pixelpost_header_cta_show ) {
+					$pixelpost_header_cta_show = false;
+				} else {
+					$pixelpost_header_cta_show = true;
+				}
+				$pixelpost_header_cta_text = pixelpost_get_setting( 'pixelpost_header_cta_text' );
+				if ( empty( $pixelpost_header_cta_text ) ) {
+					$pixelpost_header_cta_text = __( "Let's Talk", 'pixelpost' );
+				}
+				$pixelpost_header_cta_url = pixelpost_get_setting( 'pixelpost_header_cta_url' );
+				if ( empty( $pixelpost_header_cta_url ) ) {
+					$pixelpost_header_cta_url = home_url( '/#contact' );
+				} elseif ( strpos( $pixelpost_header_cta_url, '#' ) === 0 ) {
+					$pixelpost_header_cta_url = home_url( '/' . $pixelpost_header_cta_url );
+				} elseif ( strpos( $pixelpost_header_cta_url, '/' ) === 0 ) {
+					$pixelpost_header_cta_url = home_url( $pixelpost_header_cta_url );
+				}
+				?>
+				<?php if ( is_customize_preview() || $pixelpost_header_cta_show ) : ?>
+					<a href="<?php echo esc_url( $pixelpost_header_cta_url ); ?>" class="<?php echo ! $pixelpost_header_cta_show ? 'is-hidden-cta ' : ''; ?>hidden sm:inline-flex items-center gap-1.5 px-4 py-2.5 rounded bg-primary hover:bg-primary-container text-on-primary font-medium text-sm transition-all fp-header-talk-btn" data-pixelpost-customize="header-cta" data-pixelpost-label="<?php esc_attr_e( 'Header CTA Button', 'pixelpost' ); ?>">
+						<span><?php echo esc_html( $pixelpost_header_cta_text ); ?></span>
+						<?php echo pixelpost_get_icon( 'arrow_forward', array( 'width' => 14, 'height' => 14 ) ); ?>
+					</a>
+				<?php endif; ?>
 				<button class="pixelpost-menu-toggle fp-menu-toggle lg:hidden min-w-[44px] min-h-[44px] w-11 h-11 rounded-md text-on-surface-variant hover:text-on-surface flex items-center justify-center transition-all" aria-controls="site-navigation" aria-expanded="false" aria-label="<?php esc_attr_e( 'Open navigation menu', 'pixelpost' ); ?>">
 					<span class="fp-menu-icon-open"><?php echo pixelpost_get_icon( 'menu', array( 'width' => 22, 'height' => 22 ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
 					<span class="fp-menu-icon-close hidden"><?php echo pixelpost_get_icon( 'close', array( 'width' => 22, 'height' => 22 ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>

@@ -234,6 +234,63 @@ function pixelpost_customize_register( $wp_customize ) {
 		)
 	);
 
+	// Header CTA Button ("Let's Talk") Visibility
+	$wp_customize->add_setting(
+		'pixelpost_header_cta_show',
+		array(
+			'default'           => pixelpost_get_theme_default( 'pixelpost_header_cta_show' ),
+			'sanitize_callback' => 'pixelpost_sanitize_checkbox',
+			'transport'         => 'postMessage',
+		)
+	);
+	$wp_customize->add_control(
+		'pixelpost_header_cta_show',
+		array(
+			'label'       => __( 'Display "Let\'s Talk" CTA Button', 'pixelpost' ),
+			'description' => __( 'Show or hide the primary CTA button in the header and mobile navigation.', 'pixelpost' ),
+			'section'     => 'pixelpost_header_section',
+			'type'        => 'checkbox',
+		)
+	);
+
+	// Header CTA Button Text
+	$wp_customize->add_setting(
+		'pixelpost_header_cta_text',
+		array(
+			'default'           => pixelpost_get_theme_default( 'pixelpost_header_cta_text' ),
+			'sanitize_callback' => 'sanitize_text_field',
+			'transport'         => 'postMessage',
+		)
+	);
+	$wp_customize->add_control(
+		'pixelpost_header_cta_text',
+		array(
+			'label'           => __( 'CTA Button Text', 'pixelpost' ),
+			'section'         => 'pixelpost_header_section',
+			'type'            => 'text',
+			'active_callback' => 'pixelpost_is_header_cta_enabled',
+		)
+	);
+
+	// Header CTA Button URL
+	$wp_customize->add_setting(
+		'pixelpost_header_cta_url',
+		array(
+			'default'           => pixelpost_get_theme_default( 'pixelpost_header_cta_url' ),
+			'sanitize_callback' => 'esc_url_raw',
+			'transport'         => 'postMessage',
+		)
+	);
+	$wp_customize->add_control(
+		'pixelpost_header_cta_url',
+		array(
+			'label'           => __( 'CTA Button URL', 'pixelpost' ),
+			'section'         => 'pixelpost_header_section',
+			'type'            => 'url',
+			'active_callback' => 'pixelpost_is_header_cta_enabled',
+		)
+	);
+
 	/* ==========================================================================
 	   LOGO DIMENSIONS (Site Identity & Header Settings)
 	   ========================================================================== */
@@ -2044,6 +2101,17 @@ function pixelpost_sanitize_footer_brand_type( $input ) {
  */
 function pixelpost_is_footer_nav_enabled( $control ) {
 	$setting = $control->manager->get_setting( 'pixelpost_footer_nav_show' );
+	return $setting ? (bool) $setting->value() : true;
+}
+
+/**
+ * Check if header CTA button is enabled (for Customizer active_callback)
+ *
+ * @param WP_Customize_Control $control Control instance.
+ * @return bool
+ */
+function pixelpost_is_header_cta_enabled( $control ) {
+	$setting = $control->manager->get_setting( 'pixelpost_header_cta_show' );
 	return $setting ? (bool) $setting->value() : true;
 }
 

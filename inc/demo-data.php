@@ -340,6 +340,9 @@ function pixelpost_get_theme_defaults() {
 		// Header & Logo
 		'pixelpost_header_sticky'               => true,
 		'pixelpost_header_tagline_show'         => false,
+		'pixelpost_header_cta_show'             => true,
+		'pixelpost_header_cta_text'             => "Let's Talk",
+		'pixelpost_header_cta_url'              => '#contact',
 		'pixelpost_logo_width'                  => '',
 		'pixelpost_logo_height'                 => '44',
 

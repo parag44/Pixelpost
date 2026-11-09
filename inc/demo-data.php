@@ -403,7 +403,7 @@ function pixelpost_get_theme_defaults() {
 		// Skills (Repeater + Legacy textarea fallback)
 		'pixelpost_skills_eyebrow'              => '01 — SKILLS & TECHNOLOGIES',
 		'pixelpost_skills_heading'              => 'Tools I work with',
-		'pixelpost_skills_subtitle'             => 'A focused set of tools and technologies I use daily to solve production issues, build custom features, and ensure seamless WordPress experiences.',
+		'pixelpost_skills_subtitle'             => 'A focused set of tools and technologies I use daily to solve production issues, build custom features, and ensure reliable, performant WordPress experiences.',
 		'pixelpost_skills_view_all_show'        => false,
 		'pixelpost_skills_view_all_text'        => 'View full breakdown',
 		'pixelpost_skills_view_all_url'         => '#experience',

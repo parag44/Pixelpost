@@ -64,8 +64,8 @@ if ( empty( $pixelpost_stats ) ) {
 			$padding_class = ( $pixelpost_index === 0 ) ? 'lg:pr-8' : ( ( $pixelpost_index === $total_stats - 1 ) ? 'lg:pl-8' : 'lg:px-8' );
 		?>
 			<div class="flex flex-col <?php echo esc_attr( $border_class . ' ' . $padding_class ); ?> fp-stat-item">
-				<div class="flex items-baseline gap-0.5 mb-2 fp-stat-number-wrap">
-					<span class="font-serif text-5xl sm:text-[54px] font-normal text-primary tracking-tight leading-none fp-stat-number"><?php echo esc_html( $pixelpost_num_val ); ?></span>
+				<div class="flex items-baseline gap-0.5 mb-2 tabular-nums fp-stat-number-wrap">
+					<span class="font-serif text-5xl sm:text-[54px] font-normal text-primary tracking-tight leading-none tabular-nums fp-stat-number"><?php echo esc_html( $pixelpost_num_val ); ?></span>
 					<?php if ( ! empty( $pixelpost_suffix ) ) : ?>
 						<span class="font-serif text-4xl sm:text-[44px] text-primary font-normal leading-none fp-stat-suffix"><?php echo esc_html( $pixelpost_suffix ); ?></span>
 					<?php endif; ?>

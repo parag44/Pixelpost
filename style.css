@@ -146,14 +146,107 @@ body.dark {
   --fp-outline-variant: #2E2D29;
 }
 
-/* Reduced motion preference */
+/* Ensure dark mode primary buttons maintain WCAG AA (>= 4.5:1) text contrast */
+html[data-theme="dark"] .bg-primary,
+html.dark .bg-primary,
+body.dark .bg-primary,
+html[data-theme="dark"] .fp-button-primary,
+html.dark .fp-button-primary,
+body.dark .fp-button-primary,
+html[data-theme="dark"] .fp-mobile-talk-btn,
+html.dark .fp-mobile-talk-btn,
+body.dark .fp-mobile-talk-btn,
+html[data-theme="dark"] .fp-header-talk-btn,
+html.dark .fp-header-talk-btn,
+body.dark .fp-header-talk-btn {
+  background-color: var(--fp-primary-container, #B85B28) !important;
+  color: #FFFFFF !important;
+}
+
+html[data-theme="dark"] .bg-primary:hover,
+html.dark .bg-primary:hover,
+body.dark .bg-primary:hover,
+html[data-theme="dark"] .fp-button-primary:hover,
+html.dark .fp-button-primary:hover,
+body.dark .fp-button-primary:hover,
+html[data-theme="dark"] .fp-mobile-talk-btn:hover,
+html.dark .fp-mobile-talk-btn:hover,
+body.dark .fp-mobile-talk-btn:hover,
+html[data-theme="dark"] .fp-header-talk-btn:hover,
+html.dark .fp-header-talk-btn:hover,
+body.dark .fp-header-talk-btn:hover {
+  background-color: #9E491C !important;
+}
+
+/* Reduced motion preference (Intentional craft without breaking state feedback) */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+  /* Preserve non-spatial transitions for state and accessibility feedback */
+  a, button, input, select, textarea, [role="button"], .fp-button-primary, .fp-button-secondary {
+    transition-duration: 0.15s !important;
+    transition-property: color, background-color, border-color, opacity, outline-color, box-shadow !important;
+    transform: none !important;
+  }
+}
+
+/* High-contrast systemic keyboard focus indicators */
+:focus-visible {
+  outline: 2px solid var(--fp-primary) !important;
+  outline-offset: 3px !important;
+}
+
+html[data-theme="dark"] :focus-visible,
+html.dark :focus-visible,
+body.dark :focus-visible {
+  outline-color: var(--fp-primary, #D4733F) !important;
+}
+
+/* Tactile button & interactive press feedback (Emil Kowalski Design Engineering) */
+.fp-button-primary:active,
+.fp-button-secondary:active,
+button.fp-button-primary:active,
+button.fp-button-secondary:active,
+a.fp-button-primary:active,
+a.fp-button-secondary:active,
+.fp-header-talk-btn:active,
+.fp-mobile-talk-btn:active,
+#theme-toggle:active,
+.pixelpost-menu-toggle:active,
+.fp-project-card:active {
+  transform: scale(0.98) translateY(1px);
+}
+
+/* Typographic balance & orphan prevention */
+h1, h2, h3, h4,
+.font-headline-display,
+.font-headline-lg,
+.font-headline-md,
+.font-headline-sm,
+.fp-hero-headline,
+.fp-about-heading,
+.fp-contact-heading,
+.fp-section-title {
+  text-wrap: balance;
+}
+
+.fp-article-content p,
+.fp-hero-description,
+.fp-about-content p,
+.font-body-lg {
+  text-wrap: pretty;
+}
+
+/* Tabular figures for aligned data, counters & metrics */
+.fp-stat-number,
+.fp-stat-suffix,
+.fp-impact-number,
+.font-metric-val {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
 }
 
 /* ==========================================================================
@@ -848,6 +941,17 @@ body.pixelpost-menu-open #masthead {
     visibility: hidden !important;
   }
 
+  @keyframes fpMobileNavSlide {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
   .pixelpost-main-navigation.is-open,
   .fp-main-navigation.is-open {
     display: flex !important;
@@ -868,7 +972,8 @@ body.pixelpost-menu-open #masthead {
     padding: var(--fp-space-md) var(--fp-margin-mobile) var(--fp-space-xl);
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15);
     gap: var(--fp-space-sm);
-    z-index: 99999;
+    z-index: 50;
+    animation: fpMobileNavSlide 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 
   body.admin-bar .pixelpost-main-navigation.is-open,
@@ -1494,16 +1599,16 @@ html.dark .fp-button-secondary:hover {
   opacity: 0.8;
 }
 .fp-article-content blockquote {
-  border-left: 3px solid var(--fp-primary);
-  margin: 2rem 0;
-  padding: 0.75rem 0 0.75rem 1.5rem;
+  border-left: 2px solid var(--fp-primary);
+  margin: 2.25rem 0;
+  padding: 0.5rem 0 0.5rem 1.75rem;
   font-family: var(--fp-font-headline);
   font-size: 1.35rem;
-  line-height: 1.6;
+  line-height: 1.65;
   font-style: italic;
   color: var(--fp-on-surface);
-  background: var(--fp-surface-container-low);
-  border-radius: 0 var(--fp-radius-md) var(--fp-radius-md) 0;
+  background: transparent;
+  border-radius: 0;
 }
 .fp-article-content pre {
   background: #181c1e;

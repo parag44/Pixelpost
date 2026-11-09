@@ -20,20 +20,21 @@ body {
 .editor-styles-wrapper h4,
 .editor-styles-wrapper h5,
 .editor-styles-wrapper h6 {
-  font-family: "Newsreader", "Playfair Display", "Lora", Georgia, serif;
+  font-family: "Playfair Display", "EB Garamond", Georgia, serif;
   color: #20211F;
   font-weight: 600;
   letter-spacing: -0.015em;
+  text-wrap: balance;
 }
 
 .editor-styles-wrapper a {
-  color: #A63F2B;
+  color: #A94F20;
 }
 
 .editor-styles-wrapper blockquote {
-  border-left: 3px solid #A63F2B;
+  border-left: 2px solid #A94F20;
   padding-left: 20px;
-  font-family: "Newsreader", "Playfair Display", "Lora", Georgia, serif;
+  font-family: "Playfair Display", "EB Garamond", Georgia, serif;
   font-size: 1.25rem;
   font-style: italic;
   color: #20211F;

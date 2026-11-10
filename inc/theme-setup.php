@@ -234,7 +234,7 @@ function pixelpost_scripts() {
 	// Dynamic Customizer Styles
 	$custom_css = pixelpost_get_customizer_css();
 	if ( ! empty( $custom_css ) ) {
-		wp_add_inline_style( 'pixelpost-style', $custom_css );
+		wp_add_inline_style( 'pixelpost-style', wp_strip_all_tags( $custom_css ) );
 	}
 
 	// Main Navigation JavaScript (deferred for non-blocking rendering)
@@ -280,60 +280,68 @@ add_filter( 'wp_resource_hints', 'pixelpost_resource_hints', 10, 2 );
 /**
  * Generate inline CSS from Customizer settings
  *
+ * All color values are strictly sanitized via sanitize_hex_color()
+ * and numeric dimensions via absint() to prevent any CSS injection.
+ *
  * @return string
  */
 function pixelpost_get_customizer_css() {
-	$bg       = get_theme_mod( 'pixelpost_color_bg', pixelpost_get_theme_default( 'pixelpost_color_bg' ) );
-	$surface  = get_theme_mod( 'pixelpost_color_surface', pixelpost_get_theme_default( 'pixelpost_color_surface' ) );
-	$text     = get_theme_mod( 'pixelpost_color_text', pixelpost_get_theme_default( 'pixelpost_color_text' ) );
-	$accent   = get_theme_mod( 'pixelpost_color_accent', pixelpost_get_theme_default( 'pixelpost_color_accent' ) );
-	$border   = get_theme_mod( 'pixelpost_color_border', pixelpost_get_theme_default( 'pixelpost_color_border' ) );
-	$width    = get_theme_mod( 'pixelpost_container_max_width', pixelpost_get_theme_default( 'pixelpost_container_max_width' ) );
+	$bg       = sanitize_hex_color( get_theme_mod( 'pixelpost_color_bg', pixelpost_get_theme_default( 'pixelpost_color_bg' ) ) );
+	$surface  = sanitize_hex_color( get_theme_mod( 'pixelpost_color_surface', pixelpost_get_theme_default( 'pixelpost_color_surface' ) ) );
+	$text     = sanitize_hex_color( get_theme_mod( 'pixelpost_color_text', pixelpost_get_theme_default( 'pixelpost_color_text' ) ) );
+	$accent   = sanitize_hex_color( get_theme_mod( 'pixelpost_color_accent', pixelpost_get_theme_default( 'pixelpost_color_accent' ) ) );
+	$border   = sanitize_hex_color( get_theme_mod( 'pixelpost_color_border', pixelpost_get_theme_default( 'pixelpost_color_border' ) ) );
+	$width    = absint( get_theme_mod( 'pixelpost_container_max_width', pixelpost_get_theme_default( 'pixelpost_container_max_width' ) ) );
 
-	$css = ":root {\n";
-	if ( $bg ) {
-		$css .= "  --fp-bg: " . esc_attr( $bg ) . ";\n";
+	$rules = array();
+
+	if ( ! empty( $bg ) ) {
+		$rules[] = "  --fp-bg: {$bg};";
 	}
-	if ( $surface ) {
-		$css .= "  --fp-surface: " . esc_attr( $surface ) . ";\n";
+	if ( ! empty( $surface ) ) {
+		$rules[] = "  --fp-surface: {$surface};";
 	}
-	if ( $text ) {
-		$css .= "  --fp-text: " . esc_attr( $text ) . ";\n";
-		$css .= "  --fp-on-surface: " . esc_attr( $text ) . ";\n";
+	if ( ! empty( $text ) ) {
+		$rules[] = "  --fp-text: {$text};";
+		$rules[] = "  --fp-on-surface: {$text};";
 	}
-	if ( $accent ) {
-		$css .= "  --fp-primary: " . esc_attr( $accent ) . ";\n";
-		$css .= "  --fp-accent: " . esc_attr( $accent ) . ";\n";
-		$css .= "  --fp-focus: " . esc_attr( $accent ) . ";\n";
+	if ( ! empty( $accent ) ) {
+		$rules[] = "  --fp-primary: {$accent};";
+		$rules[] = "  --fp-accent: {$accent};";
+		$rules[] = "  --fp-focus: {$accent};";
 	}
-	if ( $border ) {
-		$css .= "  --fp-border: " . esc_attr( $border ) . ";\n";
+	if ( ! empty( $border ) ) {
+		$rules[] = "  --fp-border: {$border};";
 	}
-	if ( $width ) {
-		$css .= "  --fp-container-max: " . absint( $width ) . "px;\n";
+	if ( $width > 0 ) {
+		$rules[] = "  --fp-container-max: {$width}px;";
 	}
-	$css .= "}\n";
+
+	$css = '';
+	if ( ! empty( $rules ) ) {
+		$css .= ":root {\n" . implode( "\n", $rules ) . "\n}\n";
+	}
 
 	// Custom Logo Dimensions (Width / Height)
-	$logo_width  = get_theme_mod( 'pixelpost_logo_width', pixelpost_get_theme_default( 'pixelpost_logo_width' ) );
-	$logo_height = get_theme_mod( 'pixelpost_logo_height', pixelpost_get_theme_default( 'pixelpost_logo_height' ) );
+	$logo_width  = absint( get_theme_mod( 'pixelpost_logo_width', pixelpost_get_theme_default( 'pixelpost_logo_width' ) ) );
+	$logo_height = absint( get_theme_mod( 'pixelpost_logo_height', pixelpost_get_theme_default( 'pixelpost_logo_height' ) ) );
 
-	if ( ! empty( $logo_width ) || ! empty( $logo_height ) ) {
+	if ( $logo_width > 0 || $logo_height > 0 ) {
 		$css .= "\n.custom-logo-link img.custom-logo, .fp-branding .custom-logo, .fp-branding img, .custom-logo {\n";
-		if ( ! empty( $logo_width ) && ! empty( $logo_height ) ) {
-			$css .= "  max-width: " . absint( $logo_width ) . "px !important;\n";
-			$css .= "  max-height: " . absint( $logo_height ) . "px !important;\n";
+		if ( $logo_width > 0 && $logo_height > 0 ) {
+			$css .= "  max-width: {$logo_width}px !important;\n";
+			$css .= "  max-height: {$logo_height}px !important;\n";
 			$css .= "  width: 100%;\n";
 			$css .= "  height: auto;\n";
 			$css .= "  object-fit: contain;\n";
-		} elseif ( ! empty( $logo_width ) ) {
-			$css .= "  max-width: " . absint( $logo_width ) . "px !important;\n";
-			$css .= "  width: " . absint( $logo_width ) . "px;\n";
+		} elseif ( $logo_width > 0 ) {
+			$css .= "  max-width: {$logo_width}px !important;\n";
+			$css .= "  width: {$logo_width}px;\n";
 			$css .= "  height: auto !important;\n";
 			$css .= "  object-fit: contain;\n";
-		} elseif ( ! empty( $logo_height ) ) {
-			$css .= "  max-height: " . absint( $logo_height ) . "px !important;\n";
-			$css .= "  height: " . absint( $logo_height ) . "px;\n";
+		} elseif ( $logo_height > 0 ) {
+			$css .= "  max-height: {$logo_height}px !important;\n";
+			$css .= "  height: {$logo_height}px;\n";
 			$css .= "  width: auto !important;\n";
 			$css .= "  object-fit: contain;\n";
 		}
@@ -341,25 +349,25 @@ function pixelpost_get_customizer_css() {
 	}
 
 	// Footer Logo Dimensions (Width / Height)
-	$footer_logo_width  = get_theme_mod( 'pixelpost_footer_logo_width', pixelpost_get_theme_default( 'pixelpost_footer_logo_width' ) );
-	$footer_logo_height = get_theme_mod( 'pixelpost_footer_logo_height', pixelpost_get_theme_default( 'pixelpost_footer_logo_height' ) );
+	$footer_logo_width  = absint( get_theme_mod( 'pixelpost_footer_logo_width', pixelpost_get_theme_default( 'pixelpost_footer_logo_width' ) ) );
+	$footer_logo_height = absint( get_theme_mod( 'pixelpost_footer_logo_height', pixelpost_get_theme_default( 'pixelpost_footer_logo_height' ) ) );
 
-	if ( ! empty( $footer_logo_width ) || ! empty( $footer_logo_height ) ) {
+	if ( $footer_logo_width > 0 || $footer_logo_height > 0 ) {
 		$css .= "\n.fp-footer-logo, .fp-footer-col-brand img {\n";
-		if ( ! empty( $footer_logo_width ) && ! empty( $footer_logo_height ) ) {
-			$css .= "  max-width: " . absint( $footer_logo_width ) . "px !important;\n";
-			$css .= "  max-height: " . absint( $footer_logo_height ) . "px !important;\n";
+		if ( $footer_logo_width > 0 && $footer_logo_height > 0 ) {
+			$css .= "  max-width: {$footer_logo_width}px !important;\n";
+			$css .= "  max-height: {$footer_logo_height}px !important;\n";
 			$css .= "  width: 100%;\n";
 			$css .= "  height: auto;\n";
 			$css .= "  object-fit: contain;\n";
-		} elseif ( ! empty( $footer_logo_width ) ) {
-			$css .= "  max-width: " . absint( $footer_logo_width ) . "px !important;\n";
-			$css .= "  width: " . absint( $footer_logo_width ) . "px;\n";
+		} elseif ( $footer_logo_width > 0 ) {
+			$css .= "  max-width: {$footer_logo_width}px !important;\n";
+			$css .= "  width: {$footer_logo_width}px;\n";
 			$css .= "  height: auto !important;\n";
 			$css .= "  object-fit: contain;\n";
-		} elseif ( ! empty( $footer_logo_height ) ) {
-			$css .= "  max-height: " . absint( $footer_logo_height ) . "px !important;\n";
-			$css .= "  height: " . absint( $footer_logo_height ) . "px;\n";
+		} elseif ( $footer_logo_height > 0 ) {
+			$css .= "  max-height: {$footer_logo_height}px !important;\n";
+			$css .= "  height: {$footer_logo_height}px;\n";
 			$css .= "  width: auto !important;\n";
 			$css .= "  object-fit: contain;\n";
 		}

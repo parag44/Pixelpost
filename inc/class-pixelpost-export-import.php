@@ -230,9 +230,9 @@ class Pixelpost_Export_Import {
 		return array(
 			'generator'         => 'Pixelpost Theme Setup & Migration',
 			'theme'             => 'pixelpost',
-			'version'           => defined( 'PIXELPOST_VERSION' ) ? PIXELPOST_VERSION : '2.0.7',
+			'version'           => defined( 'PIXELPOST_VERSION' ) ? PIXELPOST_VERSION : '1.0.2',
 			'exported_at'       => gmdate( 'c' ),
-			'site_url'          => untrailingslashit( home_url() ),
+			'source_site_url'   => untrailingslashit( home_url() ),
 			'site_title'        => get_bloginfo( 'name' ),
 			'site_tagline'      => get_bloginfo( 'description' ),
 			'custom_logo_id'    => $custom_logo_id,
@@ -299,8 +299,9 @@ class Pixelpost_Export_Import {
 		$import_css   = ! empty( $args['import_css'] );
 
 		// 1. Domain URL Replacement
-		if ( $replace_urls && ! empty( $data['site_url'] ) ) {
-			$old_url = untrailingslashit( $data['site_url'] );
+		$source_url = ! empty( $data['source_site_url'] ) ? $data['source_site_url'] : ( ! empty( $data['site_url'] ) ? $data['site_url'] : '' );
+		if ( $replace_urls && ! empty( $source_url ) ) {
+			$old_url = untrailingslashit( $source_url );
 			$new_url = untrailingslashit( home_url() );
 
 			if ( $old_url !== $new_url ) {
@@ -363,8 +364,8 @@ class Pixelpost_Export_Import {
 		// 4. Handle Custom Logo if URL is available and current logo is empty
 		if ( ! empty( $data['custom_logo_url'] ) && ! has_custom_logo() ) {
 			$logo_url = esc_url_raw( $data['custom_logo_url'] );
-			if ( $replace_urls && ! empty( $data['site_url'] ) ) {
-				$logo_url = str_replace( untrailingslashit( $data['site_url'] ), untrailingslashit( home_url() ), $logo_url );
+			if ( $replace_urls && ! empty( $source_url ) ) {
+				$logo_url = str_replace( untrailingslashit( $source_url ), untrailingslashit( home_url() ), $logo_url );
 			}
 
 			// SSRF Mitigation: Validate URL and reject internal/localhost/cloud metadata IPs
@@ -486,7 +487,16 @@ class Pixelpost_Export_Import {
 			exit;
 		}
 
-		$file_content = file_get_contents( $_FILES['pixelpost_import_file']['tmp_name'] ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
+		// Read uploaded file securely using WP_Filesystem
+		global $wp_filesystem;
+		if ( empty( $wp_filesystem ) ) {
+			require_once ABSPATH . '/wp-admin/includes/file.php';
+			WP_Filesystem();
+		}
+		$file_content = $wp_filesystem ? $wp_filesystem->get_contents( $_FILES['pixelpost_import_file']['tmp_name'] ) : false;
+		if ( false === $file_content && file_exists( $_FILES['pixelpost_import_file']['tmp_name'] ) ) {
+			$file_content = file_get_contents( $_FILES['pixelpost_import_file']['tmp_name'] ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
+		}
 		if ( false === $file_content ) {
 			wp_safe_redirect( add_query_arg( array( 'page' => 'pixelpost-setup', 'import' => 'read_error' ), admin_url( 'themes.php' ) ) );
 			exit;
@@ -764,7 +774,7 @@ class Pixelpost_Export_Import {
 					<!-- Left Text Content -->
 					<div>
 						<div style="display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #994200; background: #FAF0E8; padding: 4px 10px; border-radius: 4px; margin-bottom: 12px;">
-							<?php esc_html_e( 'PIXELPOST EDITORIAL PORTFOLIO - V2.0.7', 'pixelpost' ); ?>
+							<?php esc_html_e( 'PIXELPOST EDITORIAL PORTFOLIO - V1.0.2', 'pixelpost' ); ?>
 						</div>
 						<h1 style="margin: 0 0 8px 0; font-size: 30px; font-weight: 700; color: #1C1A17; line-height: 1.2; letter-spacing: -0.02em;">
 							<?php esc_html_e( 'Theme Setup & Migration', 'pixelpost' ); ?>

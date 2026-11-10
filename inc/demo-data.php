@@ -368,7 +368,7 @@ function pixelpost_get_theme_defaults() {
 		'pixelpost_section_order'               => 'hero,stats,skills,experience,projects,posts,about,contact',
 
 		// Hero Section
-		'pixelpost_hero_eyebrow'                => 'WORDPRESS SPECIALIST · QA TESTER · DEVELOPER —',
+		'pixelpost_hero_eyebrow'                => 'WordPress Specialist · QA Tester · Developer —',
 		'pixelpost_hero_headline'               => 'Hi, I’m',
 		'pixelpost_hero_accent'                 => 'Parag Das',
 		'pixelpost_hero_role'                   => 'WordPress Specialist · QA Tester · Developer',

@@ -56,10 +56,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	}
 	?>
 	<?php if ( is_customize_preview() || $pixelpost_mobile_cta_show ) : ?>
-		<div class="fp-mobile-talk-btn-wrap lg:hidden mt-6 pt-6 border-t border-[#E9E6E0] dark:border-[#2E2D29] flex flex-col gap-3 w-full<?php echo ! $pixelpost_mobile_cta_show ? ' is-hidden-cta' : ''; ?>">
+		<div class="fp-mobile-talk-btn-wrap lg:hidden mt-6 pt-6 border-t border-[#E9E6E0] dark:border-[#2E2D29] flex flex-col gap-3 w-full<?php echo esc_attr( ! $pixelpost_mobile_cta_show ? ' is-hidden-cta' : '' ); ?>">
 			<a href="<?php echo esc_url( $pixelpost_mobile_cta_url ); ?>" class="fp-mobile-talk-btn inline-flex items-center justify-center gap-2 w-full py-3.5 px-5 rounded-md bg-[#A94F20] hover:bg-[#8C3E16] text-white font-semibold text-sm transition-all shadow-sm">
 				<span class="text-white font-semibold"><?php echo esc_html( $pixelpost_mobile_cta_text ); ?></span>
-				<?php echo pixelpost_get_icon( 'arrow_forward', array( 'width' => 16, 'height' => 16, 'class' => 'text-white' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+				<?php echo wp_kses( pixelpost_get_icon( 'arrow_forward', array( 'width' => 16, 'height' => 16, 'class' => 'text-white' ) ), pixelpost_get_allowed_svg_tags() ); ?>
 			</a>
 		</div>
 	<?php endif; ?>

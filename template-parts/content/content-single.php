@@ -36,7 +36,7 @@ if ( empty( $pixelpost_author_display_name ) ) {
 	<!-- Back to Archive Breadcrumb -->
 	<div class="max-w-[760px] mx-auto mb-space-md">
 		<a href="<?php echo esc_url( pixelpost_get_blog_archive_url() ); ?>" class="inline-flex items-center gap-1.5 text-primary hover:text-primary-container font-label-md text-label-md font-semibold transition-colors group">
-			<?php echo pixelpost_get_icon( 'arrow_back', array( 'width' => 18, 'height' => 18, 'class' => 'group-hover:-translate-x-1 transition-transform' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+			<?php echo wp_kses( pixelpost_get_icon( 'arrow_back', array( 'width' => 18, 'height' => 18, 'class' => 'group-hover:-translate-x-1 transition-transform' ) ), pixelpost_get_allowed_svg_tags() ); ?>
 			<span><?php esc_html_e( 'Back to Knowledge Base', 'pixelpost' ); ?></span>
 		</a>
 	</div>
@@ -53,13 +53,13 @@ if ( empty( $pixelpost_author_display_name ) ) {
 			</span>
 		</div>
 
-		<h1 class="font-headline-display text-[32px] sm:text-[42px] lg:text-[48px] leading-[1.18] text-on-surface tracking-tight mb-space-md fp-single-title">
+		<h1 class="font-headline-display text-[32px] sm:text-[42px] lg:text-[48px] leading-[1.18] text-on-surface tracking-tight mb-space-md fp-single-title break-words" style="overflow-wrap: break-word; word-break: break-word;">
 			<?php the_title(); ?>
 		</h1>
 
 		<div class="flex flex-wrap items-center gap-3 text-on-surface-variant font-body-sm text-body-sm pt-space-xs border-t border-surface-container-high/60">
 			<span class="inline-flex items-center gap-1.5">
-				<?php echo pixelpost_get_icon( 'calendar_today', array( 'width' => 16, 'height' => 16, 'class' => 'text-primary' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+				<?php echo wp_kses( pixelpost_get_icon( 'calendar_today', array( 'width' => 16, 'height' => 16, 'class' => 'text-primary' ) ), pixelpost_get_allowed_svg_tags() ); ?>
 				<time class="entry-date published" datetime="<?php echo esc_attr( get_the_date( 'c' ) ); ?>">
 					<?php echo esc_html( get_the_date( 'F j, Y' ) ); ?>
 				</time>
@@ -69,7 +69,7 @@ if ( empty( $pixelpost_author_display_name ) ) {
 
 			<span class="inline-flex items-center gap-1.5">
 				<span class="w-5 h-5 rounded-full overflow-hidden inline-flex items-center justify-center flex-shrink-0 border border-outline-variant/40">
-					<?php echo get_avatar( $pixelpost_post_author_id ? $pixelpost_post_author_id : get_option( 'admin_email' ), 24, '', $pixelpost_author_display_name, array( 'class' => 'w-full h-full object-cover' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+					<?php echo wp_kses_post( get_avatar( $pixelpost_post_author_id ? $pixelpost_post_author_id : get_option( 'admin_email' ), 24, '', $pixelpost_author_display_name, array( 'class' => 'w-full h-full object-cover' ) ) ); ?>
 				</span>
 				<span><?php echo esc_html( $pixelpost_author_display_name ); ?></span>
 			</span>
@@ -77,8 +77,8 @@ if ( empty( $pixelpost_author_display_name ) ) {
 			<?php if ( comments_open() || get_comments_number() ) : ?>
 				<span class="text-on-surface-variant/40">•</span>
 				<a href="#comments" class="hover:text-primary transition-colors inline-flex items-center gap-1.5">
-					<?php echo pixelpost_get_icon( 'forum', array( 'width' => 16, 'height' => 16, 'class' => 'text-primary' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-					<span><?php comments_number( __( 'Leave a comment', 'pixelpost' ), __( '1 Comment', 'pixelpost' ), __( '% Comments', 'pixelpost' ) ); ?></span>
+					<?php echo wp_kses( pixelpost_get_icon( 'forum', array( 'width' => 16, 'height' => 16, 'class' => 'text-primary' ) ), pixelpost_get_allowed_svg_tags() ); ?>
+					<span><?php echo esc_html( get_comments_number_text( __( 'Leave a comment', 'pixelpost' ), __( '1 Comment', 'pixelpost' ), __( '% Comments', 'pixelpost' ) ) ); ?></span>
 				</a>
 			<?php endif; ?>
 		</div>
@@ -128,7 +128,7 @@ if ( empty( $pixelpost_author_display_name ) ) {
 	<!-- Author Box -->
 	<div class="max-w-[760px] mx-auto mt-space-xl p-space-md lg:p-space-lg bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/40 flex flex-col sm:flex-row items-center sm:items-start gap-space-md fp-author-bio-card">
 		<div class="w-16 h-16 rounded-full overflow-hidden flex-shrink-0 bg-surface-container-high border border-outline-variant/40">
-			<?php echo get_avatar( $pixelpost_post_author_id ? $pixelpost_post_author_id : get_option( 'admin_email' ), 96, '', $pixelpost_author_display_name, array( 'class' => 'w-full h-full object-cover rounded-full' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+			<?php echo wp_kses_post( get_avatar( $pixelpost_post_author_id ? $pixelpost_post_author_id : get_option( 'admin_email' ), 96, '', $pixelpost_author_display_name, array( 'class' => 'w-full h-full object-cover rounded-full' ) ) ); ?>
 		</div>
 		<div class="flex flex-col text-center sm:text-left">
 			<span class="font-label-caps text-label-caps uppercase text-primary mb-1"><?php esc_html_e( 'Author & Engineer', 'pixelpost' ); ?></span>

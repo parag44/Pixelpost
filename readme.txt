@@ -3,7 +3,7 @@ Contributors: parag44
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 2.0.0
+Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: portfolio, blog, one-column, custom-colors, custom-menu, featured-images, editor-style, full-width-template
@@ -57,6 +57,14 @@ This theme bundles the following third-party resources:
   Source: Lucide Icons (https://lucide.dev) & Feather Icons (https://feathericons.com)
 
 == Changelog ==
+
+= 1.0.2 =
+* Fix: Prevented unbroken long strings, URLs, and article titles from overflowing content containers with word-break and overflow-wrap.
+* Security: Enforced late output escaping across all template files, wrapping SVG vector icons with wp_kses and defined allowed tags.
+* Security: Sanitized Customizer color values with sanitize_hex_color() and dimensions with absint() in dynamic inline CSS.
+* Security: Hardened antispambot email handling with sanitize_email() and esc_url().
+* Fix: Escaped comments_number output with esc_html( get_comments_number_text() ) in single post template.
+* Theme Check: Resolved WordPress naming capitalization compliance across demo data and assets.
 
 = 1.0.1 =
 * Added interactive visual icon picker in Customizer with real-time search, category filters, and live preview.

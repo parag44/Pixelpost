@@ -45,17 +45,19 @@ if ( empty( $pixelpost_heading ) && empty( $pixelpost_content ) ) {
 
 				<div class="relative rounded overflow-hidden border border-[#E9E6E0] dark:border-[#2E2D29] bg-[#FAF9F6] dark:bg-[#161514] aspect-[4/5] w-full">
 					<?php
-					echo pixelpost_render_optimized_image(
-						$pixelpost_image,
-						array(
-							'class'    => 'w-full h-full object-cover object-[center_18%] hover:scale-[1.02] transition-transform duration-700 fp-about-img',
-							'alt'      => $pixelpost_author_name,
-							'loading'  => 'lazy',
-							'decoding' => 'async',
-							'width'    => 600,
-							'height'   => 750,
+					echo wp_kses_post(
+						pixelpost_render_optimized_image(
+							$pixelpost_image,
+							array(
+								'class'    => 'w-full h-full object-cover object-[center_18%] hover:scale-[1.02] transition-transform duration-700 fp-about-img',
+								'alt'      => $pixelpost_author_name,
+								'loading'  => 'lazy',
+								'decoding' => 'async',
+								'width'    => 600,
+								'height'   => 750,
+							)
 						)
-					); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					);
 					?>
 				</div>
 			</div>
@@ -123,7 +125,7 @@ if ( empty( $pixelpost_heading ) && empty( $pixelpost_content ) ) {
 				?>
 					<div class="flex flex-row sm:flex-col items-start gap-3.5 sm:gap-0 p-3 sm:p-0 rounded-lg sm:rounded-none bg-[#F5EAE1]/50 dark:bg-[#2C1F17]/50 sm:bg-transparent dark:sm:bg-transparent border border-[#E9E6E0]/60 dark:border-[#2E2D29]/60 sm:border-0 fp-about-attr-item">
 						<div class="w-10 h-10 sm:w-auto sm:h-auto rounded-md sm:rounded-none bg-[#F5EAE1] dark:bg-[#2C1F17] sm:bg-transparent dark:sm:bg-transparent flex items-center justify-center sm:block text-primary flex-shrink-0 sm:mb-2.5">
-							<?php echo pixelpost_get_icon( $a_icon, array( 'width' => 20, 'height' => 20, 'class' => 'w-5 h-5 text-primary flex-shrink-0' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+							<?php echo wp_kses( pixelpost_get_icon( $a_icon, array( 'width' => 20, 'height' => 20, 'class' => 'w-5 h-5 text-primary flex-shrink-0' ) ), pixelpost_get_allowed_svg_tags() ); ?>
 						</div>
 						<div class="flex-1 min-w-0">
 							<h3 class="font-bold text-base text-on-surface mb-0.5 sm:mb-1"><?php echo esc_html( $a_title ); ?></h3>

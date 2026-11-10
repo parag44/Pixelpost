@@ -18,7 +18,7 @@ $pixelpost_btn_secondary = pixelpost_get_setting( 'pixelpost_contact_btn_seconda
 $pixelpost_btn_sec_url   = pixelpost_get_setting( 'pixelpost_contact_btn_secondary_url' );
 
 // Derive email for primary button
-$pixelpost_primary_email = pixelpost_get_setting( 'pixelpost_contact_email' );
+$pixelpost_primary_email = sanitize_email( pixelpost_get_setting( 'pixelpost_contact_email' ) );
 if ( empty( $pixelpost_primary_email ) ) {
 	$pixelpost_primary_email = 'parag.feni@yahoo.com';
 }
@@ -51,15 +51,15 @@ if ( empty( $pixelpost_btn_sec_url ) ) {
 		<!-- Right: Action Buttons Side-by-Side -->
 		<div class="flex flex-wrap items-center gap-3.5 sm:gap-4 flex-shrink-0 fp-contact-buttons">
 			<?php if ( ! empty( $pixelpost_btn_primary ) ) : ?>
-				<a class="inline-flex items-center gap-2 px-6 py-3.5 rounded bg-primary hover:bg-primary-container text-on-primary text-sm font-medium transition-all shadow-none fp-button-primary" href="<?php echo esc_url( 'mailto:' . antispambot( $pixelpost_primary_email ) ); ?>" data-pixelpost-customize="contact-primary-btn" data-pixelpost-label="<?php esc_attr_e( 'Send Email Button', 'pixelpost' ); ?>">
-					<?php echo pixelpost_get_icon( 'mail', array( 'width' => 18, 'height' => 18 ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+				<a class="inline-flex items-center gap-2 px-6 py-3.5 rounded bg-primary hover:bg-primary-container text-on-primary text-sm font-medium transition-all shadow-none fp-button-primary" href="<?php echo esc_url( 'mailto:' . antispambot( sanitize_email( $pixelpost_primary_email ) ) ); ?>" data-pixelpost-customize="contact-primary-btn" data-pixelpost-label="<?php esc_attr_e( 'Send Email Button', 'pixelpost' ); ?>">
+					<?php echo wp_kses( pixelpost_get_icon( 'mail', array( 'width' => 18, 'height' => 18 ) ), pixelpost_get_allowed_svg_tags() ); ?>
 					<span><?php echo esc_html( $pixelpost_btn_primary ); ?></span>
 				</a>
 			<?php endif; ?>
 
 			<?php if ( ! empty( $pixelpost_btn_secondary ) ) : ?>
 				<a class="inline-flex items-center gap-2 px-6 py-3.5 rounded border border-[#E9E6E0] dark:border-[#2E2D29] bg-white dark:bg-[#1A1918] hover:bg-[#F5EAE1]/40 dark:hover:bg-[#2C1F17]/40 text-on-surface text-sm font-medium transition-all fp-button-secondary" href="<?php echo esc_url( $pixelpost_btn_sec_url ); ?>" rel="noopener noreferrer" target="_blank" data-pixelpost-customize="contact-secondary-btn" data-pixelpost-label="<?php esc_attr_e( 'Schedule Call Button', 'pixelpost' ); ?>">
-					<?php echo pixelpost_get_icon( 'calendar_today', array( 'width' => 18, 'height' => 18 ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+					<?php echo wp_kses( pixelpost_get_icon( 'calendar_today', array( 'width' => 18, 'height' => 18 ) ), pixelpost_get_allowed_svg_tags() ); ?>
 					<span><?php echo esc_html( $pixelpost_btn_secondary ); ?></span>
 				</a>
 			<?php endif; ?>

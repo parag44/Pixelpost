@@ -31,8 +31,8 @@ $pixelpost_sticky_class = pixelpost_get_setting( 'pixelpost_header_sticky' ) ? '
 			<?php get_template_part( 'template-parts/header/navigation' ); ?>
 			<div class="flex items-center gap-2 sm:gap-3 fp-header-actions">
 				<button id="theme-toggle" class="min-w-[44px] min-h-[44px] w-11 h-11 rounded-full flex items-center justify-center text-[#77736D] hover:text-[#242321] dark:text-[#A39E96] dark:hover:text-[#EDEAE5] transition-colors fp-theme-toggle" aria-label="<?php esc_attr_e( 'Toggle dark / light theme', 'pixelpost' ); ?>" type="button">
-					<span class="dark-icon-moon"><?php echo pixelpost_get_icon( 'moon', array( 'width' => 18, 'height' => 18 ) ); ?></span>
-					<span class="dark-icon-sun hidden"><?php echo pixelpost_get_icon( 'sun', array( 'width' => 18, 'height' => 18 ) ); ?></span>
+					<span class="dark-icon-moon"><?php echo wp_kses( pixelpost_get_icon( 'moon', array( 'width' => 18, 'height' => 18 ) ), pixelpost_get_allowed_svg_tags() ); ?></span>
+					<span class="dark-icon-sun hidden"><?php echo wp_kses( pixelpost_get_icon( 'sun', array( 'width' => 18, 'height' => 18 ) ), pixelpost_get_allowed_svg_tags() ); ?></span>
 				</button>
 				<?php
 				$pixelpost_header_cta_show = pixelpost_get_setting( 'pixelpost_header_cta_show' );
@@ -57,12 +57,12 @@ $pixelpost_sticky_class = pixelpost_get_setting( 'pixelpost_header_sticky' ) ? '
 				<?php if ( is_customize_preview() || $pixelpost_header_cta_show ) : ?>
 					<a href="<?php echo esc_url( $pixelpost_header_cta_url ); ?>" class="<?php echo ! $pixelpost_header_cta_show ? 'is-hidden-cta ' : ''; ?>hidden sm:inline-flex items-center gap-1.5 px-4 py-2.5 rounded bg-primary hover:bg-primary-container text-on-primary font-medium text-sm transition-all fp-header-talk-btn" data-pixelpost-customize="header-cta" data-pixelpost-label="<?php esc_attr_e( 'Header CTA Button', 'pixelpost' ); ?>">
 						<span><?php echo esc_html( $pixelpost_header_cta_text ); ?></span>
-						<?php echo pixelpost_get_icon( 'arrow_forward', array( 'width' => 14, 'height' => 14 ) ); ?>
+						<?php echo wp_kses( pixelpost_get_icon( 'arrow_forward', array( 'width' => 14, 'height' => 14 ) ), pixelpost_get_allowed_svg_tags() ); ?>
 					</a>
 				<?php endif; ?>
 				<button class="pixelpost-menu-toggle fp-menu-toggle lg:hidden min-w-[44px] min-h-[44px] w-11 h-11 rounded-md text-on-surface-variant hover:text-on-surface flex items-center justify-center transition-all" aria-controls="site-navigation" aria-expanded="false" aria-label="<?php esc_attr_e( 'Open navigation menu', 'pixelpost' ); ?>">
-					<span class="fp-menu-icon-open"><?php echo pixelpost_get_icon( 'menu', array( 'width' => 22, 'height' => 22 ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
-					<span class="fp-menu-icon-close hidden"><?php echo pixelpost_get_icon( 'close', array( 'width' => 22, 'height' => 22 ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+					<span class="fp-menu-icon-open"><?php echo wp_kses( pixelpost_get_icon( 'menu', array( 'width' => 22, 'height' => 22 ) ), pixelpost_get_allowed_svg_tags() ); ?></span>
+					<span class="fp-menu-icon-close hidden"><?php echo wp_kses( pixelpost_get_icon( 'close', array( 'width' => 22, 'height' => 22 ) ), pixelpost_get_allowed_svg_tags() ); ?></span>
 				</button>
 			</div>
 		</div>

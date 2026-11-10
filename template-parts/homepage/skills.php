@@ -83,7 +83,7 @@ foreach ( $pixelpost_skills_items as $idx => $item ) {
 			?>
 				<div class="fp-skill-category">
 					<div class="flex items-center gap-2.5 mb-2 text-primary">
-						<?php echo pixelpost_get_icon( $icon_key, array( 'width' => 22, 'height' => 22, 'class' => 'w-5.5 h-5.5 text-primary flex-shrink-0' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+						<?php echo wp_kses( pixelpost_get_icon( $icon_key, array( 'width' => 22, 'height' => 22, 'class' => 'w-5.5 h-5.5 text-primary flex-shrink-0' ) ), pixelpost_get_allowed_svg_tags() ); ?>
 						<h3 class="font-bold text-lg text-on-surface"><?php echo esc_html( $title ); ?></h3>
 					</div>
 					<p class="text-[15px] sm:text-base text-on-surface-variant leading-relaxed pl-8">
@@ -112,7 +112,7 @@ foreach ( $pixelpost_skills_items as $idx => $item ) {
 			?>
 				<div class="fp-skill-category">
 					<div class="flex items-center gap-2.5 mb-2 text-primary">
-						<?php echo pixelpost_get_icon( $icon_key, array( 'width' => 22, 'height' => 22, 'class' => 'w-5.5 h-5.5 text-primary flex-shrink-0' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+						<?php echo wp_kses( pixelpost_get_icon( $icon_key, array( 'width' => 22, 'height' => 22, 'class' => 'w-5.5 h-5.5 text-primary flex-shrink-0' ) ), pixelpost_get_allowed_svg_tags() ); ?>
 						<h3 class="font-bold text-lg text-on-surface"><?php echo esc_html( $title ); ?></h3>
 					</div>
 					<p class="text-[15px] sm:text-base text-on-surface-variant leading-relaxed pl-8">

@@ -61,7 +61,7 @@ $total_exp = count( $pixelpost_experiences );
 		<div>
 			<a class="inline-flex items-center gap-1.5 text-sm font-semibold text-[#A94F20] dark:text-[#D4733F] hover:underline" href="<?php echo esc_url( home_url( '/#contact' ) ); ?>">
 				<span><?php esc_html_e( 'View full resume', 'pixelpost' ); ?></span>
-				<?php echo pixelpost_get_icon( 'external_link', array( 'width' => 14, 'height' => 14 ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+				<?php echo wp_kses( pixelpost_get_icon( 'external_link', array( 'width' => 14, 'height' => 14 ) ), pixelpost_get_allowed_svg_tags() ); ?>
 			</a>
 		</div>
 	</div>
@@ -115,7 +115,7 @@ $total_exp = count( $pixelpost_experiences );
 				</div>
 
 				<!-- RIGHT: Content Column -->
-				<div class="<?php echo $is_last ? 'pb-2' : 'pb-14 sm:pb-16'; ?> sm:pl-8 fp-timeline-content-col">
+				<div class="<?php echo esc_attr( $is_last ? 'pb-2' : 'pb-14 sm:pb-16' ); ?> sm:pl-8 fp-timeline-content-col">
 					<div class="flex flex-wrap items-center gap-2.5 mb-1.5">
 						<h3 class="font-serif font-bold text-xl sm:text-2xl text-on-surface leading-snug fp-timeline-job-title"><?php echo esc_html( $pixelpost_title ); ?></h3>
 						<?php if ( $pixelpost_is_current ) : ?>

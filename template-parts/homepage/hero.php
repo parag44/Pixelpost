@@ -63,7 +63,7 @@ if ( empty( $pixelpost_hero_img ) ) {
 			<div class="flex flex-wrap items-center gap-y-2 gap-x-6 text-sm mb-8 text-on-surface-variant fp-hero-meta">
 				<?php if ( ! empty( $pixelpost_location ) ) : ?>
 					<div class="inline-flex items-center gap-1.5 fp-hero-location" data-pixelpost-customize="hero-location" data-pixelpost-label="<?php esc_attr_e( 'Hero Location', 'pixelpost' ); ?>">
-						<?php echo pixelpost_get_icon( 'location_on', array( 'width' => 16, 'height' => 16, 'class' => 'text-primary' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+						<?php echo wp_kses( pixelpost_get_icon( 'location_on', array( 'width' => 16, 'height' => 16, 'class' => 'text-primary' ) ), pixelpost_get_allowed_svg_tags() ); ?>
 						<span class="fp-hero-location-text"><?php echo esc_html( $pixelpost_location ); ?></span>
 					</div>
 				<?php endif; ?>
@@ -84,7 +84,7 @@ if ( empty( $pixelpost_hero_img ) ) {
 				<?php if ( ! empty( $pixelpost_btn1_text ) && ! empty( $pixelpost_btn1_url ) ) : ?>
 					<a class="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded bg-primary hover:bg-primary-container text-on-primary text-sm font-medium transition-all shadow-none fp-button-primary" href="<?php echo esc_url( $pixelpost_btn1_url ); ?>" data-pixelpost-customize="hero-primary-button" data-pixelpost-label="<?php esc_attr_e( 'Primary Button', 'pixelpost' ); ?>">
 						<span><?php echo esc_html( $pixelpost_btn1_text ); ?></span>
-						<?php echo pixelpost_get_icon( 'arrow_forward', array( 'width' => 16, 'height' => 16 ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+						<?php echo wp_kses( pixelpost_get_icon( 'arrow_forward', array( 'width' => 16, 'height' => 16 ) ), pixelpost_get_allowed_svg_tags() ); ?>
 					</a>
 				<?php endif; ?>
 
@@ -105,17 +105,19 @@ if ( empty( $pixelpost_hero_img ) ) {
 				<!-- Portrait Image Container -->
 				<div class="relative rounded overflow-hidden border border-[#E9E6E0] dark:border-[#2E2D29] bg-[#FAF9F6] dark:bg-[#161514] aspect-[4/5] w-full" data-pixelpost-customize="hero-image" data-pixelpost-label="<?php esc_attr_e( 'Hero Image', 'pixelpost' ); ?>">
 					<?php
-					echo pixelpost_render_optimized_image(
-						$pixelpost_hero_img,
-						array(
-							'class'         => 'w-full h-full object-cover object-[center_18%] hover:scale-[1.02] transition-transform duration-700 fp-hero-headshot',
-							'alt'           => ( $pixelpost_accent ? $pixelpost_accent : $pixelpost_headline ) . ( $pixelpost_role ? ' — ' . $pixelpost_role : '' ),
-							'loading'       => 'eager',
-							'fetchpriority' => 'high',
-							'width'         => 600,
-							'height'        => 750,
+					echo wp_kses_post(
+						pixelpost_render_optimized_image(
+							$pixelpost_hero_img,
+							array(
+								'class'         => 'w-full h-full object-cover object-[center_18%] hover:scale-[1.02] transition-transform duration-700 fp-hero-headshot',
+								'alt'           => ( $pixelpost_accent ? $pixelpost_accent : $pixelpost_headline ) . ( $pixelpost_role ? ' — ' . $pixelpost_role : '' ),
+								'loading'       => 'eager',
+								'fetchpriority' => 'high',
+								'width'         => 600,
+								'height'        => 750,
+							)
 						)
-					); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					);
 					?>
 				</div>
 			</div>

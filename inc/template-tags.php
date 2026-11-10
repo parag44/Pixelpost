@@ -10,6 +10,105 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * Allowed HTML tags and attributes for SVG icons
+ *
+ * @return array
+ */
+function pixelpost_get_allowed_svg_tags() {
+	return array(
+		'svg'      => array(
+			'class'           => true,
+			'aria-hidden'     => true,
+			'aria-labelledby' => true,
+			'role'            => true,
+			'xmlns'           => true,
+			'width'           => true,
+			'height'          => true,
+			'viewbox'         => true,
+			'fill'            => true,
+			'stroke'          => true,
+			'stroke-width'    => true,
+			'stroke-linecap'  => true,
+			'stroke-linejoin' => true,
+			'style'           => true,
+		),
+		'g'        => array(
+			'fill'            => true,
+			'stroke'          => true,
+			'transform'       => true,
+			'opacity'         => true,
+		),
+		'path'     => array(
+			'd'               => true,
+			'fill'            => true,
+			'stroke'          => true,
+			'stroke-width'    => true,
+			'stroke-linecap'  => true,
+			'stroke-linejoin' => true,
+			'opacity'         => true,
+		),
+		'circle'   => array(
+			'cx'              => true,
+			'cy'              => true,
+			'r'               => true,
+			'fill'            => true,
+			'stroke'          => true,
+			'stroke-width'    => true,
+			'opacity'         => true,
+		),
+		'rect'     => array(
+			'x'               => true,
+			'y'               => true,
+			'width'           => true,
+			'height'          => true,
+			'rx'              => true,
+			'ry'              => true,
+			'fill'            => true,
+			'stroke'          => true,
+			'stroke-width'    => true,
+			'opacity'         => true,
+		),
+		'line'     => array(
+			'x1'              => true,
+			'y1'              => true,
+			'x2'              => true,
+			'y2'              => true,
+			'stroke'          => true,
+			'stroke-width'    => true,
+			'stroke-linecap'  => true,
+			'stroke-linejoin' => true,
+		),
+		'polyline' => array(
+			'points'          => true,
+			'fill'            => true,
+			'stroke'          => true,
+			'stroke-width'    => true,
+			'stroke-linecap'  => true,
+			'stroke-linejoin' => true,
+		),
+		'polygon'  => array(
+			'points'          => true,
+			'fill'            => true,
+			'stroke'          => true,
+			'stroke-width'    => true,
+		),
+		'title'    => array(
+			'title'           => true,
+		),
+	);
+}
+
+/**
+ * Render and escape an SVG icon
+ *
+ * @param string $name Icon identifier.
+ * @param array  $args Optional arguments.
+ */
+function pixelpost_render_icon( $name, $args = array() ) {
+	echo wp_kses( pixelpost_get_icon( $name, $args ), pixelpost_get_allowed_svg_tags() );
+}
+
+/**
  * Return inline SVG icons
  *
  * @param string $name Icon identifier.
@@ -445,7 +544,16 @@ function pixelpost_posted_on() {
 		esc_html( get_the_date() )
 	);
 
-	echo '<span class="posted-on">' . $time_string . '</span>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	echo wp_kses(
+		'<span class="posted-on">' . $time_string . '</span>',
+		array(
+			'span' => array( 'class' => true ),
+			'time' => array(
+				'class'    => true,
+				'datetime' => true,
+			),
+		)
+	);
 }
 
 /**
@@ -462,7 +570,7 @@ function pixelpost_posted_by() {
 		'<span class="author vcard"><a class="url fn n" href="' . esc_url( get_author_posts_url( $author_id ) ) . '">' . esc_html( get_the_author() ) . '</a></span>'
 	);
 
-	echo '<span class="byline"> ' . $byline . '</span>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	echo wp_kses_post( '<span class="byline"> ' . $byline . '</span>' );
 }
 
 /**
@@ -506,13 +614,13 @@ function pixelpost_the_posts_navigation() {
 			'mid_size'  => 2,
 			'prev_text' => sprintf(
 				'%s <span class="nav-prev-text">%s</span>',
-				pixelpost_get_icon( 'arrow-right', array( 'width' => 14, 'height' => 14, 'class' => 'fp-icon fp-icon-prev', 'style' => 'transform: rotate(180deg);' ) ),
+				wp_kses( pixelpost_get_icon( 'arrow-right', array( 'width' => 14, 'height' => 14, 'class' => 'fp-icon fp-icon-prev', 'style' => 'transform: rotate(180deg);' ) ), pixelpost_get_allowed_svg_tags() ),
 				__( 'Previous', 'pixelpost' )
 			),
 			'next_text' => sprintf(
 				'<span class="nav-next-text">%s</span> %s',
 				__( 'Next', 'pixelpost' ),
-				pixelpost_get_icon( 'arrow-right', array( 'width' => 14, 'height' => 14 ) )
+				wp_kses( pixelpost_get_icon( 'arrow-right', array( 'width' => 14, 'height' => 14 ) ), pixelpost_get_allowed_svg_tags() )
 			),
 			'class'     => 'fp-pagination',
 		)

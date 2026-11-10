@@ -127,7 +127,7 @@ $pixelpost_social_links = pixelpost_get_social_links();
 					$pixelpost_is_mail = ( strpos( $pixelpost_url, 'mailto:' ) === 0 );
 				?>
 					<a aria-label="<?php echo esc_attr( $pixelpost_aria ); ?>" class="text-on-surface-variant hover:text-primary transition-colors p-1" href="<?php echo esc_url( $pixelpost_url ); ?>" <?php echo ! $pixelpost_is_mail ? 'target="_blank" rel="noopener noreferrer"' : ''; ?>>
-						<?php echo pixelpost_get_icon( $pixelpost_icon, array( 'width' => 18, 'height' => 18 ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+						<?php echo wp_kses( pixelpost_get_icon( $pixelpost_icon, array( 'width' => 18, 'height' => 18 ) ), pixelpost_get_allowed_svg_tags() ); ?>
 					</a>
 				<?php endforeach; ?>
 			<?php endif; ?>

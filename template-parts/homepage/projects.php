@@ -41,7 +41,7 @@ $pixelpost_projects = pixelpost_get_projects_items();
 			?>
 			<a class="inline-flex items-center gap-1.5 text-sm font-semibold text-[#A94F20] dark:text-[#D4733F] hover:underline transition-colors group fp-projects-cta" href="<?php echo esc_url( $pixelpost_cta_url ); ?>" <?php echo ( strpos( $pixelpost_cta_url, 'http' ) === 0 ) ? 'target="_blank" rel="noopener noreferrer"' : ''; ?>>
 				<span><?php echo esc_html( $pixelpost_view_all_text ); ?></span>
-				<?php echo pixelpost_get_icon( 'arrow_forward', array( 'width' => 14, 'height' => 14, 'class' => 'group-hover:translate-x-1 transition-transform' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+				<?php echo wp_kses( pixelpost_get_icon( 'arrow_forward', array( 'width' => 14, 'height' => 14, 'class' => 'group-hover:translate-x-1 transition-transform' ) ), pixelpost_get_allowed_svg_tags() ); ?>
 			</a>
 		<?php endif; ?>
 	</div>

@@ -118,7 +118,7 @@ get_header();
 
 					<a class="inline-flex items-center gap-1 text-primary hover:text-primary-container font-label-md text-label-md font-semibold group/read pt-space-xs border-t border-surface-container-high/40 mt-auto" href="<?php the_permalink(); ?>">
 						<span><?php esc_html_e( 'Read Analysis', 'pixelpost' ); ?></span>
-						<?php echo pixelpost_get_icon( 'arrow_forward', array( 'width' => 16, 'height' => 16, 'class' => 'group-hover/read:translate-x-1 transition-transform' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+						<?php echo wp_kses( pixelpost_get_icon( 'arrow_forward', array( 'width' => 16, 'height' => 16, 'class' => 'group-hover/read:translate-x-1 transition-transform' ) ), pixelpost_get_allowed_svg_tags() ); ?>
 					</a>
 				</article>
 			<?php endwhile; ?>

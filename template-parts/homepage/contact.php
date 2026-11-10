@@ -20,7 +20,10 @@ $pixelpost_btn_sec_url   = pixelpost_get_setting( 'pixelpost_contact_btn_seconda
 // Derive email for primary button
 $pixelpost_primary_email = sanitize_email( pixelpost_get_setting( 'pixelpost_contact_email' ) );
 if ( empty( $pixelpost_primary_email ) ) {
-	$pixelpost_primary_email = 'parag.feni@yahoo.com';
+	$pixelpost_primary_email = sanitize_email( get_option( 'admin_email' ) );
+	if ( empty( $pixelpost_primary_email ) ) {
+		$pixelpost_primary_email = 'hello@example.com';
+	}
 }
 if ( empty( $pixelpost_btn_sec_url ) ) {
 	$pixelpost_btn_sec_url = 'https://calendly.com';

@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $pixelpost_site_name = get_bloginfo( 'name' );
 if ( empty( $pixelpost_site_name ) ) {
-	$pixelpost_site_name = 'Parag Das';
+	$pixelpost_site_name = __( 'Pixelpost', 'pixelpost' );
 }
 ?>
 <div class="fp-branding" data-pixelpost-customize="site-branding" data-pixelpost-label="<?php esc_attr_e( 'Site Identity', 'pixelpost' ); ?>">

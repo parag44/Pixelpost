@@ -1,7 +1,7 @@
 <?php
 /**
  * Hero Section Template Part
- * Matches Editorial Minimalism: Two-column editorial presentation + Parag Das Portrait + Handwritten Note
+ * Matches Editorial Minimalism: Two-column editorial presentation
  *
  * @package Pixelpost
  */
@@ -13,11 +13,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 $pixelpost_eyebrow   = pixelpost_get_setting( 'pixelpost_hero_eyebrow' );
 $pixelpost_headline  = pixelpost_get_setting( 'pixelpost_hero_headline' );
 $pixelpost_accent    = pixelpost_get_setting( 'pixelpost_hero_accent' );
+if ( empty( $pixelpost_accent ) ) {
+	$pixelpost_accent = get_bloginfo( 'name' );
+	if ( empty( $pixelpost_accent ) ) {
+		$pixelpost_accent = 'Alex Morgan';
+	}
+}
 $pixelpost_role      = pixelpost_get_setting( 'pixelpost_hero_role' );
 $pixelpost_desc      = pixelpost_get_setting( 'pixelpost_hero_description' );
 $pixelpost_location  = pixelpost_get_setting( 'pixelpost_hero_location' );
 if ( empty( $pixelpost_location ) ) {
-	$pixelpost_location = 'Dhaka, Bangladesh';
+	$pixelpost_location = 'San Francisco, CA';
 }
 $pixelpost_avail = pixelpost_get_setting( 'pixelpost_hero_avail_status' );
 if ( empty( $pixelpost_avail ) ) {

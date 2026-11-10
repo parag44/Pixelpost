@@ -1665,7 +1665,7 @@ function pixelpost_customize_register( $wp_customize ) {
 		'pixelpost_footer_brand_text',
 		array(
 			'label'       => __( 'Footer Brand Text', 'pixelpost' ),
-			'description' => __( 'Text displayed before/above the footer tagline (defaults to Parag Das or site title).', 'pixelpost' ),
+			'description' => __( 'Text displayed before/above the footer tagline (defaults to site title).', 'pixelpost' ),
 			'section'     => 'pixelpost_footer_section',
 			'priority'    => 6,
 			'type'        => 'text',

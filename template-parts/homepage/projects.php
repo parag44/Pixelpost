@@ -37,7 +37,7 @@ $pixelpost_projects = pixelpost_get_projects_items();
 
 		<?php if ( ! empty( $pixelpost_view_all_show ) && ! empty( $pixelpost_view_all_text ) ) : ?>
 			<?php
-			$pixelpost_cta_url = ! empty( $pixelpost_view_all_url ) ? $pixelpost_view_all_url : 'https://profiles.wordpress.org/parag44/';
+			$pixelpost_cta_url = ! empty( $pixelpost_view_all_url ) ? $pixelpost_view_all_url : home_url( '/#projects' );
 			?>
 			<a class="inline-flex items-center gap-1.5 text-sm font-semibold text-[#A94F20] dark:text-[#D4733F] hover:underline transition-colors group fp-projects-cta" href="<?php echo esc_url( $pixelpost_cta_url ); ?>" <?php echo ( strpos( $pixelpost_cta_url, 'http' ) === 0 ) ? 'target="_blank" rel="noopener noreferrer"' : ''; ?>>
 				<span><?php echo esc_html( $pixelpost_view_all_text ); ?></span>
@@ -68,7 +68,7 @@ $pixelpost_projects = pixelpost_get_projects_items();
 					$pixelpost_image = $img_uri . '/project-mailtally.svg';
 				} elseif ( stripos( $pixelpost_title, 'detector' ) !== false || stripos( $pixelpost_title, 'stack' ) !== false || stripos( $pixelpost_url, 'pnfcaepdbhbioeplilbgliegcnclpake' ) !== false || stripos( $pixelpost_url, 'chromewebstore' ) !== false ) {
 					$pixelpost_image = $img_uri . '/project-wp-detector.svg';
-				} elseif ( stripos( $pixelpost_title, 'parag' ) !== false || stripos( $pixelpost_title, 'theme' ) !== false || stripos( $pixelpost_url, 'themes/parag' ) !== false ) {
+				} elseif ( stripos( $pixelpost_title, 'theme' ) !== false || stripos( $pixelpost_title, 'pixelpost' ) !== false ) {
 					$pixelpost_image = $img_uri . '/project-parag-theme.svg';
 				} else {
 					$pixelpost_image = $img_uri . '/project-wp-detector.svg';

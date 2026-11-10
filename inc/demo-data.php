@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Return default statistics array matching Parag Das's profile & design mockup
+ * Return default statistics array for demo display
  *
  * @return array
  */
@@ -90,44 +90,44 @@ function pixelpost_get_default_skills() {
 }
 
 /**
- * Return default job experiences array matching Parag Das's career timeline
+ * Return default job experiences array for demo display
  *
  * @return array
  */
 function pixelpost_get_default_experience() {
 	return array(
 		array(
-			'title'   => __( 'Associate Lead — Tech Support', 'pixelpost' ),
-			'company' => 'OLLYO',
-			'url'     => 'https://ollyo.com',
-			'date'    => '2024 – Present',
+			'title'   => __( 'Senior WordPress Developer', 'pixelpost' ),
+			'company' => 'Studio Craft',
+			'url'     => 'https://example.com',
+			'date'    => '2023 – Present',
 			'current' => true,
-			'desc'    => __( 'Lead a team to provide technical support for commercial WordPress themes and plugins. Troubleshoot compatibility issues, investigate bugs, and improve product stability.', 'pixelpost' ),
-			'tags'    => 'Technical Support · Theme & Plugin Support · QA Testing · WooCommerce · Team Collaboration',
+			'desc'    => __( 'Leading custom theme and plugin architecture, client consultation, and modern WordPress implementations.', 'pixelpost' ),
+			'tags'    => 'Theme Architecture · Block Themes · Custom APIs · Full Site Editing',
 		),
 		array(
-			'title'   => __( 'Analyst, Tech Support', 'pixelpost' ),
-			'company' => 'OLLYO',
-			'url'     => 'https://ollyo.com',
-			'date'    => '2021 – 2024',
+			'title'   => __( 'WordPress Engineer', 'pixelpost' ),
+			'company' => 'Digital Labs',
+			'url'     => 'https://example.com',
+			'date'    => '2020 – 2023',
 			'current' => false,
-			'desc'    => __( 'Provided technical support for WordPress products, resolved theme and plugin issues, and helped customers with customization and integrations.', 'pixelpost' ),
-			'tags'    => 'WordPress Debugging · Plugin Compatibility · Issue Reproduction · Technical Documentation',
+			'desc'    => __( 'Engineered high-performance WordPress solutions, custom integrations, and optimized checkout experiences.', 'pixelpost' ),
+			'tags'    => 'Performance Optimization · Headless WP · WooCommerce · REST API',
 		),
 		array(
-			'title'   => __( 'Web Developer', 'pixelpost' ),
-			'company' => 'Marketplace Projects',
-			'url'     => '',
-			'date'    => '2017 – 2021',
+			'title'   => __( 'Frontend Developer', 'pixelpost' ),
+			'company' => 'Creative Media',
+			'url'     => 'https://example.com',
+			'date'    => '2017 – 2020',
 			'current' => false,
-			'desc'    => __( 'Developed and maintained WordPress websites, customized themes, and implemented client-specific functionality. Handled website migrations, resolved technical issues, and ongoing maintenance.', 'pixelpost' ),
-			'tags'    => 'WordPress Development · Theme Customization · Website Migration · Performance Optimization',
+			'desc'    => __( 'Built accessible, responsive websites and customized theme templates for diverse client projects.', 'pixelpost' ),
+			'tags'    => 'Responsive Design · UI Engineering · WordPress Themes · JavaScript',
 		),
 	);
 }
 
 /**
- * Return default projects array matching Parag Das's tools & products
+ * Return default projects array for demo display
  *
  * @return array
  */
@@ -135,50 +135,50 @@ function pixelpost_get_default_projects() {
 	$img_uri = get_template_directory_uri() . '/assets/images';
 	return array(
 		array(
-			'title'       => 'DebugZen',
-			'description' => __( 'Safe in-dashboard WordPress debugging without FTP. Manage wp-config.php debug constants and inspect, filter, or clear logs directly from your dashboard.', 'pixelpost' ),
-			'icon'        => 'bug_report',
-			'badge1'      => __( 'Debugging', 'pixelpost' ),
+			'title'       => 'Minimalist CMS',
+			'description' => __( 'A lightweight, accessible starter framework designed for high-performance editorial publishing and modern web workflows.', 'pixelpost' ),
+			'icon'        => 'code',
+			'badge1'      => __( 'Open Source', 'pixelpost' ),
 			'badge2'      => __( 'Active', 'pixelpost' ),
 			'type_label'  => __( 'Developer Tool', 'pixelpost' ),
 			'type_icon'   => 'terminal',
-			'url'         => 'https://wordpress.org/plugins/debugzen/',
+			'url'         => 'https://example.com',
 			'image'       => $img_uri . '/project-debugzen.svg',
 			'order'       => 1,
 		),
 		array(
-			'title'       => 'SiteIntelix',
-			'description' => __( 'Developer & admin toolkit for diagnostics, debugging, and site administration. Features a DirectAdmin-inspired file manager, system health monitoring, and error reporting.', 'pixelpost' ),
-			'icon'        => 'tune',
+			'title'       => 'Analytics Platform',
+			'description' => __( 'An intuitive monitoring and analytics dashboard offering real-time system metrics, health checks, and performance telemetry.', 'pixelpost' ),
+			'icon'        => 'speed',
 			'badge1'      => __( 'Diagnostics', 'pixelpost' ),
 			'badge2'      => __( 'Active', 'pixelpost' ),
 			'type_label'  => __( 'Admin Toolkit', 'pixelpost' ),
 			'type_icon'   => 'widgets',
-			'url'         => 'https://wordpress.org/plugins/siteintelix/',
+			'url'         => 'https://example.com',
 			'image'       => $img_uri . '/project-siteintelix.svg',
 			'order'       => 2,
 		),
 		array(
-			'title'       => 'MailTally',
-			'description' => __( 'Lightweight email logger and inspector for WordPress. Log, inspect, and troubleshoot outgoing emails sent through wp_mail() with full HTML and header preview.', 'pixelpost' ),
-			'icon'        => 'mail',
-			'badge1'      => __( 'Email Logger', 'pixelpost' ),
+			'title'       => 'Commerce Toolkit',
+			'description' => __( 'A modular set of utilities and conversion components engineered to enhance modern e-commerce storefronts and checkout funnels.', 'pixelpost' ),
+			'icon'        => 'extension',
+			'badge1'      => __( 'E-Commerce', 'pixelpost' ),
 			'badge2'      => __( 'Active', 'pixelpost' ),
-			'type_label'  => __( 'Email Testing', 'pixelpost' ),
-			'type_icon'   => 'mail',
-			'url'         => 'https://wordpress.org/plugins/parag-mail-inspector/',
+			'type_label'  => __( 'Extension Suite', 'pixelpost' ),
+			'type_icon'   => 'widgets',
+			'url'         => 'https://example.com',
 			'image'       => $img_uri . '/project-mailtally.svg',
 			'order'       => 3,
 		),
 		array(
-			'title'       => 'WP Detector',
-			'description' => __( 'Fast, lightweight Chrome extension for developers and site auditors. Instantly inspects WordPress core versions, active themes, detected plugins, and server technology with one click.', 'pixelpost' ),
-			'icon'        => 'extension',
-			'badge1'      => __( 'Chrome Extension', 'pixelpost' ),
+			'title'       => 'Developer Inspector',
+			'description' => __( 'A streamlined in-browser diagnostic tool for web developers to inspect DOM structures, performance budgets, and assets with one click.', 'pixelpost' ),
+			'icon'        => 'verified',
+			'badge1'      => __( 'Productivity', 'pixelpost' ),
 			'badge2'      => __( 'Active', 'pixelpost' ),
-			'type_label'  => __( 'Browser Extension', 'pixelpost' ),
-			'type_icon'   => 'widgets',
-			'url'         => 'https://chromewebstore.google.com/detail/wp-detector/pnfcaepdbhbioeplilbgliegcnclpake',
+			'type_label'  => __( 'Browser Tool', 'pixelpost' ),
+			'type_icon'   => 'terminal',
+			'url'         => 'https://example.com',
 			'image'       => $img_uri . '/project-wp-detector.svg',
 			'order'       => 4,
 		),
@@ -211,7 +211,7 @@ function pixelpost_get_default_about_bullets() {
 }
 
 /**
- * Return default contact channel cards matching Parag Das's profile
+ * Return default contact channel cards for demo display
  *
  * @return array
  */
@@ -368,12 +368,12 @@ function pixelpost_get_theme_defaults() {
 		'pixelpost_section_order'               => 'hero,stats,skills,experience,projects,posts,about,contact',
 
 		// Hero Section
-		'pixelpost_hero_eyebrow'                => 'WordPress Specialist · QA Tester · Developer —',
+		'pixelpost_hero_eyebrow'                => 'WordPress Developer · Designer · Problem Solver —',
 		'pixelpost_hero_headline'               => 'Hi, I’m',
-		'pixelpost_hero_accent'                 => 'Parag Das',
-		'pixelpost_hero_role'                   => 'WordPress Specialist · QA Tester · Developer',
-		'pixelpost_hero_description'            => 'I help businesses build, test, and maintain reliable WordPress websites and products. I work at the intersection of WordPress support, troubleshooting, QA, and product development.',
-		'pixelpost_hero_location'               => 'Dhaka, Bangladesh',
+		'pixelpost_hero_accent'                 => 'Alex Morgan',
+		'pixelpost_hero_role'                   => 'WordPress Developer · Designer · Problem Solver',
+		'pixelpost_hero_description'            => 'I help businesses build, optimize, and maintain reliable WordPress websites and digital products. Passionate about clean code, thoughtful architecture, and minimalist design.',
+		'pixelpost_hero_location'               => 'San Francisco, CA',
 		'pixelpost_hero_avail_status'           => 'Available for opportunities',
 		'pixelpost_hero_btn_primary_text'       => 'View My Work',
 		'pixelpost_hero_btn_primary_url'        => '#projects',
@@ -416,31 +416,31 @@ function pixelpost_get_theme_defaults() {
 		// Experience (Repeater + Flat fallbacks)
 		'pixelpost_exp_eyebrow'                 => '02 — WORK EXPERIENCE',
 		'pixelpost_exp_heading'                 => 'My professional journey',
-		'pixelpost_exp_subtitle'                => 'Over a decade supporting commercial WordPress themes, plugins, and web products.',
+		'pixelpost_exp_subtitle'                => 'Over a decade crafting modern themes, robust plugins, and web products.',
 		'pixelpost_experience_items'            => wp_json_encode( pixelpost_get_default_experience() ),
 
-		'pixelpost_exp1_title'                  => 'Associate Lead — Tech Support',
-		'pixelpost_exp1_company'                => 'OLLYO',
-		'pixelpost_exp1_url'                    => 'https://ollyo.com',
-		'pixelpost_exp1_date'                   => '2024 – Present',
-		'pixelpost_exp1_desc'                   => 'Lead a team to provide technical support for commercial WordPress themes and plugins. Troubleshoot compatibility issues, investigate bugs, and improve product stability.',
+		'pixelpost_exp1_title'                  => 'Senior WordPress Developer',
+		'pixelpost_exp1_company'                => 'Studio Craft',
+		'pixelpost_exp1_url'                    => 'https://example.com',
+		'pixelpost_exp1_date'                   => '2023 – Present',
+		'pixelpost_exp1_desc'                   => 'Leading custom theme and plugin architecture, client consultation, and modern WordPress implementations.',
 
-		'pixelpost_exp2_title'                  => 'Analyst, Tech Support',
-		'pixelpost_exp2_company'                => 'OLLYO',
-		'pixelpost_exp2_url'                    => 'https://ollyo.com',
-		'pixelpost_exp2_date'                   => '2021 – 2024',
-		'pixelpost_exp2_desc'                   => 'Provided technical support for WordPress products, resolved theme and plugin issues, and helped customers with customization and integrations.',
+		'pixelpost_exp2_title'                  => 'WordPress Engineer',
+		'pixelpost_exp2_company'                => 'Digital Labs',
+		'pixelpost_exp2_url'                    => 'https://example.com',
+		'pixelpost_exp2_date'                   => '2020 – 2023',
+		'pixelpost_exp2_desc'                   => 'Engineered high-performance WordPress solutions, custom integrations, and optimized checkout experiences.',
 
-		'pixelpost_exp3_title'                  => 'Web Developer',
-		'pixelpost_exp3_company'                => 'Marketplace Projects',
-		'pixelpost_exp3_url'                    => '',
-		'pixelpost_exp3_date'                   => '2017 – 2021',
-		'pixelpost_exp3_desc'                   => 'Developed and maintained WordPress websites, customized themes, and implemented client-specific functionality. Handled website migrations, resolved technical issues, and ongoing maintenance.',
+		'pixelpost_exp3_title'                  => 'Frontend Developer',
+		'pixelpost_exp3_company'                => 'Creative Media',
+		'pixelpost_exp3_url'                    => 'https://example.com',
+		'pixelpost_exp3_date'                   => '2017 – 2020',
+		'pixelpost_exp3_desc'                   => 'Built accessible, responsive websites and customized theme templates for diverse client projects.',
 
 		// Projects (Repeater)
 		'pixelpost_projects_eyebrow'            => '03 — PLUGINS & PRODUCTS',
 		'pixelpost_projects_heading'            => 'Projects I’ve built',
-		'pixelpost_projects_subtitle'           => 'Some of the developer utilities, administrative enhancements, and standalone products I have engineered and maintained.',
+		'pixelpost_projects_subtitle'           => 'A showcase of developer utilities, client solutions, and open-source projects.',
 		'pixelpost_projects_view_all_show'      => true,
 		'pixelpost_projects_view_all_text'      => 'View all projects',
 		'pixelpost_projects_view_all_url'       => '#projects',
@@ -458,7 +458,7 @@ function pixelpost_get_theme_defaults() {
 		// About (Repeater + Flat fallbacks)
 		'pixelpost_about_eyebrow'               => '05 — ABOUT ME',
 		'pixelpost_about_heading'               => 'Turning complex WordPress problems into practical solutions.',
-		'pixelpost_about_text'                  => "<p>I am a WordPress Technical Support Engineer with a strong background in troubleshooting, theme and plugin development, and quality assurance. I enjoy solving technical issues, building reliable websites, and sharing what I learn with the community.</p>",
+		'pixelpost_about_text'                  => "<p>I am a WordPress developer with a passion for clean code, responsive design, and thoughtful digital experiences. I enjoy solving complex challenges, building fast and accessible websites, and contributing to open-source software.</p>",
 		'pixelpost_about_image'                 => '',
 		'pixelpost_about_bullets'               => wp_json_encode( pixelpost_get_default_about_bullets() ),
 		'pixelpost_about_bullet1'               => 'Problem Solver',
@@ -470,31 +470,31 @@ function pixelpost_get_theme_defaults() {
 		'pixelpost_contact_eyebrow'             => '06 — CONTACT',
 		'pixelpost_contact_heading'             => 'Let’s work together',
 		'pixelpost_contact_heading_accent'      => '',
-		'pixelpost_contact_description'         => 'Have a WordPress issue, a technical question, or an idea to discuss? I’m always happy to connect with fellow developers, creators, and businesses.',
+		'pixelpost_contact_description'         => 'Have an interesting project, a technical question, or an idea to discuss? I’m always happy to connect with fellow creators, developers, and businesses.',
 		'pixelpost_contact_btn_primary'         => 'Send an Email',
 		'pixelpost_contact_btn_secondary'       => 'Schedule a Call',
 		'pixelpost_contact_btn_secondary_url'   => 'https://calendly.com',
 		'pixelpost_contact_items'               => wp_json_encode( pixelpost_get_default_contact_items() ),
 
 		'pixelpost_contact_email_label'         => 'Direct Inquiry',
-		'pixelpost_contact_email'               => 'parag.feni@yahoo.com',
+		'pixelpost_contact_email'               => 'hello@example.com',
 		'pixelpost_contact_email_context'       => 'Best for technical discussions, professional inquiries, and collaboration.',
 
 		'pixelpost_contact_location_label'      => 'Current Base',
-		'pixelpost_contact_location'            => 'Dhaka, Bangladesh',
+		'pixelpost_contact_location'            => 'San Francisco, CA',
 		'pixelpost_contact_location_context'    => 'Available for local and remote opportunities.',
 
 		'pixelpost_contact_avail_label'         => 'Status',
 		'pixelpost_contact_availability_status' => 'Available for opportunities',
-		'pixelpost_contact_avail_context'       => 'WordPress Support, QA & Product Development',
+		'pixelpost_contact_avail_context'       => 'WordPress Development, Design & Optimization',
 
 		// Footer (Repeater + Flat fallbacks)
 		'pixelpost_footer_brand_type'           => 'text',
-		'pixelpost_footer_brand_text'           => 'Parag Das',
+		'pixelpost_footer_brand_text'           => 'Pixelpost',
 		'pixelpost_footer_logo'                 => '',
 		'pixelpost_footer_logo_width'           => '',
 		'pixelpost_footer_logo_height'          => '36',
-		'pixelpost_footer_tagline'              => 'WordPress specialist focused on troubleshooting, quality, and better web experiences.',
+		'pixelpost_footer_tagline'              => 'A minimal editorial WordPress theme for portfolios, personal websites, and blogs.',
 		'pixelpost_footer_nav_show'             => true,
 		'pixelpost_footer_nav_title'            => 'Navigation',
 		'pixelpost_footer_widgets_show'         => false,
@@ -502,10 +502,10 @@ function pixelpost_get_theme_defaults() {
 		'pixelpost_footer_back_to_top_show'     => true,
 		'pixelpost_footer_back_to_top_text'     => 'Back to top',
 		'pixelpost_social_links'                => wp_json_encode( pixelpost_get_default_social_links() ),
-		'pixelpost_social_github'               => 'https://github.com/parag44',
+		'pixelpost_social_github'               => 'https://github.com',
 		'pixelpost_social_linkedin'             => 'https://linkedin.com',
 		'pixelpost_social_twitter'              => 'https://x.com',
-		'pixelpost_social_email'                => 'parag.feni@yahoo.com',
+		'pixelpost_social_email'                => 'hello@example.com',
 	);
 }
 

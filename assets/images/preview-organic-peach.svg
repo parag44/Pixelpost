@@ -11,7 +11,7 @@
     <path fill="#D45A27" d="M 285,65 C 342,65 388,96 388,137 C 388,178 342,209 285,209 C 277,209 271,203 271,195 C 271,187 277,181 285,181 C 326,181 360,158 360,137 C 360,116 326,93 285,93 C 277,93 271,87 271,79 C 271,71 277,65 285,65 Z" />
 
     <!-- Typography underneath (Reference 1 style) -->
-    <text x="250" y="260" fill="#D45A27" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', Roboto, sans-serif" font-weight="800" font-size="24" letter-spacing="0.32em" text-anchor="middle">PARAG DAS</text>
+    <text x="250" y="260" fill="#D45A27" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', Roboto, sans-serif" font-weight="800" font-size="24" letter-spacing="0.32em" text-anchor="middle">PIXELPOST</text>
     <text x="250" y="286" fill="#77736D" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', Roboto, sans-serif" font-weight="600" font-size="11" letter-spacing="0.36em" text-anchor="middle">A CREATIVE DEVELOPER</text>
   </g>
 </svg>

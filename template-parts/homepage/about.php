@@ -24,7 +24,10 @@ if ( empty( $pixelpost_image ) || false !== strpos( $pixelpost_image, 'DSCF5599'
 
 $pixelpost_author_name = pixelpost_get_setting( 'pixelpost_hero_accent' );
 if ( empty( $pixelpost_author_name ) ) {
-	$pixelpost_author_name = 'Parag Das';
+	$pixelpost_author_name = get_bloginfo( 'name' );
+	if ( empty( $pixelpost_author_name ) ) {
+		$pixelpost_author_name = 'Alex Morgan';
+	}
 }
 
 $pixelpost_about_bullets = pixelpost_get_about_bullets();

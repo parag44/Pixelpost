@@ -19,7 +19,7 @@ $pixelpost_footer_brand_text = pixelpost_get_setting( 'pixelpost_footer_brand_te
 if ( empty( $pixelpost_footer_brand_text ) ) {
 	$pixelpost_footer_brand_text = get_bloginfo( 'name' );
 	if ( empty( $pixelpost_footer_brand_text ) ) {
-		$pixelpost_footer_brand_text = 'Parag Das';
+		$pixelpost_footer_brand_text = __( 'Pixelpost', 'pixelpost' );
 	}
 }
 

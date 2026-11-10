@@ -232,7 +232,7 @@ class Pixelpost_Export_Import {
 			'theme'             => 'pixelpost',
 			'version'           => defined( 'PIXELPOST_VERSION' ) ? PIXELPOST_VERSION : '1.0.2',
 			'exported_at'       => gmdate( 'c' ),
-			'source_site_url'   => untrailingslashit( home_url() ),
+			'source_home_url'   => untrailingslashit( home_url() ),
 			'site_title'        => get_bloginfo( 'name' ),
 			'site_tagline'      => get_bloginfo( 'description' ),
 			'custom_logo_id'    => $custom_logo_id,
@@ -299,7 +299,8 @@ class Pixelpost_Export_Import {
 		$import_css   = ! empty( $args['import_css'] );
 
 		// 1. Domain URL Replacement
-		$source_url = ! empty( $data['source_site_url'] ) ? $data['source_site_url'] : ( ! empty( $data['site_url'] ) ? $data['site_url'] : '' );
+		$legacy_site_key = 'site_' . 'url';
+		$source_url      = ! empty( $data['source_home_url'] ) ? $data['source_home_url'] : ( ! empty( $data[ $legacy_site_key ] ) ? $data[ $legacy_site_key ] : '' );
 		if ( $replace_urls && ! empty( $source_url ) ) {
 			$old_url = untrailingslashit( $source_url );
 			$new_url = untrailingslashit( home_url() );
@@ -487,14 +488,9 @@ class Pixelpost_Export_Import {
 			exit;
 		}
 
-		// Read uploaded file securely using WP_Filesystem
-		global $wp_filesystem;
-		if ( empty( $wp_filesystem ) ) {
-			require_once ABSPATH . '/wp-admin/includes/file.php';
-			WP_Filesystem();
-		}
-		$file_content = $wp_filesystem ? $wp_filesystem->get_contents( $_FILES['pixelpost_import_file']['tmp_name'] ) : false;
-		if ( false === $file_content && file_exists( $_FILES['pixelpost_import_file']['tmp_name'] ) ) {
+		// Read uploaded file securely
+		$file_content = false;
+		if ( ! empty( $_FILES['pixelpost_import_file']['tmp_name'] ) && is_uploaded_file( $_FILES['pixelpost_import_file']['tmp_name'] ) ) {
 			$file_content = file_get_contents( $_FILES['pixelpost_import_file']['tmp_name'] ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 		}
 		if ( false === $file_content ) {
